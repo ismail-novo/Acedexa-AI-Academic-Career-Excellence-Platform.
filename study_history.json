@@ -1,0 +1,69 @@
+{
+  "user_name": "Student",
+  "study_sessions": [
+    {
+      "date": "2026-08-15",
+      "subject": "Discrete Mathematics",
+      "duration_minutes": 120,
+      "break_count": 0,
+      "distraction_score": 8,
+      "completion_rate": 65
+    },
+    {
+      "date": "2026-08-16",
+      "subject": "Theory of Computation",
+      "duration_minutes": 180,
+      "break_count": 1,
+      "distraction_score": 9,
+      "completion_rate": 50
+    },
+    {
+      "date": "2026-08-17",
+      "subject": "Algorithms",
+      "duration_minutes": 45,
+      "break_count": 5,
+      "distraction_score": 7,
+      "completion_rate": 40
+    },
+    {
+      "date": "2026-08-18",
+      "subject": "Microprocessors",
+      "duration_minutes": 150,
+      "break_count": 0,
+      "distraction_score": 8,
+      "completion_rate": 55
+    },
+    {
+      "date": "2026-08-19",
+      "subject": "Data Structures",
+      "duration_minutes": 90,
+      "break_count": 2,
+      "distraction_score": 3,
+      "completion_rate": 90
+    },
+    {
+      "date": "2026-08-20",
+      "subject": "Database Systems",
+      "duration_minutes": 210,
+      "break_count": 1,
+      "distraction_score": 9,
+      "completion_rate": 45
+    },
+    {
+      "date": "20-8-2026",
+      "subject": "Operating System",
+      "duration_minutes": 60,
+      "break_count": 1,
+      "distraction_score": 5,
+      "completion_rate": 80
+    },
+    {
+      "date": "20-8-2026",
+      "subject": "Computer Networks",
+      "duration_minutes": 65,
+      "break_count": 2,
+      "distraction_score": 7,
+      "completion_rate": 75
+    }
+  ]
+}

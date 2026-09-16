@@ -1,0 +1,658 @@
+{
+  "student_profile": {
+    "name": "Shaikh Ismail Zahid",
+    "student_id": "0802410205101007",
+    "university": "Bangladesh Army University of Science and Technology",
+    "department": "Computer Science and Engineering",
+    "level_term": "Level-3, Term-I",
+    "gpa": 3.85,
+    "career_goal": "Software Engineer & AI Researcher"
+  },
+  "courses": [
+    {
+      "code": "CSE-3101",
+      "title": "Theory of Computation",
+      "grade": "A+",
+      "marks": 88
+    },
+    {
+      "code": "CSE-3103",
+      "title": "Microprocessors & Assembly",
+      "grade": "A",
+      "marks": 82
+    },
+    {
+      "code": "CSE-3105",
+      "title": "Computer Networks",
+      "grade": "A+",
+      "marks": 91
+    },
+    {
+      "code": "CSE-3107",
+      "title": "Algorithms & Optimization",
+      "grade": "A",
+      "marks": 84
+    }
+  ],
+  "study_sessions": [
+    {
+      "date": "2026-08-20",
+      "subject": "Algorithms",
+      "duration_minutes": 120,
+      "breaks": 1,
+      "distraction_score": 2,
+      "completion_rate": 90
+    },
+    {
+      "date": "2026-08-22",
+      "subject": "Theory of Computation",
+      "duration_minutes": 90,
+      "breaks": 2,
+      "distraction_score": 4,
+      "completion_rate": 80
+    },
+    {
+      "date": "2026-08-25",
+      "subject": "Computer Networks",
+      "duration_minutes": 150,
+      "breaks": 0,
+      "distraction_score": 7,
+      "completion_rate": 65
+    }
+  ],
+  "quiz_history": [
+    {
+      "date": "2026-08-15",
+      "topic": "DFA / NFA State Reduction",
+      "score": 85,
+      "total": 100
+    },
+    {
+      "date": "2026-08-18",
+      "topic": "8086 CPU Flag Registers",
+      "score": 60,
+      "total": 100
+    },
+    {
+      "date": "2026-08-24",
+      "topic": "OSI Layer Routing Protocols",
+      "score": 92,
+      "total": 100
+    }
+  ],
+  "topic_mastery": {
+    "Automata & DFA": 88,
+    "Assembly & Flag Registers": 52,
+    "IP Subnetting & Routing": 90,
+    "Dynamic Programming": 65,
+    "Flutter & Dart": 95,
+    "Python & ML": 88
+  },
+  "weak_topics": [
+    {
+      "topic": "Assembly & Flag Registers",
+      "severity": "High",
+      "reason": "Low quiz scores (60%) & high distraction during study."
+    },
+    {
+      "topic": "Dynamic Programming",
+      "severity": "Medium",
+      "reason": "Inconsistent completion rates in algorithm sessions."
+    }
+  ],
+  "skills": [
+    {
+      "name": "Python",
+      "category": "Programming",
+      "level": 90
+    },
+    {
+      "name": "Flutter / Dart",
+      "category": "Mobile Dev",
+      "level": 95
+    },
+    {
+      "name": "Machine Learning",
+      "category": "AI / Data",
+      "level": 80
+    },
+    {
+      "name": "C++ / Data Structures",
+      "category": "Core CS",
+      "level": 85
+    },
+    {
+      "name": "SQL & Databases",
+      "category": "Backend",
+      "level": 78
+    }
+  ],
+  "projects": [
+    {
+      "title": "Universal Algorithm Visualizer",
+      "tech": "Flutter, Dart",
+      "desc": "Interactive visualization tool for sorting and graph algorithms."
+    },
+    {
+      "title": "Smart Habit Tracker",
+      "tech": "Python, SQLite, Scikit-Learn",
+      "desc": "ML-driven desktop app predicting study habit failures."
+    }
+  ],
+  "ats_analysis_history": [],
+  "accounts": [
+    {
+      "name": "Ismail Zahid",
+      "student_id": "0802410205101007",
+      "password": "12345",
+      "profile_pic": "C:/Users/ismai/Pictures/My pp.jpg",
+      "status": "Active",
+      "created_at": "2026-08-31"
+    }
+  ],
+  "user_data": {
+    "0802410205101007": {
+      "student_profile": {
+        "name": "Ismail Zahid",
+        "student_id": "0802410205101007",
+        "university": "BAUST",
+        "faculty": "ECE",
+        "department": "CSE",
+        "degree": "B.sc",
+        "major": "CSE",
+        "minor": "",
+        "semester_year": "6",
+        "batch": "18",
+        "graduation_year": "2027",
+        "location": "Khulna",
+        "academic_level": "Level-3,Term-2",
+        "gpa": "0.0",
+        "career_goal": "",
+        "profile_pic": "C:/Users/ismai/Pictures/My pp.jpg"
+      },
+      "courses": [
+        {
+          "code": "CSE-3201",
+          "title": "Artificial Intelligence",
+          "discipline": "CSE",
+          "topics": [],
+          "mastery": 0.0
+        },
+        {
+          "code": "CSE-3203",
+          "title": "Operating System",
+          "discipline": "CSE",
+          "topics": [],
+          "mastery": 73.5
+        },
+        {
+          "code": "CSE-3205",
+          "title": "Computer Networks",
+          "discipline": "CSE",
+          "topics": [],
+          "mastery": 0.0
+        },
+        {
+          "code": "CSE-3207",
+          "title": "Mathematicial Analysis of Computer Science",
+          "discipline": "CSE",
+          "topics": [],
+          "mastery": 0.0
+        },
+        {
+          "code": "CSE-3209",
+          "title": "Information System Design",
+          "discipline": "CSE",
+          "topics": [],
+          "mastery": 0.0
+        },
+        {
+          "code": "CSE-3200",
+          "title": "Web Engineering roject",
+          "discipline": "CSE",
+          "topics": [],
+          "mastery": 0.0
+        },
+        {
+          "code": "CSE-3202",
+          "title": "Ai Sessional",
+          "discipline": "CSE",
+          "topics": [],
+          "mastery": 0.0
+        },
+        {
+          "code": "CSE-3210",
+          "title": "Isd Sesional",
+          "discipline": "CSE",
+          "topics": [],
+          "mastery": 0.0
+        },
+        {
+          "code": "CSE-3206",
+          "title": "Computer Networks Sessional",
+          "discipline": "CSE",
+          "topics": [],
+          "mastery": 0.0
+        },
+        {
+          "code": "CSE-3204",
+          "title": "Operating System Sessional",
+          "discipline": "CSE",
+          "topics": [],
+          "mastery": 73.5
+        }
+      ],
+      "skills": [],
+      "projects": [],
+      "study_sessions": [
+        {
+          "subject": "CSE-3203 Operating System",
+          "duration_minutes": 25,
+          "distraction_score": 14.3,
+          "completion_rate": 0,
+          "concentration_percent": 42.3,
+          "table_leaves": 3,
+          "failed": true,
+          "date": "2026-09-05 13:23"
+        },
+        {
+          "subject": "CSE-3209 Information System Design",
+          "duration_minutes": 5,
+          "distraction_score": 15.2,
+          "completion_rate": 100,
+          "concentration_percent": 80.0,
+          "table_leaves": 2,
+          "date": "2026-09-05 15:17"
+        }
+      ],
+      "topic_mastery": {
+        "Html": 59.5,
+        "compuer networks": 59.5,
+        "operating system": 73.5
+      },
+      "weak_topics": [],
+      "daily_schedule": {
+        "wake_up": "8:00",
+        "sleep_time": "12:30",
+        "breakfast": "9:00",
+        "lunch": "3:00",
+        "dinner": "10:00",
+        "meal_mins": "45",
+        "shower_time": "1:15",
+        "shower_mins": "10",
+        "washroom_mins": "10",
+        "class_days": [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday"
+        ],
+        "class_start": "08:00",
+        "class_end": "2:30"
+      },
+      "study_routine": [
+        {
+          "day": "Saturday",
+          "start": "01:15",
+          "end": "01:25",
+          "activity": "Shower / Fresh-up",
+          "duration_mins": 10,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Saturday",
+          "start": "03:00",
+          "end": "03:45",
+          "activity": "Lunch",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Saturday",
+          "start": "09:00",
+          "end": "09:45",
+          "activity": "Breakfast",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Saturday",
+          "start": "10:00",
+          "end": "10:45",
+          "activity": "Dinner",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Saturday",
+          "start": "10:45",
+          "end": "11:45",
+          "activity": "Study: CSE-3201 - Artificial Intelligence",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3201 - Artificial Intelligence"
+        },
+        {
+          "day": "Sunday",
+          "start": "01:15",
+          "end": "01:25",
+          "activity": "Shower / Fresh-up",
+          "duration_mins": 10,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Sunday",
+          "start": "03:00",
+          "end": "03:45",
+          "activity": "Lunch",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Sunday",
+          "start": "08:00",
+          "end": "14:30",
+          "activity": "University / College Classes",
+          "duration_mins": 390,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Sunday",
+          "start": "09:00",
+          "end": "09:45",
+          "activity": "Breakfast",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Sunday",
+          "start": "10:00",
+          "end": "10:45",
+          "activity": "Dinner",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Monday",
+          "start": "01:15",
+          "end": "01:25",
+          "activity": "Shower / Fresh-up",
+          "duration_mins": 10,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Monday",
+          "start": "03:00",
+          "end": "03:45",
+          "activity": "Lunch",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Monday",
+          "start": "08:00",
+          "end": "14:30",
+          "activity": "University / College Classes",
+          "duration_mins": 390,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Monday",
+          "start": "09:00",
+          "end": "09:45",
+          "activity": "Breakfast",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Monday",
+          "start": "10:00",
+          "end": "10:45",
+          "activity": "Dinner",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Tuesday",
+          "start": "01:15",
+          "end": "01:25",
+          "activity": "Shower / Fresh-up",
+          "duration_mins": 10,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Tuesday",
+          "start": "03:00",
+          "end": "03:45",
+          "activity": "Lunch",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Tuesday",
+          "start": "08:00",
+          "end": "14:30",
+          "activity": "University / College Classes",
+          "duration_mins": 390,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Tuesday",
+          "start": "09:00",
+          "end": "09:45",
+          "activity": "Breakfast",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Tuesday",
+          "start": "10:00",
+          "end": "10:45",
+          "activity": "Dinner",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Wednesday",
+          "start": "01:15",
+          "end": "01:25",
+          "activity": "Shower / Fresh-up",
+          "duration_mins": 10,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Wednesday",
+          "start": "03:00",
+          "end": "03:45",
+          "activity": "Lunch",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Wednesday",
+          "start": "08:00",
+          "end": "14:30",
+          "activity": "University / College Classes",
+          "duration_mins": 390,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Wednesday",
+          "start": "09:00",
+          "end": "09:45",
+          "activity": "Breakfast",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Wednesday",
+          "start": "10:00",
+          "end": "10:45",
+          "activity": "Dinner",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Thursday",
+          "start": "01:15",
+          "end": "01:25",
+          "activity": "Shower / Fresh-up",
+          "duration_mins": 10,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Thursday",
+          "start": "03:00",
+          "end": "03:45",
+          "activity": "Lunch",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Thursday",
+          "start": "08:00",
+          "end": "14:30",
+          "activity": "University / College Classes",
+          "duration_mins": 390,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Thursday",
+          "start": "09:00",
+          "end": "09:45",
+          "activity": "Breakfast",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Thursday",
+          "start": "10:00",
+          "end": "10:45",
+          "activity": "Dinner",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Friday",
+          "start": "01:15",
+          "end": "01:25",
+          "activity": "Shower / Fresh-up",
+          "duration_mins": 10,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Friday",
+          "start": "03:00",
+          "end": "03:45",
+          "activity": "Lunch",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Friday",
+          "start": "09:00",
+          "end": "09:45",
+          "activity": "Breakfast",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Friday",
+          "start": "10:00",
+          "end": "10:45",
+          "activity": "Dinner",
+          "duration_mins": 45,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Friday",
+          "start": "10:45",
+          "end": "11:45",
+          "activity": "Study: CSE-3203 - Operating System",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3203 - Operating System"
+        }
+      ],
+      "quiz_history": [
+        {
+          "topic": "Html",
+          "type": "MCQ",
+          "score": 59.5,
+          "status": "Weak",
+          "accuracy": 60.0,
+          "date": "2026-09-05 12:58"
+        },
+        {
+          "topic": "compuer networks",
+          "type": "MCQ",
+          "score": 59.5,
+          "status": "Weak",
+          "accuracy": 60.0,
+          "date": "2026-09-11 20:23"
+        },
+        {
+          "topic": "operating system",
+          "type": "MCQ",
+          "score": 73.5,
+          "status": "Developing",
+          "accuracy": 80.0,
+          "date": "2026-09-11 20:24"
+        }
+      ],
+      "tasks": [],
+      "study_materials": [],
+      "brain_scores": [
+        {
+          "game": "Chess",
+          "level": 3,
+          "score": 29.0,
+          "detail": "CPU Wins \u00b7 you 28 moves \u00b7 CPU 28 moves \u00b7 321s",
+          "date": "2026-09-11 20:48"
+        },
+        {
+          "game": "StopObject",
+          "level": 3,
+          "score": 100.0,
+          "detail": "0.58s",
+          "date": "2026-09-11 20:49"
+        }
+      ]
+    }
+  },
+  "last_active_user": "0802410205101007"
+}

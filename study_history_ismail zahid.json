@@ -1,0 +1,21 @@
+{
+  "user_name": "ismail zahid",
+  "study_sessions": [
+    {
+      "date": "2026-08-21",
+      "subject": "Computer Networks",
+      "duration_minutes": 70,
+      "break_count": 2,
+      "distraction_score": 4,
+      "completion_rate": 80
+    },
+    {
+      "date": "2026-08-22",
+      "subject": "Operating System",
+      "duration_minutes": 60,
+      "break_count": 2,
+      "distraction_score": 6,
+      "completion_rate": 75
+    }
+  ]
+}
