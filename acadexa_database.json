@@ -145,8 +145,8 @@
       "name": "Ismail Zahid",
       "student_id": "0802410205101007",
       "password": "12345",
-      "profile_pic": "C:/Users/ismai/Pictures/My pp.jpg",
-      "status": "Active",
+      "profile_pic": "C:/Users/ismai/OneDrive/Pictures/Saved Pictures/IMG_20250319_011812.jpg",
+      "status": "Deactivated",
       "created_at": "2026-08-31"
     }
   ],
@@ -168,7 +168,7 @@
         "academic_level": "Level-3,Term-2",
         "gpa": "0.0",
         "career_goal": "",
-        "profile_pic": "C:/Users/ismai/Pictures/My pp.jpg"
+        "profile_pic": "C:/Users/ismai/OneDrive/Pictures/Saved Pictures/IMG_20250319_011812.jpg"
       },
       "courses": [
         {
@@ -263,14 +263,1828 @@
           "concentration_percent": 80.0,
           "table_leaves": 2,
           "date": "2026-09-05 15:17"
+        },
+        {
+          "subject": "CSE-3209 Information System Design",
+          "duration_minutes": 5,
+          "distraction_score": 20.0,
+          "completion_rate": 50,
+          "concentration_percent": 40.0,
+          "table_leaves": 0,
+          "timeline": [
+            {
+              "t_sec": 1,
+              "conc": 100.0,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 2,
+              "conc": 99.7,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 3,
+              "conc": 100.0,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 4,
+              "conc": 100.0,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 5,
+              "conc": 100.0,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 6,
+              "conc": 100.0,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 7,
+              "conc": 99.7,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 8,
+              "conc": 99.6,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 9,
+              "conc": 99.5,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 10,
+              "conc": 99.1,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 11,
+              "conc": 98.6,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 12,
+              "conc": 98.2,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 13,
+              "conc": 97.7,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 14,
+              "conc": 97.1,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 15,
+              "conc": 96.5,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 16,
+              "conc": 95.9,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 17,
+              "conc": 95.4,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 18,
+              "conc": 95.2,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 19,
+              "conc": 94.7,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 20,
+              "conc": 94.1,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 21,
+              "conc": 93.8,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 22,
+              "conc": 93.2,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 23,
+              "conc": 92.8,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 24,
+              "conc": 92.5,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 25,
+              "conc": 91.9,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 26,
+              "conc": 92.0,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 27,
+              "conc": 91.3,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 28,
+              "conc": 90.3,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 29,
+              "conc": 89.6,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 30,
+              "conc": 89.5,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 31,
+              "conc": 89.5,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 32,
+              "conc": 89.6,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 33,
+              "conc": 89.2,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 34,
+              "conc": 89.4,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 35,
+              "conc": 89.5,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 36,
+              "conc": 89.7,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 37,
+              "conc": 89.9,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 38,
+              "conc": 89.5,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 39,
+              "conc": 88.8,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 40,
+              "conc": 88.2,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 41,
+              "conc": 88.4,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 42,
+              "conc": 88.3,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 43,
+              "conc": 88.4,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 44,
+              "conc": 88.6,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 45,
+              "conc": 87.9,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 46,
+              "conc": 87.8,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 47,
+              "conc": 87.7,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 48,
+              "conc": 87.8,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 49,
+              "conc": 87.7,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 50,
+              "conc": 87.8,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 51,
+              "conc": 88.0,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 52,
+              "conc": 87.9,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 53,
+              "conc": 86.6,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 54,
+              "conc": 85.9,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 55,
+              "conc": 85.6,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 56,
+              "conc": 85.8,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 57,
+              "conc": 85.4,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 58,
+              "conc": 84.1,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 59,
+              "conc": 84.0,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 60,
+              "conc": 83.3,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 61,
+              "conc": 83.4,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 62,
+              "conc": 83.0,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 63,
+              "conc": 82.6,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 64,
+              "conc": 82.2,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 65,
+              "conc": 81.5,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 66,
+              "conc": 81.4,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 67,
+              "conc": 81.0,
+              "mode": "focused",
+              "leaves": 0
+            },
+            {
+              "t_sec": 68,
+              "conc": 79.7,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 69,
+              "conc": 79.3,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 70,
+              "conc": 78.6,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 71,
+              "conc": 78.2,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 72,
+              "conc": 78.3,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 73,
+              "conc": 78.2,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 74,
+              "conc": 77.8,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 75,
+              "conc": 77.1,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 76,
+              "conc": 76.5,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 77,
+              "conc": 75.8,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 78,
+              "conc": 75.6,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 79,
+              "conc": 74.7,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 80,
+              "conc": 74.8,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 81,
+              "conc": 75.0,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 82,
+              "conc": 74.9,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 83,
+              "conc": 75.0,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 84,
+              "conc": 75.2,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 85,
+              "conc": 75.5,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 86,
+              "conc": 75.6,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 87,
+              "conc": 75.5,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 88,
+              "conc": 75.1,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 89,
+              "conc": 74.7,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 90,
+              "conc": 74.8,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 91,
+              "conc": 74.4,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 92,
+              "conc": 73.7,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 93,
+              "conc": 73.6,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 94,
+              "conc": 73.8,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 95,
+              "conc": 73.7,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 96,
+              "conc": 73.3,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 97,
+              "conc": 72.6,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 98,
+              "conc": 72.7,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 99,
+              "conc": 72.6,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 100,
+              "conc": 72.8,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 101,
+              "conc": 73.0,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 102,
+              "conc": 73.2,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 103,
+              "conc": 73.4,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 104,
+              "conc": 72.7,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 105,
+              "conc": 71.4,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 106,
+              "conc": 70.7,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 107,
+              "conc": 71.0,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 108,
+              "conc": 70.3,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 109,
+              "conc": 70.0,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 110,
+              "conc": 69.9,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 111,
+              "conc": 69.5,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 112,
+              "conc": 69.6,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 113,
+              "conc": 68.9,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 114,
+              "conc": 68.8,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 115,
+              "conc": 67.8,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 116,
+              "conc": 67.7,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 117,
+              "conc": 67.9,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 118,
+              "conc": 67.7,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 119,
+              "conc": 67.9,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 120,
+              "conc": 67.8,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 121,
+              "conc": 67.9,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 122,
+              "conc": 67.8,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 123,
+              "conc": 67.9,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 124,
+              "conc": 68.1,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 125,
+              "conc": 68.2,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 126,
+              "conc": 68.4,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 127,
+              "conc": 68.5,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 128,
+              "conc": 68.4,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 129,
+              "conc": 68.0,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 130,
+              "conc": 67.9,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 131,
+              "conc": 68.0,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 132,
+              "conc": 67.6,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 133,
+              "conc": 67.5,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 134,
+              "conc": 67.1,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 135,
+              "conc": 66.1,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 136,
+              "conc": 65.1,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 137,
+              "conc": 65.3,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 138,
+              "conc": 65.1,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 139,
+              "conc": 65.0,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 140,
+              "conc": 64.6,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 141,
+              "conc": 64.5,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 142,
+              "conc": 64.1,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 143,
+              "conc": 64.3,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 144,
+              "conc": 64.4,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 145,
+              "conc": 64.3,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 146,
+              "conc": 64.2,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 147,
+              "conc": 64.1,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 148,
+              "conc": 63.6,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 149,
+              "conc": 63.2,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 150,
+              "conc": 62.5,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 151,
+              "conc": 62.8,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 152,
+              "conc": 62.1,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 153,
+              "conc": 61.4,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 154,
+              "conc": 61.0,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 155,
+              "conc": 60.9,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 156,
+              "conc": 61.0,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 157,
+              "conc": 60.9,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 158,
+              "conc": 60.8,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 159,
+              "conc": 60.1,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 160,
+              "conc": 59.4,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 161,
+              "conc": 59.2,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 162,
+              "conc": 59.4,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 163,
+              "conc": 59.5,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 164,
+              "conc": 59.9,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 165,
+              "conc": 60.4,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 166,
+              "conc": 60.8,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 167,
+              "conc": 61.1,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 168,
+              "conc": 61.4,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 169,
+              "conc": 61.7,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 170,
+              "conc": 61.9,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 171,
+              "conc": 62.1,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 172,
+              "conc": 62.4,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 173,
+              "conc": 62.7,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 174,
+              "conc": 63.0,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 175,
+              "conc": 63.2,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 176,
+              "conc": 63.6,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 177,
+              "conc": 64.1,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 178,
+              "conc": 64.9,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 179,
+              "conc": 65.6,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 180,
+              "conc": 66.3,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 181,
+              "conc": 67.0,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 182,
+              "conc": 67.6,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 183,
+              "conc": 67.4,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 184,
+              "conc": 67.6,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 185,
+              "conc": 67.7,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 186,
+              "conc": 67.3,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 187,
+              "conc": 67.2,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 188,
+              "conc": 67.3,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 189,
+              "conc": 66.9,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 190,
+              "conc": 66.5,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 191,
+              "conc": 66.7,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 192,
+              "conc": 66.3,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 193,
+              "conc": 66.1,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 194,
+              "conc": 66.3,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 195,
+              "conc": 66.1,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 196,
+              "conc": 65.2,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 197,
+              "conc": 64.5,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 198,
+              "conc": 63.5,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 199,
+              "conc": 62.6,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 200,
+              "conc": 62.4,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 201,
+              "conc": 61.2,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 202,
+              "conc": 60.5,
+              "mode": "moderate",
+              "leaves": 0
+            },
+            {
+              "t_sec": 203,
+              "conc": 59.5,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 204,
+              "conc": 59.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 205,
+              "conc": 58.3,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 206,
+              "conc": 57.6,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 207,
+              "conc": 57.7,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 208,
+              "conc": 57.8,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 209,
+              "conc": 57.9,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 210,
+              "conc": 57.8,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 211,
+              "conc": 57.4,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 212,
+              "conc": 57.2,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 213,
+              "conc": 57.3,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 214,
+              "conc": 57.5,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 215,
+              "conc": 56.6,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 216,
+              "conc": 56.5,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 217,
+              "conc": 56.6,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 218,
+              "conc": 56.8,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 219,
+              "conc": 56.7,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 220,
+              "conc": 56.9,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 221,
+              "conc": 57.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 222,
+              "conc": 56.9,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 223,
+              "conc": 57.1,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 224,
+              "conc": 57.3,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 225,
+              "conc": 57.4,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 226,
+              "conc": 57.8,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 227,
+              "conc": 58.5,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 228,
+              "conc": 58.7,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 229,
+              "conc": 58.5,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 230,
+              "conc": 57.6,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 231,
+              "conc": 56.6,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 232,
+              "conc": 56.2,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 233,
+              "conc": 55.2,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 234,
+              "conc": 54.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 235,
+              "conc": 53.6,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 236,
+              "conc": 52.9,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 237,
+              "conc": 52.5,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 238,
+              "conc": 51.2,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 239,
+              "conc": 50.2,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 240,
+              "conc": 50.1,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 241,
+              "conc": 50.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 242,
+              "conc": 49.3,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 243,
+              "conc": 48.1,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 244,
+              "conc": 46.8,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 245,
+              "conc": 45.6,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 246,
+              "conc": 45.2,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 247,
+              "conc": 45.8,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 248,
+              "conc": 46.4,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 249,
+              "conc": 45.5,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 250,
+              "conc": 44.2,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 251,
+              "conc": 43.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 252,
+              "conc": 42.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 253,
+              "conc": 41.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 254,
+              "conc": 39.8,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 255,
+              "conc": 38.8,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 256,
+              "conc": 37.9,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 257,
+              "conc": 37.4,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 258,
+              "conc": 37.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 259,
+              "conc": 36.3,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 260,
+              "conc": 35.9,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 261,
+              "conc": 35.3,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 262,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 263,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 264,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 265,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 266,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 267,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 268,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 269,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 270,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 271,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 272,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 273,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 274,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 275,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 276,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 277,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 278,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 279,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 280,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 281,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 282,
+              "conc": 35.1,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 283,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 284,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 285,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 286,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 287,
+              "conc": 35.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 288,
+              "conc": 35.4,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 289,
+              "conc": 36.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 290,
+              "conc": 36.2,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 291,
+              "conc": 37.0,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 292,
+              "conc": 37.7,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 293,
+              "conc": 38.5,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 294,
+              "conc": 39.2,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 295,
+              "conc": 40.1,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 296,
+              "conc": 40.8,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 297,
+              "conc": 41.6,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 298,
+              "conc": 42.4,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 299,
+              "conc": 43.1,
+              "mode": "distracted",
+              "leaves": 0
+            },
+            {
+              "t_sec": 300,
+              "conc": 43.8,
+              "mode": "distracted",
+              "leaves": 0
+            }
+          ],
+          "date": "2026-09-21 02:25"
         }
       ],
       "topic_mastery": {
         "Html": 59.5,
         "compuer networks": 59.5,
-        "operating system": 73.5
+        "operating system": 73.5,
+        "CSE-3209 Information System Design": 40.0
       },
-      "weak_topics": [],
+      "weak_topics": [
+        "CSE-3209 Information System Design"
+      ],
       "daily_schedule": {
         "wake_up": "8:00",
         "sleep_time": "12:30",
@@ -632,6 +2446,28 @@
           "status": "Developing",
           "accuracy": 80.0,
           "date": "2026-09-11 20:24"
+        },
+        {
+          "topic": "CSE-3209 Information System Design",
+          "score": 40.0,
+          "status": "Weak",
+          "type": "PostSessionMCQ",
+          "correct": 2,
+          "total": 5,
+          "session_conc": 40.0,
+          "leaves": 0,
+          "date": "2026-09-21 02:27"
+        },
+        {
+          "topic": "CSE-3209 Information System Design",
+          "score": 40.0,
+          "status": "Weak",
+          "type": "PostSessionMCQ",
+          "correct": 2,
+          "total": 5,
+          "session_conc": 40.0,
+          "leaves": 0,
+          "date": "2026-09-21 02:27"
         }
       ],
       "tasks": [],
@@ -639,19 +2475,268 @@
       "brain_scores": [
         {
           "game": "Chess",
-          "level": 3,
-          "score": 29.0,
-          "detail": "CPU Wins \u00b7 you 28 moves \u00b7 CPU 28 moves \u00b7 321s",
-          "date": "2026-09-11 20:48"
+          "level": 5,
+          "score": 25.0,
+          "detail": "CPU Wins \u00b7 you 43 moves \u00b7 CPU 43 moves \u00b7 264s",
+          "date": "2026-09-21 02:58"
         },
         {
-          "game": "StopObject",
+          "game": "Chess",
           "level": 3,
-          "score": 100.0,
-          "detail": "0.58s",
-          "date": "2026-09-11 20:49"
+          "score": 29.0,
+          "detail": "CPU Wins \u00b7 you 24 moves \u00b7 CPU 24 moves \u00b7 170s",
+          "date": "2026-10-05 01:40"
         }
-      ]
+      ],
+      "cognitive_intelligence": {
+        "logical_reasoning": 43.3,
+        "pattern_recognition": 44.4,
+        "decision_efficiency": 43.3,
+        "strategic_thinking": 45.0,
+        "problem_solving": 46.2
+      },
+      "resume_history": [
+        {
+          "name": "Ismail Zahid \u2014 ATS-Friendly Resume",
+          "doc_type": "ATS-Friendly Resume",
+          "target_role": "",
+          "created": "2026-10-05 01:35",
+          "data": {
+            "full_name": "Ismail Zahid",
+            "title": "",
+            "email": "",
+            "phone": "",
+            "location": "Khulna",
+            "linkedin": "",
+            "github": "",
+            "portfolio": "",
+            "photo": "C:/Users/ismai/OneDrive/Pictures/Saved Pictures/KZSPoster2020.jpg",
+            "summary": "Ismail Zahid is pursuing B.sc at BAUST. Career interest: student. Department: CSE. Relevant coursework includes Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design.",
+            "objective": "",
+            "education": [
+              {
+                "degree": "B.sc",
+                "university": "BAUST",
+                "department": "CSE",
+                "start_year": "",
+                "grad_year": "2027",
+                "gpa": "",
+                "coursework": "Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional"
+              }
+            ],
+            "experience": [],
+            "projects": [],
+            "skills_technical": [],
+            "skills_soft": [],
+            "certifications": [],
+            "achievements": [],
+            "research": [],
+            "languages": [],
+            "target_role": "",
+            "target_industry": "",
+            "job_description": ""
+          },
+          "text": "ISMAIL ZAHID\nKhulna\n============================================================\n\nPROFESSIONAL SUMMARY\n----------------------------------------\nIsmail Zahid is pursuing B.sc at BAUST. Career interest: student. Department: CSE. Relevant coursework includes Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design.\n\nEDUCATION\n----------------------------------------\nB.sc \u00b7 BAUST \u00b7 CSE\n  Grad: 2027\n  Coursework: Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional",
+          "ats_status": "Not analyzed"
+        },
+        {
+          "name": "Ismail Zahid \u2014 ATS-Friendly Resume",
+          "doc_type": "ATS-Friendly Resume",
+          "target_role": "",
+          "created": "2026-10-05 01:41",
+          "data": {
+            "full_name": "Ismail Zahid",
+            "title": "",
+            "email": "",
+            "phone": "",
+            "location": "Khulna",
+            "linkedin": "",
+            "github": "",
+            "portfolio": "",
+            "photo": "C:/Users/ismai/OneDrive/Pictures/Saved Pictures/KZSPoster2020.jpg",
+            "summary": "Ismail Zahid is pursuing B.sc at BAUST. Career interest: student. Department: CSE. Relevant coursework includes Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design.",
+            "objective": "",
+            "education": [
+              {
+                "degree": "B.sc",
+                "university": "BAUST",
+                "department": "CSE",
+                "start_year": "",
+                "grad_year": "2027",
+                "gpa": "",
+                "coursework": "Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional"
+              }
+            ],
+            "experience": [],
+            "projects": [],
+            "skills_technical": [],
+            "skills_soft": [],
+            "certifications": [],
+            "achievements": [],
+            "research": [],
+            "languages": [],
+            "target_role": "",
+            "target_industry": "",
+            "job_description": ""
+          },
+          "text": "ISMAIL ZAHID\nKhulna\n============================================================\n\nPROFESSIONAL SUMMARY\n----------------------------------------\nIsmail Zahid is pursuing B.sc at BAUST. Career interest: student. Department: CSE. Relevant coursework includes Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design.\n\nEDUCATION\n----------------------------------------\nB.sc \u00b7 BAUST \u00b7 CSE\n  Grad: 2027\n  Coursework: Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional",
+          "ats_status": "Not analyzed"
+        },
+        {
+          "name": "Ismail Zahid \u2014 ATS-Friendly Resume",
+          "doc_type": "ATS-Friendly Resume",
+          "target_role": "",
+          "created": "2026-10-05 01:44",
+          "data": {
+            "full_name": "Ismail Zahid",
+            "title": "Data Analyst",
+            "email": "ismail@gmail.com",
+            "phone": "01766411558",
+            "location": "Khulna",
+            "linkedin": "",
+            "github": "",
+            "portfolio": "",
+            "photo": "C:/Users/ismai/OneDrive/Pictures/Saved Pictures/KZSPoster2020.jpg",
+            "summary": "Ismail Zahid is a motivated Data Analyst seeking opportunities to apply academic knowledge and grow professionally. I am a aspiring data analyst",
+            "objective": "I am a aspiring data analyst",
+            "education": [
+              {
+                "degree": "B.sc",
+                "university": "BAUST",
+                "department": "CSE",
+                "grad_year": "2027",
+                "gpa": "3.00",
+                "coursework": "Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional",
+                "start_year": "10"
+              }
+            ],
+            "experience": [],
+            "projects": [
+              {
+                "name": "xyz",
+                "role": "abc",
+                "tech": "",
+                "duration": "",
+                "github": "",
+                "demo": "",
+                "description": "",
+                "contributions": ""
+              }
+            ],
+            "skills_technical": [],
+            "skills_soft": [],
+            "certifications": [],
+            "achievements": [],
+            "research": [],
+            "languages": [],
+            "target_role": "",
+            "target_industry": "",
+            "job_description": ""
+          },
+          "text": "ISMAIL ZAHID\nData Analyst\nismail@gmail.com | 01766411558 | Khulna\n============================================================\n\nPROFESSIONAL SUMMARY\n----------------------------------------\nIsmail Zahid is a motivated Data Analyst seeking opportunities to apply academic knowledge and grow professionally. I am a aspiring data analyst\n\nPROJECTS\n----------------------------------------\nxyz \u2014 abc\n\nEDUCATION\n----------------------------------------\nB.sc \u00b7 BAUST \u00b7 CSE\n  Grad: 2027 \u00b7 GPA: 3.00\n  Coursework: Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional",
+          "ats_status": "Not analyzed"
+        },
+        {
+          "name": "Ismail Zahid \u2014 ATS-Friendly Resume",
+          "doc_type": "ATS-Friendly Resume",
+          "target_role": "",
+          "created": "2026-10-05 01:45",
+          "data": {
+            "full_name": "Ismail Zahid",
+            "title": "Data Analyst",
+            "email": "ismail@gmail.com",
+            "phone": "01766411558",
+            "location": "Khulna",
+            "linkedin": "",
+            "github": "",
+            "portfolio": "",
+            "photo": "C:/Users/ismai/OneDrive/Pictures/Saved Pictures/IMG_20250319_011812.jpg",
+            "summary": "Ismail Zahid is a motivated Data Analyst seeking opportunities to apply academic knowledge and grow professionally. I am a aspiring data analyst",
+            "objective": "I am a aspiring data analyst",
+            "education": [
+              {
+                "degree": "B.sc",
+                "university": "BAUST",
+                "department": "CSE",
+                "grad_year": "2027",
+                "gpa": "3.00",
+                "coursework": "Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional",
+                "start_year": "10"
+              }
+            ],
+            "experience": [],
+            "projects": [
+              {
+                "name": "xyz",
+                "role": "abc",
+                "tech": "",
+                "duration": "",
+                "github": "",
+                "demo": "",
+                "description": "",
+                "contributions": ""
+              }
+            ],
+            "skills_technical": [],
+            "skills_soft": [],
+            "certifications": [],
+            "achievements": [],
+            "research": [],
+            "languages": [],
+            "target_role": "",
+            "target_industry": "",
+            "job_description": ""
+          },
+          "text": "ISMAIL ZAHID\nData Analyst\nismail@gmail.com | 01766411558 | Khulna\n============================================================\n\nPROFESSIONAL SUMMARY\n----------------------------------------\nIsmail Zahid is a motivated Data Analyst seeking opportunities to apply academic knowledge and grow professionally. I am a aspiring data analyst\n\nPROJECTS\n----------------------------------------\nxyz \u2014 abc\n\nEDUCATION\n----------------------------------------\nB.sc \u00b7 BAUST \u00b7 CSE\n  Grad: 2027 \u00b7 GPA: 3.00\n  Coursework: Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional",
+          "ats_status": "Not analyzed"
+        }
+      ],
+      "resume_draft": {
+        "full_name": "Ismail Zahid",
+        "title": "Data Analyst",
+        "email": "ismail@gmail.com",
+        "phone": "01766411558",
+        "location": "Khulna",
+        "linkedin": "",
+        "github": "",
+        "portfolio": "",
+        "photo": "C:/Users/ismai/OneDrive/Pictures/Saved Pictures/IMG_20250319_011812.jpg",
+        "summary": "Ismail Zahid is a motivated Data Analyst seeking opportunities to apply academic knowledge and grow professionally. I am a aspiring data analyst",
+        "objective": "I am a aspiring data analyst",
+        "education": [
+          {
+            "degree": "B.sc",
+            "university": "BAUST",
+            "department": "CSE",
+            "grad_year": "2027",
+            "gpa": "3.00",
+            "coursework": "Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional",
+            "start_year": "10"
+          }
+        ],
+        "experience": [],
+        "projects": [
+          {
+            "name": "xyz",
+            "role": "abc",
+            "tech": "",
+            "duration": "",
+            "github": "",
+            "demo": "",
+            "description": "",
+            "contributions": ""
+          }
+        ],
+        "skills_technical": [],
+        "skills_soft": [],
+        "certifications": [],
+        "achievements": [],
+        "research": [],
+        "languages": [],
+        "target_role": "",
+        "target_industry": "",
+        "job_description": ""
+      }
     }
   },
   "last_active_user": "0802410205101007"

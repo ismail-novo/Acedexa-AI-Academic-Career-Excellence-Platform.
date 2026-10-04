@@ -127,7 +127,8 @@ class JSONDataManager:
                 "courses": [], "skills": [], "projects": [],
                 "study_sessions": [], "topic_mastery": {}, "weak_topics": [],
                 "daily_schedule": {}, "study_routine": [], "quiz_history": [],
-                "tasks": [], "study_materials": [], "brain_scores": [],
+                "tasks": [], "study_materials": [], "brain_scores": [], "cognitive_intelligence": {},
+                "resume_history": [], "resume_draft": {},
             }
         u.setdefault("daily_schedule", {})
         u.setdefault("study_routine", [])
@@ -141,6 +142,9 @@ class JSONDataManager:
         u.setdefault("tasks", [])
         u.setdefault("study_materials", [])
         u.setdefault("brain_scores", [])
+        u.setdefault("cognitive_intelligence", {})
+        u.setdefault("resume_history", [])
+        u.setdefault("resume_draft", {})
         return u
 
     def save_user_profile(self, user_key, profile_data):
@@ -366,6 +370,9 @@ class AcadexaDecisionAgent:
         if not recs:
             recs.append("Habit profile looks balanced. Keep the streak going!")
 
+        cog = user_profile.get("cognitive_intelligence") or {}
+        cog_avg = round(float(np.mean(list(cog.values()))), 1) if cog else 0.0
+
         return {
             "academic_health": task_completion,  # legacy key maps to task completion
             "task_completion": task_completion,
@@ -376,6 +383,8 @@ class AcadexaDecisionAgent:
             "skill_strength": skill_strength,
             "job_readiness": round(job_readiness, 1),
             "routine_efficiency": round(routine_eff, 1),
+            "cognitive_avg": cog_avg,
+            "cognitive_intelligence": cog,
             "recommendations": recs
         }
 
@@ -1116,6 +1125,7 @@ class AcadexaAIApp(ctk.CTk):
         self.tab_quiz = self.tabview.add("Universal Quiz Engine")
         self.tab_timer = self.tabview.add("Focus Timer")
         self.tab_ats = self.tabview.add("ATS & Job Matcher")
+        self.tab_resume = self.tabview.add("CV & Resume Builder")
         self.tab_tasks = self.tabview.add("Task Manager")
         self.tab_brain = self.tabview.add("Brain Testing")
         self.tab_profile = self.tabview.add("Student Intelligence Profile")
@@ -1125,6 +1135,7 @@ class AcadexaAIApp(ctk.CTk):
         self._build_quiz()
         self._build_timer()
         self._build_ats()
+        self._build_resume()
         self._build_tasks()
         self._build_brain()
         self._build_profile()
@@ -1154,6 +1165,7 @@ class AcadexaAIApp(ctk.CTk):
             ("Adaptive Quiz Engine", "Universal Quiz Engine"),
             ("Focus Session Tracker", "Focus Timer"),
             ("ATS & Job Matcher", "ATS & Job Matcher"),
+            ("CV & Resume Builder", "CV & Resume Builder"),
             ("Task Manager", "Task Manager"),
             ("Brain Testing", "Brain Testing"),
             ("Student Profile", "Student Intelligence Profile"),
@@ -2595,6 +2607,17 @@ class AcadexaAIApp(ctk.CTk):
         })
         db.save_user_profile(self.current_user_id, self.user_data)
         self._show_session_history_graph(timeline_copy, task["subject"])
+        # Instant 5-mark MCQ on this subject for authenticity judgment
+        try:
+            self._launch_post_session_quiz(
+                subject=task["subject"],
+                duration_mins=task["duration"],
+                final_conc=final_conc,
+                timeline=timeline_copy,
+                leaves=self.table_leave_count,
+            )
+        except Exception as _e:
+            print("post-session quiz error:", _e)
         self.current_subject_idx += 1
         if self.current_subject_idx < len(self.subject_queue):
             self.table_leave_count = 0
@@ -3161,25 +3184,38 @@ class AcadexaAIApp(ctk.CTk):
         frame.pack(fill="both", expand=True, padx=10, pady=8)
         ctk.CTkLabel(frame, text="Brain Testing", font=ctk.CTkFont(size=18, weight="bold"),
                      text_color="#CDD6F4").pack(anchor="w", pady=(0, 4))
-        ctk.CTkLabel(frame, text="Chess · Sudoku · Stop-the-Object — scores feed Habit Health (15% weight)",
+        ctk.CTkLabel(frame, text="10 cognitive games · scores → Habit Health + Cognitive Intelligence Profile",
                      font=ctk.CTkFont(size=11), text_color="#A6ADC8").pack(anchor="w", pady=(0, 10))
 
         grid = ctk.CTkFrame(frame, fg_color="transparent")
         grid.pack(fill="x")
-        for col, (title, desc, cmd) in enumerate([
-            ("Chess", "Level 1–10 vs computer\nMoves + time + result", self._open_chess),
-            ("Sudoku", "Level 1–10 difficulty\nTime + accuracy score", self._open_sudoku),
-            ("Stop the Object", "Moving red ball on a line\nClick to stop · graph results", self._open_stop_object),
-        ]):
-            card = ctk.CTkFrame(grid, fg_color="#181825", corner_radius=12, width=220, height=140)
-            card.grid(row=0, column=col, padx=8, pady=6, sticky="nsew")
+        games = [
+            ("Chess", "Strategy · planning\nBook + αβ engine", self._open_chess),
+            ("Sudoku", "Logic · accuracy\nTime + mistakes", self._open_sudoku),
+            ("Stop Object", "Reaction time\nClick red ball", self._open_stop_object),
+            ("Minesweeper", "Risk · deduction\nFlags + time", self._open_minesweeper),
+            ("2048", "Planning · patterns\nScore + moves", self._open_2048),
+            ("N-Queens", "Constraint solve\nCS classic", self._open_nqueens),
+            ("Tower Hanoi", "Recursion · plan\nMin moves", self._open_hanoi),
+            ("Mastermind", "Hypothesis test\nCode break", self._open_mastermind),
+            ("Connect Four", "Prediction\nWin/loss + moves", self._open_connect4),
+            ("Nonogram", "Visual logic\nRow/col clues", self._open_nonogram),
+        ]
+        for i, (title, desc, cmd) in enumerate(games):
+            r, c = divmod(i, 5)
+            card = ctk.CTkFrame(grid, fg_color="#181825", corner_radius=12, width=200, height=130)
+            card.grid(row=r, column=c, padx=6, pady=6, sticky="nsew")
             card.grid_propagate(False)
-            ctk.CTkLabel(card, text=title, font=ctk.CTkFont(size=15, weight="bold"),
-                         text_color="#89B4FA").pack(pady=(16, 4))
-            ctk.CTkLabel(card, text=desc, text_color="#A6ADC8", font=ctk.CTkFont(size=11)).pack()
-            ctk.CTkButton(card, text="Play", fg_color="#A6E3A1", text_color="#11111B", width=100,
-                          command=cmd).pack(pady=12)
-        grid.grid_columnconfigure((0, 1, 2), weight=1)
+            ctk.CTkLabel(card, text=title, font=ctk.CTkFont(size=13, weight="bold"),
+                         text_color="#89B4FA").pack(pady=(12, 2))
+            ctk.CTkLabel(card, text=desc, text_color="#A6ADC8", font=ctk.CTkFont(size=10)).pack()
+            ctk.CTkButton(card, text="Play", fg_color="#A6E3A1", text_color="#11111B", width=90,
+                          command=cmd).pack(pady=8)
+        for c in range(5):
+            grid.grid_columnconfigure(c, weight=1)
+
+        self.lbl_cognitive = ctk.CTkLabel(frame, text="", text_color="#CDD6F4", justify="left")
+        self.lbl_cognitive.pack(anchor="w", pady=(8, 4))
 
         self.lbl_brain_hist = ctk.CTkLabel(frame, text="", text_color="#CDD6F4", justify="left")
         self.lbl_brain_hist.pack(anchor="w", pady=12)
@@ -3213,15 +3249,63 @@ class AcadexaAIApp(ctk.CTk):
             best_rt = min(rts)
             lines.append(f"\nReaction metrics: avg {avg_rt:.2f}s · best {best_rt:.2f}s · n={len(rts)}")
         self.lbl_brain_hist.configure(text="Recent brain scores:\n" + "\n".join(lines))
+        if hasattr(self, "lbl_cognitive"):
+            self.lbl_cognitive.configure(text=self._get_cognitive_summary())
 
-    def _save_brain_score(self, game, level, score, detail=""):
-        self.user_data.setdefault("brain_scores", []).append({
+    def _save_brain_score(self, game, level, score, detail="", metrics=None):
+        """Save game result + optional cognitive metrics (mistakes, time, hints…)."""
+        entry = {
             "game": game, "level": level, "score": round(float(score), 1),
             "detail": detail, "date": datetime.now().strftime("%Y-%m-%d %H:%M"),
-        })
+        }
+        if metrics and isinstance(metrics, dict):
+            entry["metrics"] = metrics
+        self.user_data.setdefault("brain_scores", []).append(entry)
+        # Update rolling cognitive intelligence profile
+        self._update_cognitive_profile(game, float(score), metrics or {})
         db.save_user_profile(self.current_user_id, self.user_data)
         self._refresh_brain_hist()
         self.refresh_ui()
+
+    def _update_cognitive_profile(self, game, score, metrics):
+        """Map game performance → Cognitive Intelligence axes (0–100)."""
+        cog = self.user_data.setdefault("cognitive_intelligence", {
+            "logical_reasoning": 50.0,
+            "pattern_recognition": 50.0,
+            "problem_solving": 50.0,
+            "decision_efficiency": 50.0,
+            "spatial_reasoning": 50.0,
+            "strategic_thinking": 50.0,
+        })
+        # game → primary axes weights
+        mapping = {
+            "Sudoku": {"logical_reasoning": 0.5, "pattern_recognition": 0.3, "problem_solving": 0.2},
+            "Chess": {"strategic_thinking": 0.45, "decision_efficiency": 0.3, "problem_solving": 0.25},
+            "StopObject": {"decision_efficiency": 0.6, "pattern_recognition": 0.4},
+            "Minesweeper": {"logical_reasoning": 0.4, "pattern_recognition": 0.35, "decision_efficiency": 0.25},
+            "2048": {"pattern_recognition": 0.4, "strategic_thinking": 0.35, "decision_efficiency": 0.25},
+            "NQueens": {"logical_reasoning": 0.35, "problem_solving": 0.4, "spatial_reasoning": 0.25},
+            "Hanoi": {"problem_solving": 0.5, "strategic_thinking": 0.3, "logical_reasoning": 0.2},
+            "Mastermind": {"logical_reasoning": 0.45, "pattern_recognition": 0.35, "decision_efficiency": 0.2},
+            "ConnectFour": {"strategic_thinking": 0.5, "decision_efficiency": 0.3, "pattern_recognition": 0.2},
+            "Nonogram": {"pattern_recognition": 0.5, "logical_reasoning": 0.35, "spatial_reasoning": 0.15},
+            "Rubiks": {"spatial_reasoning": 0.55, "pattern_recognition": 0.3, "problem_solving": 0.15},
+        }
+        weights = mapping.get(game, {"problem_solving": 1.0})
+        alpha = 0.35  # blend factor toward new score
+        for axis, w in weights.items():
+            old = float(cog.get(axis, 50.0))
+            blended = (1 - alpha * w) * old + (alpha * w) * score
+            cog[axis] = round(min(100.0, max(0.0, blended)), 1)
+        self.user_data["cognitive_intelligence"] = cog
+
+    def _get_cognitive_summary(self):
+        cog = self.user_data.get("cognitive_intelligence") or {}
+        if not cog:
+            return "Play brain games to build Cognitive Intelligence scores."
+        lines = [f"  {k.replace('_',' ').title()}: {v}/100" for k, v in cog.items()]
+        avg = sum(cog.values()) / max(1, len(cog))
+        return f"🧠 Cognitive Intelligence (avg {avg:.0f}/100)\n" + "\n".join(lines)
 
     def _clear_brain_history(self):
         """Clear only brain game win/loss/score history (not login/courses)."""
@@ -3768,30 +3852,251 @@ class AcadexaAIApp(ctk.CTk):
         frame = ctk.CTkScrollableFrame(self.tab_ats, fg_color="transparent")
         frame.pack(fill="both", expand=True, padx=10, pady=8)
         ctk.CTkLabel(frame, text="ATS Resume & Job Description Matcher",
-                     font=ctk.CTkFont(size=18, weight="bold"), text_color="#CDD6F4").pack(anchor="w", pady=(0, 8))
+                     font=ctk.CTkFont(size=18, weight="bold"), text_color="#CDD6F4").pack(anchor="w", pady=(0, 4))
+        ctk.CTkLabel(
+            frame,
+            text="Match resume text to a job description, and get career suggestions from your Student Intelligence Profile.",
+            text_color="#A6ADC8", font=ctk.CTkFont(size=11), wraplength=700, justify="left",
+        ).pack(anchor="w", pady=(0, 10))
+
+        # ---- Career suggestions from profile (dynamic) ----
+        sug_card = ctk.CTkFrame(frame, fg_color="#181825", corner_radius=12, border_width=1, border_color="#313244")
+        sug_card.pack(fill="x", pady=(0, 12))
+        head = ctk.CTkFrame(sug_card, fg_color="transparent")
+        head.pack(fill="x", padx=12, pady=(10, 4))
+        ctk.CTkLabel(head, text="Career / Job Suggestions (from your profile)",
+                     font=ctk.CTkFont(size=14, weight="bold"), text_color="#89B4FA").pack(side="left")
+        ctk.CTkButton(head, text="Refresh from Profile", width=150, fg_color="#313244",
+                      command=self._refresh_career_suggestions).pack(side="right")
+        self.lbl_career_basis = ctk.CTkLabel(
+            sug_card, text="", text_color="#A6ADC8", font=ctk.CTkFont(size=11),
+            wraplength=680, justify="left",
+        )
+        self.lbl_career_basis.pack(anchor="w", padx=12, pady=(0, 6))
+        self.career_sug_box = ctk.CTkFrame(sug_card, fg_color="transparent")
+        self.career_sug_box.pack(fill="x", padx=8, pady=(0, 10))
+        self.after(200, self._refresh_career_suggestions)
+
         ctk.CTkLabel(frame, text="Paste Resume Text", text_color="#89B4FA").pack(anchor="w")
-        self.txt_resume = ctk.CTkTextbox(frame, height=140, fg_color="#181825", border_color="#313244")
+        self.txt_resume = ctk.CTkTextbox(frame, height=130, fg_color="#181825", border_color="#313244")
         self.txt_resume.pack(fill="x", pady=(0, 8))
+        ctk.CTkButton(frame, text="Load last generated resume text", fg_color="#313244",
+                      command=self._ats_load_resume_from_history).pack(anchor="w", pady=(0, 8))
+
         ctk.CTkLabel(frame, text="Paste Target Job Description", text_color="#89B4FA").pack(anchor="w")
-        self.txt_jd = ctk.CTkTextbox(frame, height=140, fg_color="#181825", border_color="#313244")
+        self.txt_jd = ctk.CTkTextbox(frame, height=130, fg_color="#181825", border_color="#313244")
         self.txt_jd.pack(fill="x", pady=(0, 10))
         ctk.CTkButton(frame, text="Evaluate Match Score", fg_color="#A6E3A1", text_color="#11111B",
                       font=ctk.CTkFont(weight="bold"), command=self._analyze_ats).pack(fill="x", pady=(0, 10))
         self.lbl_ats = ctk.CTkLabel(frame, text="Match Score: --%", font=ctk.CTkFont(size=18, weight="bold"),
                                     text_color="#89B4FA")
         self.lbl_ats.pack(anchor="w")
-        self.txt_ats_details = ctk.CTkTextbox(frame, height=100, fg_color="#181825", border_color="#313244")
+        self.txt_ats_details = ctk.CTkTextbox(frame, height=110, fg_color="#181825", border_color="#313244")
         self.txt_ats_details.pack(fill="x", pady=6)
 
+    def _ats_load_resume_from_history(self):
+        hist = self.user_data.get("resume_history") or []
+        if not hist:
+            self.txt_ats_details.delete("1.0", "end")
+            self.txt_ats_details.insert("1.0", "No saved resume yet. Build one in CV & Resume Builder first.")
+            return
+        text = hist[-1].get("text") or ""
+        self.txt_resume.delete("1.0", "end")
+        self.txt_resume.insert("1.0", text)
+
+    def _career_suggestion_engine(self):
+        """Build ranked career/job ideas ONLY from profile fields — no invented credentials."""
+        sp = self.user_data.get("student_profile", {}) or {}
+        courses = self.user_data.get("courses", []) or []
+        skills = self.user_data.get("skills", []) or []
+        projects = self.user_data.get("projects", []) or []
+        mastery = self.user_data.get("topic_mastery", {}) or {}
+        goal = (sp.get("career_goal") or "").strip()
+        dept = (sp.get("department") or sp.get("major") or "").strip().lower()
+        degree = (sp.get("degree") or "").strip().lower()
+        faculty = (sp.get("faculty") or "").strip().lower()
+
+        skill_names = []
+        for s in skills:
+            skill_names.append((s.get("name") if isinstance(s, dict) else str(s)).strip().lower())
+        skill_names = [s for s in skill_names if s]
+        course_titles = " ".join((c.get("title") or "") + " " + (c.get("code") or "") for c in courses).lower()
+        proj_blob = " ".join(
+            str(p.get("name", "") if isinstance(p, dict) else p) + " " +
+            str(p.get("tech", "") if isinstance(p, dict) else "")
+            for p in projects
+        ).lower()
+        mastery_topics = " ".join(mastery.keys()).lower()
+        blob = " ".join([dept, degree, faculty, goal.lower(), course_titles, " ".join(skill_names), proj_blob, mastery_topics])
+
+        # Role templates: keywords that must appear in profile blob to suggest
+        catalog = [
+            (["cse", "computer", "software", "cs", "programming", "coding"], [
+                ("Software Engineer Intern", "Junior software development roles; emphasize projects & GitHub."),
+                ("Backend Developer (Junior)", "APIs, databases, server-side — if you have related coursework/projects."),
+                ("Frontend Developer (Junior)", "UI apps — if you have web/mobile project evidence."),
+                ("QA / Test Engineer Intern", "Testing mindset; good if you document projects carefully."),
+                ("DevOps Intern", "Only if you have Linux/cloud/CI exposure in skills or projects."),
+            ]),
+            (["eee", "electrical", "electronics", "power"], [
+                ("Electrical Engineering Intern", "Power/electronics labs and coursework as proof."),
+                ("Embedded Systems Intern", "If microcontrollers/IoT appear in courses or projects."),
+                ("Hardware Test Intern", "Lab measurement and documentation skills."),
+            ]),
+            (["data", "ml", "machine learning", "ai", "analytics", "statistics", "python"], [
+                ("Data Analyst Intern", "Spreadsheets, SQL, Python analysis if present in skills/projects."),
+                ("ML Engineering Intern", "Only if ML/AI projects or courses exist in your profile."),
+                ("Business Intelligence Intern", "Reporting/dashboard interest + analytical coursework."),
+            ]),
+            (["network", "cyber", "security", "cloud"], [
+                ("Network Support Intern", "Networking courses as foundation."),
+                ("Cybersecurity Intern", "Only if security topics appear in mastery/courses."),
+                ("Cloud Support Associate", "If cloud tools appear in skills."),
+            ]),
+            (["mechanical", "me ", "thermal", "design"], [
+                ("Mechanical Design Intern", "CAD/design coursework."),
+                ("Manufacturing Intern", "Process/production related courses."),
+            ]),
+            (["civil", "structure", "construction"], [
+                ("Site Engineer Intern", "Civil coursework and site exposure."),
+                ("Structural Design Intern", "If structural courses listed."),
+            ]),
+            (["bba", "business", "marketing", "finance", "accounting", "management"], [
+                ("Business Analyst Intern", "Problem structuring + tools."),
+                ("Marketing Intern", "If marketing/comms related goal or courses."),
+                ("Finance Intern", "If accounting/finance coursework exists."),
+            ]),
+        ]
+
+        suggestions = []
+        seen = set()
+        # Always respect explicit career goal first
+        if goal:
+            key = goal.lower()
+            if key not in seen:
+                seen.add(key)
+                suggestions.append({
+                    "title": goal if "intern" in goal.lower() or "engineer" in goal.lower() or "analyst" in goal.lower()
+                    else f"{goal} (entry-level / intern track)",
+                    "why": "Taken from your Career Goal in Student Intelligence Profile.",
+                    "fit": "High (your stated goal)",
+                    "sample_jd": (
+                        f"We are looking for a motivated candidate interested in {goal}. "
+                        f"Responsibilities include learning the stack, contributing to team tasks, "
+                        f"and documenting work. Preferred: relevant coursework, projects, and communication skills."
+                    ),
+                })
+
+        for keys, roles in catalog:
+            if any(k in blob for k in keys):
+                for title, why in roles:
+                    if title.lower() in seen:
+                        continue
+                    seen.add(title.lower())
+                    suggestions.append({
+                        "title": title,
+                        "why": why,
+                        "fit": "Profile-matched",
+                        "sample_jd": (
+                            f"Internship/junior role: {title}. Responsibilities: assist the team, "
+                            f"complete assigned tasks, write clear documentation, and learn industry tools. "
+                            f"Requirements: foundational knowledge from your degree/courses, willingness to learn, "
+                            f"and evidence from academic projects where available."
+                        ),
+                    })
+                    if len(suggestions) >= 10:
+                        break
+            if len(suggestions) >= 10:
+                break
+
+        if not suggestions:
+            suggestions.append({
+                "title": "General Intern / Trainee",
+                "why": "Profile is light — add department, skills, projects, and career goal for better matches.",
+                "fit": "Generic",
+                "sample_jd": (
+                    "Entry-level intern: support day-to-day team work, complete training modules, "
+                    "and contribute to documentation. Requirements: enrolled student, basic computer literacy."
+                ),
+            })
+
+        basis_parts = []
+        if sp.get("name"):
+            basis_parts.append(f"Name: {sp.get('name')}")
+        if sp.get("department") or sp.get("major"):
+            basis_parts.append(f"Dept/Major: {sp.get('department') or sp.get('major')}")
+        if sp.get("degree"):
+            basis_parts.append(f"Degree: {sp.get('degree')}")
+        if goal:
+            basis_parts.append(f"Goal: {goal}")
+        if courses:
+            basis_parts.append(f"Courses: {len(courses)}")
+        if skills:
+            basis_parts.append(f"Skills: {len(skills)}")
+        if projects:
+            basis_parts.append(f"Projects: {len(projects)}")
+        if mastery:
+            basis_parts.append(f"Mastered topics: {len(mastery)}")
+        return suggestions, " · ".join(basis_parts) if basis_parts else "Complete your Student Intelligence Profile for sharper suggestions."
+
+    def _refresh_career_suggestions(self):
+        if not hasattr(self, "career_sug_box"):
+            return
+        for w in self.career_sug_box.winfo_children():
+            w.destroy()
+        suggestions, basis = self._career_suggestion_engine()
+        if hasattr(self, "lbl_career_basis"):
+            self.lbl_career_basis.configure(text=f"Based on: {basis}")
+
+        for i, s in enumerate(suggestions[:8]):
+            card = ctk.CTkFrame(self.career_sug_box, fg_color="#11111B", corner_radius=8,
+                                border_width=1, border_color="#313244")
+            card.pack(fill="x", pady=4, padx=4)
+            top = ctk.CTkFrame(card, fg_color="transparent")
+            top.pack(fill="x", padx=10, pady=(8, 2))
+            ctk.CTkLabel(top, text=f"{i+1}. {s['title']}", font=ctk.CTkFont(size=13, weight="bold"),
+                         text_color="#CDD6F4").pack(side="left")
+            ctk.CTkLabel(top, text=s.get("fit", ""), text_color="#A6E3A1",
+                         font=ctk.CTkFont(size=11)).pack(side="right")
+            ctk.CTkLabel(card, text=s.get("why", ""), text_color="#A6ADC8", font=ctk.CTkFont(size=11),
+                         wraplength=640, justify="left").pack(anchor="w", padx=10, pady=(0, 6))
+
+            def use_jd(sample=s.get("sample_jd", ""), title=s["title"]):
+                self.txt_jd.delete("1.0", "end")
+                self.txt_jd.insert("1.0", sample)
+                self.lbl_ats.configure(text=f"JD loaded: {title}", text_color="#A6E3A1")
+
+            ctk.CTkButton(card, text="Use as Job Description", width=160, height=28,
+                          fg_color="#89B4FA", text_color="#11111B",
+                          command=use_jd).pack(anchor="e", padx=10, pady=(0, 8))
+
     def _analyze_ats(self):
-        score, matched, missing = job_matcher.match(
-            self.txt_resume.get("1.0", "end").strip(),
-            self.txt_jd.get("1.0", "end").strip())
-        self.lbl_ats.configure(text=f"Match Score: {score}%")
+        resume = self.txt_resume.get("1.0", "end").strip()
+        jd = self.txt_jd.get("1.0", "end").strip()
+        if not resume or not jd:
+            self.lbl_ats.configure(text="Match Score: --%", text_color="#F38BA8")
+            self.txt_ats_details.delete("1.0", "end")
+            self.txt_ats_details.insert(
+                "1.0",
+                "Paste both Resume text and Job Description.\n"
+                "Tip: use Load last generated resume + a Career Suggestion JD.",
+            )
+            return
+        score, matched, missing = job_matcher.match(resume, jd)
+        # Filter trivial matched tokens (years, single letters)
+        matched_f = [m for m in matched if len(m) > 2 and not m.isdigit()]
+        missing_f = [m for m in missing if len(m) > 2 and not m.isdigit()]
+        color = "#A6E3A1" if score >= 60 else ("#FAB387" if score >= 35 else "#F38BA8")
+        self.lbl_ats.configure(text=f"Match Score: {score}%", text_color=color)
         self.txt_ats_details.delete("1.0", "end")
-        self.txt_ats_details.insert("1.0",
-            f"Matched: {', '.join(matched) if matched else 'None'}\n\n"
-            f"Missing: {', '.join(missing) if missing else 'None'}\n")
+        self.txt_ats_details.insert(
+            "1.0",
+            f"Matched keywords: {', '.join(matched_f[:15]) if matched_f else 'None'}\n\n"
+            f"Missing keywords (add only if true for you): {', '.join(missing_f[:15]) if missing_f else 'None'}\n\n"
+            f"Note: Score is a TF-IDF text similarity estimate — not a guarantee of ATS success. "
+            f"Avoid keyword stuffing.",
+        )
+
 
     # ---------- PROFILE ----------
     def _build_profile(self):
@@ -3927,6 +4232,1825 @@ class AcadexaAIApp(ctk.CTk):
             self._render_dash_focus_chart()
         except Exception:
             pass
+
+
+    # ==================================================================
+    # POST-FOCUS-SESSION INSTANT QUIZ (5 MCQ authenticity check)
+    # ==================================================================
+    def _launch_post_session_quiz(self, subject, duration_mins, final_conc, timeline, leaves):
+        """After a focus block ends, open a 5-mark MCQ on that subject."""
+        win = ctk.CTkToplevel(self)
+        win.title(f"Post-Session Quiz — {subject[:40]}")
+        win.geometry("720x640")
+        win.configure(fg_color="#11111B")
+        win.transient(self)
+        win.lift()
+        win.focus_force()
+        if not hasattr(self, "_open_game_windows"):
+            self._open_game_windows = []
+        self._open_game_windows.append(win)
+
+        ctk.CTkLabel(win, text="Instant Authenticity Quiz", font=ctk.CTkFont(size=18, weight="bold"),
+                     text_color="#89B4FA").pack(pady=(12, 2))
+        ctk.CTkLabel(win, text=f"You just studied: {subject} ({duration_mins} min) · Conc {final_conc:.0f}% · Leaves {leaves}",
+                     text_color="#A6ADC8", font=ctk.CTkFont(size=12)).pack(pady=(0, 8))
+
+        # Build 5 MCQs from subject keywords + materials
+        topic = subject.split("|")[0].strip() if "|" in subject else subject
+        mats = self.user_data.get("study_materials", []) or []
+        mat_text = " ".join((m.get("text") or m.get("name") or "")[:800] for m in mats
+                            if topic.lower()[:8] in (m.get("name") or "").lower()
+                            or topic.lower()[:8] in (m.get("text") or "").lower())
+        keywords = [w for w in topic.replace("-", " ").split() if len(w) > 2][:6] or ["concept"]
+        stems = [
+            f"Which statement best describes a core idea in {topic}?",
+            f"In {topic}, what is the most accurate application?",
+            f"A common mistake when learning {topic} is:",
+            f"Which option strengthens mastery of {topic}?",
+            f"For career use of {topic}, which skill matters most?",
+        ]
+        import random as _rnd
+        _rnd.seed(hash(topic + str(duration_mins) + str(int(final_conc))) % 10**8)
+        questions = []
+        for i, stem in enumerate(stems):
+            correct = f"Correct principle related to {keywords[i % len(keywords)]}"
+            opts = [
+                correct,
+                f"Unrelated trivia about {keywords[(i+1) % len(keywords)]}",
+                "Memorizing definitions without practice",
+                "Ignoring fundamentals and jumping to advanced tools",
+            ]
+            _rnd.shuffle(opts)
+            ans = opts.index(correct)
+            questions.append({"q": stem, "options": opts, "answer": ans})
+
+        vars_ = []
+        scroll = ctk.CTkScrollableFrame(win, fg_color="transparent", height=380)
+        scroll.pack(fill="both", expand=True, padx=12, pady=4)
+        for qi, qq in enumerate(questions):
+            box = ctk.CTkFrame(scroll, fg_color="#181825", corner_radius=8)
+            box.pack(fill="x", pady=6)
+            ctk.CTkLabel(box, text=f"{qi+1}. {qq['q']}", wraplength=640, justify="left",
+                         text_color="#CDD6F4").pack(anchor="w", padx=10, pady=(8, 4))
+            v = ctk.StringVar(value="")
+            vars_.append(v)
+            for oi, opt in enumerate(qq["options"]):
+                ctk.CTkRadioButton(box, text=opt, variable=v, value=str(oi),
+                                   text_color="#A6ADC8").pack(anchor="w", padx=18, pady=2)
+
+        result_lbl = ctk.CTkLabel(win, text="", text_color="#A6E3A1", justify="left")
+        result_lbl.pack(pady=6)
+
+        def submit():
+            correct = 0
+            for qi, qq in enumerate(questions):
+                try:
+                    if int(vars_[qi].get()) == qq["answer"]:
+                        correct += 1
+                except Exception:
+                    pass
+            quiz_score = round(100.0 * correct / 5.0, 1)
+            # Judgment: real study vs acting
+            if final_conc >= 75 and leaves <= 1 and quiz_score >= 60:
+                verdict = "STRONG — camera focus + quiz aligned (likely genuine study)"
+                color = "#A6E3A1"
+            elif final_conc >= 60 and quiz_score >= 40:
+                verdict = "DEVELOPING — partial focus; review weak points"
+                color = "#FAB387"
+            else:
+                verdict = "WEAK / POSSIBLE ACTING — low focus or quiz mismatch"
+                color = "#F38BA8"
+            # Save mastery + quiz history
+            status = "Excellent" if quiz_score >= 90 else ("Strong" if quiz_score >= 75 else (
+                "Developing" if quiz_score >= 60 else ("Weak" if quiz_score >= 40 else "Critical")))
+            self.user_data.setdefault("topic_mastery", {})[topic] = quiz_score
+            self.user_data.setdefault("quiz_history", []).append({
+                "topic": topic, "score": quiz_score, "status": status,
+                "type": "PostSessionMCQ", "correct": correct, "total": 5,
+                "session_conc": round(final_conc, 1), "leaves": leaves,
+                "date": datetime.now().strftime("%Y-%m-%d %H:%M"),
+            })
+            if quiz_score < 60:
+                wt = self.user_data.setdefault("weak_topics", [])
+                if topic not in wt:
+                    wt.append(topic)
+            db.save_user_profile(self.current_user_id, self.user_data)
+            result_lbl.configure(
+                text=f"Quiz: {correct}/5 = {quiz_score}% ({status})\n"
+                     f"Session concentration: {final_conc:.0f}% · Leaves: {leaves}\n"
+                     f"Judgment: {verdict}",
+                text_color=color)
+            self.refresh_ui()
+
+        ctk.CTkButton(win, text="Submit 5-Mark Quiz", fg_color="#89B4FA", text_color="#11111B",
+                      font=ctk.CTkFont(weight="bold"), command=submit).pack(pady=10)
+
+    # ==================================================================
+    # ADDITIONAL BRAIN GAMES
+    # ==================================================================
+    def _open_minesweeper(self):
+        import random as _rnd
+        win = ctk.CTkToplevel(self)
+        win.title("Minesweeper")
+        win.geometry("520x600")
+        win.configure(fg_color="#11111B")
+        win.lift(); win.focus_force()
+        if not hasattr(self, "_open_game_windows"):
+            self._open_game_windows = []
+        self._open_game_windows.append(win)
+        lvl_var = ctk.StringVar(value="3")
+        ctk.CTkLabel(win, text="Minesweeper — Level sets grid & mine density", text_color="#CDD6F4").pack(pady=6)
+        ctk.CTkOptionMenu(win, variable=lvl_var, values=[str(i) for i in range(1, 11)], fg_color="#313244").pack()
+        info = ctk.CTkLabel(win, text="Left-click open · avoid mines", text_color="#A6ADC8")
+        info.pack()
+        board_frame = ctk.CTkFrame(win, fg_color="#181825")
+        board_frame.pack(pady=8)
+        state = {"grid": None, "mines": set(), "opened": set(), "flags": set(),
+                 "t0": None, "over": False, "mistakes": 0}
+
+        def build():
+            for w in board_frame.winfo_children():
+                w.destroy()
+            level = int(lvl_var.get())
+            n = 6 + level // 2  # 6..10
+            mines_n = max(3, int(n * n * (0.08 + level * 0.02)))
+            state["n"] = n
+            state["mines"] = set()
+            while len(state["mines"]) < mines_n:
+                state["mines"].add((_rnd.randrange(n), _rnd.randrange(n)))
+            state["opened"] = set()
+            state["flags"] = set()
+            state["over"] = False
+            state["mistakes"] = 0
+            state["t0"] = time.time()
+            state["btns"] = {}
+            for r in range(n):
+                for c in range(n):
+                    b = ctk.CTkButton(board_frame, text="", width=32, height=32,
+                                      fg_color="#313244", command=lambda rr=r, cc=c: open_cell(rr, cc))
+                    b.grid(row=r, column=c, padx=1, pady=1)
+                    state["btns"][(r, c)] = b
+            info.configure(text=f"{n}×{n} · {mines_n} mines · Level {level}")
+
+        def count_adj(r, c):
+            n = state["n"]
+            cnt = 0
+            for dr in (-1, 0, 1):
+                for dc in (-1, 0, 1):
+                    if (r+dr, c+dc) in state["mines"]:
+                        cnt += 1
+            return cnt
+
+        def open_cell(r, c):
+            if state["over"] or (r, c) in state["opened"]:
+                return
+            if (r, c) in state["mines"]:
+                state["over"] = True
+                state["mistakes"] += 1
+                state["btns"][(r, c)].configure(text="*", fg_color="#F38BA8")
+                elapsed = time.time() - state["t0"]
+                level = int(lvl_var.get())
+                score = max(5, 30 - level * 2)
+                self._save_brain_score("Minesweeper", level, score,
+                    f"Hit mine · {elapsed:.0f}s · mistakes {state['mistakes']}",
+                    metrics={"time_sec": elapsed, "mistakes": state["mistakes"], "success": False})
+                info.configure(text="Boom! Mine hit — score saved", text_color="#F38BA8")
+                return
+            # flood open
+            stack = [(r, c)]
+            while stack:
+                rr, cc = stack.pop()
+                if (rr, cc) in state["opened"] or not (0 <= rr < state["n"] and 0 <= cc < state["n"]):
+                    continue
+                if (rr, cc) in state["mines"]:
+                    continue
+                state["opened"].add((rr, cc))
+                adj = count_adj(rr, cc)
+                state["btns"][(rr, cc)].configure(
+                    text=str(adj) if adj else " ", fg_color="#45475A", state="disabled")
+                if adj == 0:
+                    for dr in (-1, 0, 1):
+                        for dc in (-1, 0, 1):
+                            stack.append((rr+dr, cc+dc))
+            safe = state["n"] * state["n"] - len(state["mines"])
+            if len(state["opened"]) >= safe:
+                state["over"] = True
+                elapsed = time.time() - state["t0"]
+                level = int(lvl_var.get())
+                score = min(100, 50 + level * 4 + max(0, 30 - int(elapsed)))
+                self._save_brain_score("Minesweeper", level, score,
+                    f"Cleared · {elapsed:.0f}s · opened {len(state['opened'])}",
+                    metrics={"time_sec": elapsed, "mistakes": 0, "success": True,
+                             "opened": len(state["opened"])})
+                info.configure(text=f"Cleared! Score {score}%", text_color="#A6E3A1")
+
+        ctk.CTkButton(win, text="New Game", fg_color="#89B4FA", text_color="#11111B", command=build).pack(pady=8)
+        build()
+
+    def _open_2048(self):
+        import random as _rnd
+        win = ctk.CTkToplevel(self)
+        win.title("2048")
+        win.geometry("420x520")
+        win.configure(fg_color="#11111B")
+        win.lift(); win.focus_force()
+        if not hasattr(self, "_open_game_windows"):
+            self._open_game_windows = []
+        self._open_game_windows.append(win)
+        ctk.CTkLabel(win, text="2048 — Arrow keys / WASD · merge tiles", text_color="#CDD6F4").pack(pady=8)
+        grid_f = ctk.CTkFrame(win, fg_color="#181825")
+        grid_f.pack(pady=6)
+        state = {"board": [[0]*4 for _ in range(4)], "score": 0, "moves": 0, "t0": time.time(), "over": False}
+        labels = [[None]*4 for _ in range(4)]
+        colors = {0: "#313244", 2: "#45475A", 4: "#585B70", 8: "#FAB387", 16: "#F38BA8",
+                  32: "#EBA0AC", 64: "#A6E3A1", 128: "#94E2D5", 256: "#89B4FA", 512: "#B4BEFE",
+                  1024: "#CBA6F7", 2048: "#F9E2AF"}
+
+        def spawn():
+            empty = [(r, c) for r in range(4) for c in range(4) if state["board"][r][c] == 0]
+            if not empty:
+                return
+            r, c = _rnd.choice(empty)
+            state["board"][r][c] = 4 if _rnd.random() < 0.1 else 2
+
+        def draw():
+            for r in range(4):
+                for c in range(4):
+                    v = state["board"][r][c]
+                    labels[r][c].configure(text=str(v) if v else "", fg_color=colors.get(v, "#CBA6F7"))
+
+        for r in range(4):
+            for c in range(4):
+                lb = ctk.CTkLabel(grid_f, text="", width=80, height=80, corner_radius=8,
+                                  fg_color="#313244", font=ctk.CTkFont(size=22, weight="bold"))
+                lb.grid(row=r, column=c, padx=3, pady=3)
+                labels[r][c] = lb
+
+        info = ctk.CTkLabel(win, text="Score: 0", text_color="#A6E3A1")
+        info.pack(pady=4)
+
+        def compress_line(line):
+            tiles = [x for x in line if x]
+            out, sc = [], 0
+            i = 0
+            while i < len(tiles):
+                if i + 1 < len(tiles) and tiles[i] == tiles[i+1]:
+                    out.append(tiles[i]*2)
+                    sc += tiles[i]*2
+                    i += 2
+                else:
+                    out.append(tiles[i])
+                    i += 1
+            out += [0] * (4 - len(out))
+            return out, sc
+
+        def move(dir_):
+            if state["over"]:
+                return
+            b = state["board"]
+            old = [row[:] for row in b]
+            sc = 0
+            if dir_ in ("Left", "a"):
+                for r in range(4):
+                    b[r], s = compress_line(b[r]); sc += s
+            elif dir_ in ("Right", "d"):
+                for r in range(4):
+                    rev, s = compress_line(list(reversed(b[r]))); sc += s
+                    b[r] = list(reversed(rev))
+            elif dir_ in ("Up", "w"):
+                for c in range(4):
+                    col = [b[r][c] for r in range(4)]
+                    col, s = compress_line(col); sc += s
+                    for r in range(4):
+                        b[r][c] = col[r]
+            elif dir_ in ("Down", "s"):
+                for c in range(4):
+                    col = [b[r][c] for r in range(4)]
+                    rev, s = compress_line(list(reversed(col))); sc += s
+                    col = list(reversed(rev))
+                    for r in range(4):
+                        b[r][c] = col[r]
+            if b != old:
+                state["score"] += sc
+                state["moves"] += 1
+                spawn()
+                draw()
+                info.configure(text=f"Score: {state['score']} · Moves: {state['moves']}")
+                if not any(0 in row for row in b) and not any(
+                    b[r][c] == b[r][c+1] for r in range(4) for c in range(3)) and not any(
+                    b[r][c] == b[r+1][c] for r in range(3) for c in range(4)):
+                    state["over"] = True
+                    elapsed = time.time() - state["t0"]
+                    mx = max(max(row) for row in b)
+                    score = min(100, int(20 + (mx ** 0.5) * 8 + min(30, state["score"] / 50)))
+                    self._save_brain_score("2048", 5, score,
+                        f"max {mx} · score {state['score']} · moves {state['moves']} · {elapsed:.0f}s",
+                        metrics={"max_tile": mx, "game_score": state["score"],
+                                 "moves": state["moves"], "time_sec": elapsed})
+                    info.configure(text=f"Game over · cognitive score {score}%", text_color="#FAB387")
+
+        def on_key(e):
+            key = e.keysym
+            mapping = {"Left": "Left", "Right": "Right", "Up": "Up", "Down": "Down",
+                       "a": "a", "d": "d", "w": "w", "s": "s"}
+            if key in mapping:
+                move(mapping[key])
+        win.bind("<Key>", on_key)
+        win.focus_set()
+        spawn(); spawn(); draw()
+
+        def end_manual():
+            if state["over"]:
+                return
+            state["over"] = True
+            elapsed = time.time() - state["t0"]
+            mx = max(max(row) for row in state["board"])
+            score = min(100, int(20 + (mx ** 0.5) * 8 + min(30, state["score"] / 50)))
+            self._save_brain_score("2048", 5, score,
+                f"max {mx} · score {state['score']} · moves {state['moves']} · {elapsed:.0f}s",
+                metrics={"max_tile": mx, "game_score": state["score"],
+                         "moves": state["moves"], "time_sec": elapsed})
+            info.configure(text=f"Saved · cognitive score {score}%", text_color="#A6E3A1")
+        ctk.CTkButton(win, text="End & Save Score", fg_color="#A6E3A1", text_color="#11111B",
+                      command=end_manual).pack(pady=8)
+
+    def _open_nqueens(self):
+        win = ctk.CTkToplevel(self)
+        win.title("N-Queens")
+        win.geometry("480x560")
+        win.configure(fg_color="#11111B")
+        win.lift(); win.focus_force()
+        if not hasattr(self, "_open_game_windows"):
+            self._open_game_windows = []
+        self._open_game_windows.append(win)
+        n_var = ctk.StringVar(value="8")
+        ctk.CTkLabel(win, text="N-Queens — place N queens, no attacks", text_color="#CDD6F4").pack(pady=6)
+        ctk.CTkOptionMenu(win, variable=n_var, values=["4", "5", "6", "7", "8"], fg_color="#313244").pack()
+        board_f = ctk.CTkFrame(win, fg_color="#181825")
+        board_f.pack(pady=8)
+        state = {"queens": set(), "n": 8, "t0": time.time(), "moves": 0}
+
+        def rebuild():
+            for w in board_f.winfo_children():
+                w.destroy()
+            n = int(n_var.get())
+            state["n"] = n
+            state["queens"] = set()
+            state["t0"] = time.time()
+            state["moves"] = 0
+            state["btns"] = {}
+            for r in range(n):
+                for c in range(n):
+                    col = "#F0D9B5" if (r+c) % 2 == 0 else "#B58863"
+                    b = ctk.CTkButton(board_f, text="", width=40, height=40, fg_color=col,
+                                      text_color="#11111B",
+                                      command=lambda rr=r, cc=c: toggle(rr, cc))
+                    b.grid(row=r, column=c, padx=1, pady=1)
+                    state["btns"][(r, c)] = b
+
+        def attacks(r, c):
+            for qr, qc in state["queens"]:
+                if qr == r or qc == c or abs(qr-r) == abs(qc-c):
+                    return True
+            return False
+
+        info = ctk.CTkLabel(win, text="", text_color="#A6ADC8")
+        info.pack()
+
+        def toggle(r, c):
+            state["moves"] += 1
+            if (r, c) in state["queens"]:
+                state["queens"].discard((r, c))
+                n = state["n"]
+                col = "#F0D9B5" if (r+c) % 2 == 0 else "#B58863"
+                state["btns"][(r, c)].configure(text="", fg_color=col)
+            else:
+                if attacks(r, c):
+                    info.configure(text="Attack! Invalid", text_color="#F38BA8")
+                    return
+                state["queens"].add((r, c))
+                state["btns"][(r, c)].configure(text="♛", fg_color="#89B4FA")
+            info.configure(text=f"Queens: {len(state['queens'])}/{state['n']}", text_color="#CDD6F4")
+            if len(state["queens"]) == state["n"]:
+                elapsed = time.time() - state["t0"]
+                level = state["n"]
+                score = min(100, 40 + level * 6 + max(0, 25 - int(elapsed / 5)))
+                self._save_brain_score("NQueens", level, score,
+                    f"solved N={level} · moves {state['moves']} · {elapsed:.0f}s",
+                    metrics={"n": level, "moves": state["moves"], "time_sec": elapsed, "success": True})
+                info.configure(text=f"Solved! Score {score}%", text_color="#A6E3A1")
+
+        ctk.CTkButton(win, text="New Board", fg_color="#89B4FA", text_color="#11111B", command=rebuild).pack(pady=8)
+        rebuild()
+
+    def _open_hanoi(self):
+        win = ctk.CTkToplevel(self)
+        win.title("Tower of Hanoi")
+        win.geometry("520x420")
+        win.configure(fg_color="#11111B")
+        win.lift(); win.focus_force()
+        if not hasattr(self, "_open_game_windows"):
+            self._open_game_windows = []
+        self._open_game_windows.append(win)
+        n_var = ctk.StringVar(value="3")
+        ctk.CTkLabel(win, text="Tower of Hanoi — move stack to right peg", text_color="#CDD6F4").pack(pady=6)
+        ctk.CTkOptionMenu(win, variable=n_var, values=["3", "4", "5", "6"], fg_color="#313244").pack()
+        info = ctk.CTkLabel(win, text="", text_color="#A6ADC8")
+        info.pack()
+        pegs_f = ctk.CTkFrame(win, fg_color="#181825")
+        pegs_f.pack(pady=10, fill="x", padx=20)
+        state = {"pegs": [[], [], []], "selected": None, "moves": 0, "t0": time.time(), "n": 3}
+
+        def reset():
+            n = int(n_var.get())
+            state["n"] = n
+            state["pegs"] = [list(range(n, 0, -1)), [], []]
+            state["selected"] = None
+            state["moves"] = 0
+            state["t0"] = time.time()
+            draw()
+
+        def draw():
+            for w in pegs_f.winfo_children():
+                w.destroy()
+            for i in range(3):
+                col = ctk.CTkFrame(pegs_f, fg_color="#313244", width=140, height=200)
+                col.pack(side="left", padx=8, expand=True, fill="y")
+                col.pack_propagate(False)
+                ctk.CTkLabel(col, text=f"Peg {i+1}", text_color="#89B4FA").pack(pady=4)
+                for disk in reversed(state["pegs"][i]):
+                    ctk.CTkLabel(col, text="█" * (disk * 2 + 2), text_color="#A6E3A1",
+                                 font=ctk.CTkFont(size=10)).pack()
+                ctk.CTkButton(col, text="Select / Drop", width=100,
+                              command=lambda p=i: click_peg(p)).pack(side="bottom", pady=6)
+            info.configure(text=f"Moves: {state['moves']} · optimal {2**state['n']-1}")
+
+        def click_peg(p):
+            if state["selected"] is None:
+                if state["pegs"][p]:
+                    state["selected"] = p
+                    info.configure(text=f"Selected peg {p+1}", text_color="#FAB387")
+                return
+            src = state["selected"]
+            state["selected"] = None
+            if not state["pegs"][src]:
+                return
+            disk = state["pegs"][src][-1]
+            if state["pegs"][p] and state["pegs"][p][-1] < disk:
+                info.configure(text="Invalid — larger on smaller", text_color="#F38BA8")
+                return
+            state["pegs"][src].pop()
+            state["pegs"][p].append(disk)
+            state["moves"] += 1
+            draw()
+            if len(state["pegs"][2]) == state["n"]:
+                elapsed = time.time() - state["t0"]
+                opt = 2 ** state["n"] - 1
+                efficiency = max(0, 100 - (state["moves"] - opt) * 5)
+                score = min(100, 40 + state["n"] * 8 + efficiency * 0.3)
+                self._save_brain_score("Hanoi", state["n"], score,
+                    f"moves {state['moves']}/{opt} · {elapsed:.0f}s",
+                    metrics={"moves": state["moves"], "optimal": opt, "time_sec": elapsed, "success": True})
+                info.configure(text=f"Solved! Score {score:.0f}%", text_color="#A6E3A1")
+
+        ctk.CTkButton(win, text="Reset", fg_color="#89B4FA", text_color="#11111B", command=reset).pack(pady=8)
+        reset()
+
+    def _open_mastermind(self):
+        import random as _rnd
+        win = ctk.CTkToplevel(self)
+        win.title("Mastermind")
+        win.geometry("480x520")
+        win.configure(fg_color="#11111B")
+        win.lift(); win.focus_force()
+        if not hasattr(self, "_open_game_windows"):
+            self._open_game_windows = []
+        self._open_game_windows.append(win)
+        colors = ["R", "G", "B", "Y", "P", "O"]
+        secret = [_rnd.choice(colors) for _ in range(4)]
+        state = {"tries": 0, "t0": time.time(), "max": 10}
+        ctk.CTkLabel(win, text="Mastermind — guess 4 colors (R G B Y P O)", text_color="#CDD6F4").pack(pady=8)
+        entry = ctk.CTkEntry(win, placeholder_text="e.g. R G B Y", fg_color="#181825")
+        entry.pack(pady=4)
+        log = ctk.CTkTextbox(win, height=280, fg_color="#181825")
+        log.pack(fill="x", padx=12, pady=6)
+
+        def guess():
+            parts = entry.get().strip().upper().split()
+            if len(parts) != 4 or any(p not in colors for p in parts):
+                log.insert("end", "Use 4 colors from R G B Y P O\\n")
+                return
+            state["tries"] += 1
+            exact = sum(a == b for a, b in zip(parts, secret))
+            secret_left = [b for a, b in zip(parts, secret) if a != b]
+            guess_left = [a for a, b in zip(parts, secret) if a != b]
+            color_only = 0
+            for g in guess_left:
+                if g in secret_left:
+                    color_only += 1
+                    secret_left.remove(g)
+            log.insert("end", f"Try {state['tries']}: {' '.join(parts)} → black {exact}, white {color_only}\\n")
+            entry.delete(0, "end")
+            if exact == 4:
+                elapsed = time.time() - state["t0"]
+                score = min(100, 30 + (state["max"] - state["tries"]) * 8 + max(0, 20 - int(elapsed / 3)))
+                self._save_brain_score("Mastermind", 5, score,
+                    f"cracked in {state['tries']} tries · {elapsed:.0f}s",
+                    metrics={"tries": state["tries"], "time_sec": elapsed, "success": True})
+                log.insert("end", f"Solved! Score {score}%\\n")
+            elif state["tries"] >= state["max"]:
+                score = 15
+                self._save_brain_score("Mastermind", 5, score,
+                    f"failed · secret was {' '.join(secret)}",
+                    metrics={"tries": state["tries"], "success": False})
+                log.insert("end", f"Out of tries. Secret: {' '.join(secret)}\\n")
+
+        ctk.CTkButton(win, text="Guess", fg_color="#A6E3A1", text_color="#11111B", command=guess).pack(pady=8)
+
+    def _open_connect4(self):
+        import random as _rnd
+        win = ctk.CTkToplevel(self)
+        win.title("Connect Four")
+        win.geometry("500x560")
+        win.configure(fg_color="#11111B")
+        win.lift(); win.focus_force()
+        if not hasattr(self, "_open_game_windows"):
+            self._open_game_windows = []
+        self._open_game_windows.append(win)
+        ROWS, COLS = 6, 7
+        board = [[0]*COLS for _ in range(ROWS)]
+        state = {"board": board, "moves": 0, "t0": time.time(), "over": False}
+        ctk.CTkLabel(win, text="Connect Four — you are Red (click column)", text_color="#CDD6F4").pack(pady=6)
+        grid_f = ctk.CTkFrame(win, fg_color="#181825")
+        grid_f.pack(pady=6)
+        cells = [[None]*COLS for _ in range(ROWS)]
+        for r in range(ROWS):
+            for c in range(COLS):
+                lb = ctk.CTkLabel(grid_f, text="●", width=48, height=48, fg_color="#313244",
+                                  text_color="#313244", font=ctk.CTkFont(size=28))
+                lb.grid(row=r, column=c, padx=2, pady=2)
+                cells[r][c] = lb
+        info = ctk.CTkLabel(win, text="", text_color="#A6ADC8")
+        info.pack()
+
+        def draw():
+            for r in range(ROWS):
+                for c in range(COLS):
+                    v = state["board"][r][c]
+                    if v == 1:
+                        cells[r][c].configure(text_color="#F38BA8")
+                    elif v == 2:
+                        cells[r][c].configure(text_color="#89B4FA")
+                    else:
+                        cells[r][c].configure(text_color="#313244")
+
+        def winner(p):
+            b = state["board"]
+            for r in range(ROWS):
+                for c in range(COLS):
+                    if b[r][c] != p:
+                        continue
+                    for dr, dc in ((0,1),(1,0),(1,1),(1,-1)):
+                        if all(0 <= r+dr*i < ROWS and 0 <= c+dc*i < COLS and b[r+dr*i][c+dc*i] == p for i in range(4)):
+                            return True
+            return False
+
+        def drop(col, player):
+            for r in range(ROWS-1, -1, -1):
+                if state["board"][r][col] == 0:
+                    state["board"][r][col] = player
+                    return True
+            return False
+
+        def cpu():
+            opts = [c for c in range(COLS) if state["board"][0][c] == 0]
+            if not opts:
+                return
+            # prefer winning / blocking
+            for p in (2, 1):
+                for c in opts:
+                    # simulate
+                    for r in range(ROWS-1, -1, -1):
+                        if state["board"][r][c] == 0:
+                            state["board"][r][c] = p
+                            win_p = winner(p)
+                            state["board"][r][c] = 0
+                            if win_p:
+                                drop(c, 2)
+                                return
+                    break
+            drop(_rnd.choice(opts), 2)
+
+        def play_col(c):
+            if state["over"]:
+                return
+            if not drop(c, 1):
+                return
+            state["moves"] += 1
+            draw()
+            if winner(1):
+                state["over"] = True
+                elapsed = time.time() - state["t0"]
+                score = min(100, 55 + max(0, 30 - state["moves"]))
+                self._save_brain_score("ConnectFour", 5, score,
+                    f"You win · moves {state['moves']} · {elapsed:.0f}s",
+                    metrics={"moves": state["moves"], "time_sec": elapsed, "result": "win"})
+                info.configure(text=f"You win! Score {score}%", text_color="#A6E3A1")
+                return
+            cpu()
+            draw()
+            if winner(2):
+                state["over"] = True
+                elapsed = time.time() - state["t0"]
+                score = max(10, 40 - state["moves"])
+                self._save_brain_score("ConnectFour", 5, score,
+                    f"CPU wins · moves {state['moves']} · {elapsed:.0f}s",
+                    metrics={"moves": state["moves"], "time_sec": elapsed, "result": "loss"})
+                info.configure(text="CPU wins", text_color="#F38BA8")
+
+        btn_row = ctk.CTkFrame(win, fg_color="transparent")
+        btn_row.pack(pady=8)
+        for c in range(COLS):
+            ctk.CTkButton(btn_row, text=str(c+1), width=48, fg_color="#45475A",
+                          command=lambda cc=c: play_col(cc)).pack(side="left", padx=2)
+
+    def _open_nonogram(self):
+        """Simple 5x5 nonogram."""
+        import random as _rnd
+        win = ctk.CTkToplevel(self)
+        win.title("Nonogram 5×5")
+        win.geometry("420x500")
+        win.configure(fg_color="#11111B")
+        win.lift(); win.focus_force()
+        if not hasattr(self, "_open_game_windows"):
+            self._open_game_windows = []
+        self._open_game_windows.append(win)
+        # generate solution pattern
+        sol = [[_rnd.randint(0, 1) for _ in range(5)] for _ in range(5)]
+        def runs(line):
+            out, cnt = [], 0
+            for v in line + [0]:
+                if v:
+                    cnt += 1
+                elif cnt:
+                    out.append(cnt); cnt = 0
+            return out or [0]
+        row_clues = [runs(r) for r in sol]
+        col_clues = [runs([sol[r][c] for r in range(5)]) for c in range(5)]
+        grid = [[0]*5 for _ in range(5)]
+        state = {"t0": time.time(), "moves": 0}
+        ctk.CTkLabel(win, text="Nonogram — click cells to match clues", text_color="#CDD6F4").pack(pady=6)
+        outer = ctk.CTkFrame(win, fg_color="#181825")
+        outer.pack(pady=8)
+        btns = [[None]*5 for _ in range(5)]
+        # col clues
+        for c in range(5):
+            ctk.CTkLabel(outer, text=" ".join(map(str, col_clues[c])), width=40,
+                         text_color="#89B4FA", font=ctk.CTkFont(size=10)).grid(row=0, column=c+1)
+        for r in range(5):
+            ctk.CTkLabel(outer, text=" ".join(map(str, row_clues[r])), width=40,
+                         text_color="#89B4FA", font=ctk.CTkFont(size=10)).grid(row=r+1, column=0)
+            for c in range(5):
+                b = ctk.CTkButton(outer, text="", width=40, height=40, fg_color="#313244",
+                                  command=lambda rr=r, cc=c: flip(rr, cc))
+                b.grid(row=r+1, column=c+1, padx=1, pady=1)
+                btns[r][c] = b
+        info = ctk.CTkLabel(win, text="", text_color="#A6ADC8")
+        info.pack()
+
+        def flip(r, c):
+            state["moves"] += 1
+            grid[r][c] = 1 - grid[r][c]
+            btns[r][c].configure(fg_color="#A6E3A1" if grid[r][c] else "#313244")
+            if grid == sol:
+                elapsed = time.time() - state["t0"]
+                score = min(100, 55 + max(0, 30 - state["moves"]))
+                self._save_brain_score("Nonogram", 5, score,
+                    f"solved · moves {state['moves']} · {elapsed:.0f}s",
+                    metrics={"moves": state["moves"], "time_sec": elapsed, "success": True})
+                info.configure(text=f"Solved! Score {score}%", text_color="#A6E3A1")
+
+        ctk.CTkButton(win, text="Show Solution", fg_color="#313244", command=lambda: info.configure(
+            text="Solution revealed (no score)", text_color="#FAB387")).pack(pady=8)
+
+
+    # ==========================================================================
+    # CV & RESUME BUILDER (ATS-Friendly + Professional CV)
+    # Does not fabricate data — profile or manual only
+    # ==========================================================================
+    def _build_resume(self):
+        """Root container for Resume Builder — method selection home."""
+        self.resume_root = ctk.CTkFrame(self.tab_resume, fg_color="transparent")
+        self.resume_root.pack(fill="both", expand=True)
+        self._resume_show_home()
+
+    def _resume_clear_root(self):
+        for w in self.resume_root.winfo_children():
+            w.destroy()
+
+    def _resume_show_home(self):
+        self._resume_clear_root()
+        f = ctk.CTkScrollableFrame(self.resume_root, fg_color="transparent")
+        f.pack(fill="both", expand=True, padx=12, pady=8)
+
+        ctk.CTkLabel(f, text="CV & Resume Builder", font=ctk.CTkFont(size=22, weight="bold"),
+                     text_color="#CDD6F4").pack(anchor="w")
+        ctk.CTkLabel(
+            f,
+            text="Create a professional CV or ATS-friendly resume from your Acadexa profile or your own information.",
+            text_color="#A6ADC8", font=ctk.CTkFont(size=12), wraplength=700, justify="left",
+        ).pack(anchor="w", pady=(2, 14))
+
+        # Document type
+        type_row = ctk.CTkFrame(f, fg_color="#181825", corner_radius=12)
+        type_row.pack(fill="x", pady=(0, 14))
+        ctk.CTkLabel(type_row, text="Resume / CV Type", font=ctk.CTkFont(size=14, weight="bold"),
+                     text_color="#89B4FA").pack(anchor="w", padx=14, pady=(12, 4))
+        self.resume_doc_type = ctk.StringVar(value="ATS-Friendly Resume")
+        ctk.CTkOptionMenu(
+            type_row,
+            variable=self.resume_doc_type,
+            values=["ATS-Friendly Resume", "Professional CV"],
+            fg_color="#313244", width=280,
+        ).pack(anchor="w", padx=14, pady=(0, 12))
+
+        cards = ctk.CTkFrame(f, fg_color="transparent")
+        cards.pack(fill="x")
+        cards.grid_columnconfigure((0, 1), weight=1)
+
+        # Card 1 — Profile
+        c1 = ctk.CTkFrame(cards, fg_color="#181825", corner_radius=14, border_width=1, border_color="#313244")
+        c1.grid(row=0, column=0, sticky="nsew", padx=(0, 8), pady=4)
+        ctk.CTkLabel(c1, text="Create from Acadexa Profile", font=ctk.CTkFont(size=16, weight="bold"),
+                     text_color="#89B4FA").pack(anchor="w", padx=16, pady=(16, 6))
+        ctk.CTkLabel(
+            c1,
+            text="Use your saved academic, skill, project, and career information to automatically build your CV or resume.",
+            text_color="#A6ADC8", font=ctk.CTkFont(size=12), wraplength=320, justify="left",
+        ).pack(anchor="w", padx=16, pady=(0, 12))
+        ctk.CTkButton(
+            c1, text="Use My Profile", fg_color="#A6E3A1", text_color="#11111B",
+            font=ctk.CTkFont(weight="bold"), height=36,
+            command=self._resume_from_profile,
+        ).pack(anchor="w", padx=16, pady=(0, 16))
+
+        # Card 2 — Manual
+        c2 = ctk.CTkFrame(cards, fg_color="#181825", corner_radius=14, border_width=1, border_color="#313244")
+        c2.grid(row=0, column=1, sticky="nsew", padx=(8, 0), pady=4)
+        ctk.CTkLabel(c2, text="Enter Information Manually", font=ctk.CTkFont(size=16, weight="bold"),
+                     text_color="#89B4FA").pack(anchor="w", padx=16, pady=(16, 6))
+        ctk.CTkLabel(
+            c2,
+            text="Provide your information through a guided form and generate a new professional CV or resume.",
+            text_color="#A6ADC8", font=ctk.CTkFont(size=12), wraplength=320, justify="left",
+        ).pack(anchor="w", padx=16, pady=(0, 12))
+        ctk.CTkButton(
+            c2, text="Enter Information", fg_color="#89B4FA", text_color="#11111B",
+            font=ctk.CTkFont(weight="bold"), height=36,
+            command=self._resume_manual_form,
+        ).pack(anchor="w", padx=16, pady=(0, 16))
+
+        # History
+        hist = self.user_data.get("resume_history", []) or []
+        ctk.CTkLabel(f, text="Resume History", font=ctk.CTkFont(size=16, weight="bold"),
+                     text_color="#CDD6F4").pack(anchor="w", pady=(20, 8))
+        if not hist:
+            ctk.CTkLabel(f, text="No saved resumes yet. Generate one to see it here.",
+                         text_color="#A6ADC8").pack(anchor="w")
+        else:
+            for i, r in enumerate(reversed(hist[-12:])):
+                card = ctk.CTkFrame(f, fg_color="#11111B", corner_radius=8, border_width=1, border_color="#313244")
+                card.pack(fill="x", pady=4)
+                left = ctk.CTkFrame(card, fg_color="transparent")
+                left.pack(side="left", fill="x", expand=True, padx=12, pady=8)
+                ctk.CTkLabel(left, text=r.get("name", "Resume"), font=ctk.CTkFont(size=13, weight="bold"),
+                             text_color="#CDD6F4").pack(anchor="w")
+                ctk.CTkLabel(
+                    left,
+                    text=f"{r.get('doc_type', '')} · Target: {r.get('target_role', '—')} · {r.get('created', '')}",
+                    text_color="#A6ADC8", font=ctk.CTkFont(size=11),
+                ).pack(anchor="w")
+                btns = ctk.CTkFrame(card, fg_color="transparent")
+                btns.pack(side="right", padx=8)
+                idx = len(hist) - 1 - i
+                ctk.CTkButton(btns, text="View", width=60, fg_color="#313244",
+                              command=lambda j=idx: self._resume_view_saved(j)).pack(side="left", padx=2)
+                ctk.CTkButton(btns, text="PDF", width=50, fg_color="#89B4FA", text_color="#11111B",
+                              command=lambda j=idx: self._resume_download_saved(j)).pack(side="left", padx=2)
+                ctk.CTkButton(btns, text="✕", width=32, fg_color="#F38BA8", text_color="#11111B",
+                              command=lambda j=idx: self._resume_delete_saved(j)).pack(side="left", padx=2)
+
+    def _resume_collect_from_profile(self):
+        """Map Student Intelligence Profile → resume dict. Never invent fields."""
+        sp = self.user_data.get("student_profile", {}) or {}
+        courses = self.user_data.get("courses", []) or []
+        skills = self.user_data.get("skills", []) or []
+        projects = self.user_data.get("projects", []) or []
+        name = (sp.get("name") or "").strip()
+        data = {
+            "full_name": name,
+            "title": (sp.get("career_goal") or "").strip(),
+            "email": (sp.get("email") or "").strip(),
+            "phone": (sp.get("phone") or "").strip(),
+            "location": (sp.get("location") or "").strip(),
+            "linkedin": (sp.get("linkedin") or "").strip(),
+            "github": (sp.get("github") or "").strip(),
+            "portfolio": (sp.get("portfolio") or "").strip(),
+            "photo": (sp.get("profile_pic") or "").strip(),
+            "summary": "",
+            "objective": (sp.get("career_goal") or "").strip(),
+            "education": [],
+            "experience": [],
+            "projects": [],
+            "skills_technical": [],
+            "skills_soft": [],
+            "certifications": list(self.user_data.get("certifications", []) or []),
+            "achievements": list(self.user_data.get("achievements", []) or []),
+            "research": list(self.user_data.get("research", []) or []),
+            "languages": list(self.user_data.get("languages", []) or []),
+            "target_role": (sp.get("career_goal") or "").strip(),
+            "target_industry": "",
+            "job_description": "",
+        }
+        # Education from profile
+        uni = (sp.get("university") or "").strip()
+        deg = (sp.get("degree") or "").strip()
+        gpa_raw = str(sp.get("gpa") or "").strip()
+        try:
+            gpa_ok = gpa_raw and float(gpa_raw) > 0
+        except Exception:
+            gpa_ok = bool(gpa_raw) and gpa_raw not in ("0", "0.0", "0.00")
+        if uni or deg or gpa_ok or sp.get("graduation_year"):
+            data["education"].append({
+                "degree": deg,
+                "university": uni,
+                "department": (sp.get("department") or sp.get("major") or "").strip(),
+                "start_year": "",
+                "grad_year": (sp.get("graduation_year") or "").strip(),
+                "gpa": gpa_raw if gpa_ok else "",
+                "coursework": ", ".join(
+                    c.get("title", "") for c in courses[:8] if c.get("title")
+                ),
+            })
+        # Build honest summary only from known fields (never invent jobs)
+        bits = []
+        if name and (deg or uni):
+            role = (sp.get("career_goal") or "student").strip()
+            bits.append(f"{name} is pursuing {deg or 'a degree'}" + (f" at {uni}" if uni else "") + ".")
+            if role:
+                bits.append(f"Career interest: {role}.")
+            dept = (sp.get("department") or sp.get("major") or "").strip()
+            if dept:
+                bits.append(f"Department: {dept}.")
+            if courses:
+                titles = [c.get("title") for c in courses[:5] if c.get("title")]
+                if titles:
+                    bits.append("Relevant coursework includes " + ", ".join(titles) + ".")
+            if skills:
+                sk = []
+                for s in skills[:8]:
+                    sk.append(s.get("name") if isinstance(s, dict) else str(s))
+                sk = [x for x in sk if x]
+                if sk:
+                    bits.append("Skills: " + ", ".join(sk) + ".")
+        data["summary"] = " ".join(bits)
+        # Skills list may be strings or dicts
+        for s in skills:
+            if isinstance(s, dict):
+                label = s.get("name") or s.get("skill") or ""
+                kind = (s.get("type") or "technical").lower()
+            else:
+                label = str(s)
+                kind = "technical"
+            if not label:
+                continue
+            if "soft" in kind:
+                data["skills_soft"].append(label)
+            else:
+                data["skills_technical"].append(label)
+        # Projects
+        for p in projects:
+            if isinstance(p, dict):
+                data["projects"].append({
+                    "name": p.get("name") or p.get("title") or "",
+                    "description": p.get("description") or "",
+                    "role": p.get("role") or "",
+                    "tech": p.get("technologies") or p.get("tech") or "",
+                    "duration": p.get("duration") or "",
+                    "github": p.get("github") or "",
+                    "demo": p.get("demo") or p.get("live") or "",
+                    "contributions": p.get("contributions") or p.get("outcome") or "",
+                })
+            elif str(p).strip():
+                data["projects"].append({
+                    "name": str(p), "description": "", "role": "", "tech": "",
+                    "duration": "", "github": "", "demo": "", "contributions": "",
+                })
+        return data
+
+    def _resume_from_profile(self):
+        data = self._resume_collect_from_profile()
+        has_core = bool(data.get("full_name")) and (
+            data.get("education") or data.get("skills_technical") or data.get("projects")
+            or data.get("title")
+        )
+        if not has_core:
+            self._resume_clear_root()
+            f = ctk.CTkFrame(self.resume_root, fg_color="transparent")
+            f.pack(fill="both", expand=True, padx=20, pady=30)
+            ctk.CTkLabel(
+                f, text="Your Acadexa profile does not contain enough information to create a complete resume.",
+                text_color="#FAB387", font=ctk.CTkFont(size=14), wraplength=520, justify="left",
+            ).pack(anchor="w", pady=8)
+            ctk.CTkButton(f, text="Complete My Profile", fg_color="#89B4FA", text_color="#11111B",
+                          command=lambda: self.tabview.set("Student Intelligence Profile")).pack(anchor="w", pady=6)
+            ctk.CTkButton(f, text="Enter Information Manually", fg_color="#A6E3A1", text_color="#11111B",
+                          command=self._resume_manual_form).pack(anchor="w", pady=6)
+            ctk.CTkButton(f, text="← Back", fg_color="#313244", command=self._resume_show_home).pack(anchor="w", pady=12)
+            return
+        self._resume_show_review(data, source="profile")
+
+    def _resume_manual_form(self, prefill=None):
+        self._resume_clear_root()
+        data = prefill or {
+            "full_name": "", "title": "", "email": "", "phone": "", "location": "",
+            "linkedin": "", "github": "", "portfolio": "", "photo": "",
+            "summary": "", "objective": "",
+            "education": [{"degree": "", "university": "", "department": "", "start_year": "",
+                           "grad_year": "", "gpa": "", "coursework": ""}],
+            "experience": [],
+            "projects": [{"name": "", "description": "", "role": "", "tech": "",
+                          "duration": "", "github": "", "demo": "", "contributions": ""}],
+            "skills_technical": [], "skills_soft": [],
+            "certifications": [], "achievements": [], "research": [], "languages": [],
+            "target_role": "", "target_industry": "", "job_description": "",
+        }
+        # Prefill name from profile if empty
+        sp = self.user_data.get("student_profile", {})
+        if not data.get("full_name") and sp.get("name"):
+            data["full_name"] = sp.get("name", "")
+
+        scroll = ctk.CTkScrollableFrame(self.resume_root, fg_color="transparent")
+        scroll.pack(fill="both", expand=True, padx=10, pady=6)
+
+        ctk.CTkLabel(scroll, text="Manual Resume Information", font=ctk.CTkFont(size=18, weight="bold"),
+                     text_color="#CDD6F4").pack(anchor="w", pady=(0, 4))
+        ctk.CTkButton(scroll, text="← Back", width=80, fg_color="#313244",
+                      command=self._resume_show_home).pack(anchor="w", pady=(0, 10))
+
+        self._resume_form_vars = {}
+        self._resume_list_frames = {}
+
+        def section(title):
+            ctk.CTkLabel(scroll, text=title, font=ctk.CTkFont(size=14, weight="bold"),
+                         text_color="#89B4FA").pack(anchor="w", pady=(14, 4))
+
+        def field(label, key, placeholder="", height=None):
+            ctk.CTkLabel(scroll, text=label, text_color="#CDD6F4", font=ctk.CTkFont(size=12)).pack(anchor="w")
+            if height:
+                w = ctk.CTkTextbox(scroll, height=height, fg_color="#181825", border_color="#313244")
+                w.insert("1.0", data.get(key, "") or "")
+                w.pack(fill="x", pady=(0, 6))
+            else:
+                w = ctk.CTkEntry(scroll, placeholder_text=placeholder, fg_color="#181825", border_color="#313244")
+                w.insert(0, data.get(key, "") or "")
+                w.pack(fill="x", pady=(0, 6))
+            self._resume_form_vars[key] = w
+            return w
+
+        section("A. Personal Information")
+        field("Full Name *", "full_name", "Your full name")
+        field("Professional Title / Target Role", "title", "e.g. Software Engineering Student")
+        field("Email *", "email", "you@email.com")
+        field("Phone", "phone")
+        field("Location", "location", "City, Country")
+        field("LinkedIn URL", "linkedin", "https://linkedin.com/in/...")
+        field("GitHub URL", "github", "https://github.com/...")
+        field("Portfolio URL", "portfolio", "https://...")
+
+        # Photo
+        ctk.CTkLabel(scroll, text="Profile Photo (Optional — Professional CV)", text_color="#CDD6F4").pack(anchor="w")
+        photo_row = ctk.CTkFrame(scroll, fg_color="#181825", corner_radius=8)
+        photo_row.pack(fill="x", pady=(0, 8))
+        self._resume_photo_path = data.get("photo") or ""
+        self._resume_photo_lbl = ctk.CTkLabel(photo_row, text="No photo", text_color="#A6ADC8")
+        self._resume_photo_lbl.pack(side="left", padx=12, pady=10)
+        if self._resume_photo_path and os.path.exists(self._resume_photo_path):
+            try:
+                self._resume_photo_lbl.configure(image=make_circular_image(self._resume_photo_path, size=(48, 48)), text="")
+            except Exception:
+                pass
+
+        def pick_photo():
+            from tkinter import filedialog, messagebox
+            p = filedialog.askopenfilename(filetypes=[("Images", "*.jpg;*.jpeg;*.png")])
+            if not p:
+                return
+            if os.path.getsize(p) > 5 * 1024 * 1024:
+                messagebox.showwarning("Photo", "Please use an image under 5 MB.")
+                return
+            self._resume_photo_path = p
+            self._resume_photo_lbl.configure(image=make_circular_image(p, size=(48, 48)), text="")
+
+        def clear_photo():
+            self._resume_photo_path = ""
+            self._resume_photo_lbl.configure(image=None, text="No photo")
+
+        ctk.CTkButton(photo_row, text="Upload Photo", fg_color="#89B4FA", text_color="#11111B",
+                      command=pick_photo).pack(side="left", padx=4)
+        ctk.CTkButton(photo_row, text="Remove", fg_color="#313244", command=clear_photo).pack(side="left", padx=4)
+
+        section("B. Professional Summary")
+        field("Professional Summary", "summary", height=80)
+        field("Career Objective", "objective", height=60)
+
+        def gen_summary():
+            name = self._resume_form_vars["full_name"].get().strip() or "Candidate"
+            title = self._resume_form_vars["title"].get().strip() or "student"
+            obj = self._resume_form_vars["objective"].get("1.0", "end").strip() if hasattr(
+                self._resume_form_vars["objective"], "get") else ""
+            # Only use what user typed — no invention
+            text = (
+                f"{name} is a motivated {title} seeking opportunities to apply academic knowledge "
+                f"and grow professionally."
+            )
+            if obj:
+                text = obj if len(obj) > 40 else f"{text} {obj}"
+            self._resume_form_vars["summary"].delete("1.0", "end")
+            self._resume_form_vars["summary"].insert("1.0", text)
+
+        ctk.CTkButton(scroll, text="Generate Summary (from your fields only)", fg_color="#313244",
+                      command=gen_summary).pack(anchor="w", pady=4)
+
+        section("C. Education")
+        edu_box = ctk.CTkFrame(scroll, fg_color="#11111B", corner_radius=8)
+        edu_box.pack(fill="x", pady=4)
+        self._resume_list_frames["education"] = edu_box
+        self._resume_edu_entries = []
+
+        def add_edu(pre=None):
+            pre = pre or {}
+            row = ctk.CTkFrame(edu_box, fg_color="#181825", corner_radius=6)
+            row.pack(fill="x", padx=6, pady=4)
+            ents = {}
+            for lab, k, ph in [
+                ("Degree", "degree", "B.Sc. in CSE"),
+                ("University", "university", "University name"),
+                ("Department", "department", "CSE"),
+                ("Grad Year", "grad_year", "2026"),
+                ("GPA", "gpa", "3.5"),
+            ]:
+                ctk.CTkLabel(row, text=lab, text_color="#A6ADC8", width=90, anchor="w").pack(side="left", padx=2)
+                e = ctk.CTkEntry(row, width=110, placeholder_text=ph, fg_color="#11111B")
+                e.insert(0, pre.get(k, ""))
+                e.pack(side="left", padx=2, pady=6)
+                ents[k] = e
+            ents["coursework"] = ctk.CTkEntry(row, width=140, placeholder_text="Coursework", fg_color="#11111B")
+            ents["coursework"].insert(0, pre.get("coursework", ""))
+            ents["coursework"].pack(side="left", padx=2)
+            ents["start_year"] = ctk.CTkEntry(row, width=60, placeholder_text="Start", fg_color="#11111B")
+            ents["start_year"].insert(0, pre.get("start_year", ""))
+            ents["start_year"].pack(side="left", padx=2)
+
+            def rm():
+                row.destroy()
+                if row in [x[0] for x in self._resume_edu_entries]:
+                    self._resume_edu_entries = [x for x in self._resume_edu_entries if x[0] is not row]
+
+            ctk.CTkButton(row, text="✕", width=28, fg_color="#F38BA8", text_color="#11111B", command=rm).pack(side="right", padx=4)
+            self._resume_edu_entries.append((row, ents))
+
+        for ed in data.get("education") or [{}]:
+            add_edu(ed)
+        ctk.CTkButton(scroll, text="+ Add Education", fg_color="#313244", command=lambda: add_edu()).pack(anchor="w", pady=4)
+
+        section("D. Work Experience (optional)")
+        ctk.CTkLabel(scroll, text="Leave empty if you have no professional experience yet.",
+                     text_color="#A6ADC8", font=ctk.CTkFont(size=11)).pack(anchor="w")
+        exp_box = ctk.CTkFrame(scroll, fg_color="#11111B", corner_radius=8)
+        exp_box.pack(fill="x", pady=4)
+        self._resume_exp_entries = []
+
+        def add_exp(pre=None):
+            pre = pre or {}
+            row = ctk.CTkFrame(exp_box, fg_color="#181825", corner_radius=6)
+            row.pack(fill="x", padx=6, pady=4)
+            ents = {}
+            grid = ctk.CTkFrame(row, fg_color="transparent")
+            grid.pack(fill="x", padx=4, pady=4)
+            for lab, k in [("Job Title", "title"), ("Organization", "org"), ("Type", "emp_type"),
+                           ("Location", "location"), ("Start", "start"), ("End", "end")]:
+                ctk.CTkLabel(grid, text=lab, text_color="#A6ADC8", width=80, anchor="w").pack(side="left")
+                e = ctk.CTkEntry(grid, width=100, fg_color="#11111B")
+                e.insert(0, pre.get(k, ""))
+                e.pack(side="left", padx=2)
+                ents[k] = e
+            resp = ctk.CTkTextbox(row, height=50, fg_color="#11111B")
+            resp.insert("1.0", pre.get("responsibilities", ""))
+            resp.pack(fill="x", padx=6, pady=2)
+            ents["responsibilities"] = resp
+            ach = ctk.CTkTextbox(row, height=40, fg_color="#11111B")
+            ach.insert("1.0", pre.get("achievements", ""))
+            ach.pack(fill="x", padx=6, pady=2)
+            ents["achievements"] = ach
+
+            def rm():
+                row.destroy()
+                self._resume_exp_entries = [x for x in self._resume_exp_entries if x[0] is not row]
+            ctk.CTkButton(row, text="Remove Experience", fg_color="#F38BA8", text_color="#11111B",
+                          command=rm).pack(anchor="e", padx=6, pady=4)
+            self._resume_exp_entries.append((row, ents))
+
+        for ex in data.get("experience") or []:
+            add_exp(ex)
+        ctk.CTkButton(scroll, text="+ Add Experience", fg_color="#313244", command=lambda: add_exp()).pack(anchor="w", pady=4)
+
+        section("E. Projects")
+        proj_box = ctk.CTkFrame(scroll, fg_color="#11111B", corner_radius=8)
+        proj_box.pack(fill="x", pady=4)
+        self._resume_proj_entries = []
+
+        def add_proj(pre=None):
+            pre = pre or {}
+            row = ctk.CTkFrame(proj_box, fg_color="#181825", corner_radius=6)
+            row.pack(fill="x", padx=6, pady=4)
+            ents = {}
+            for lab, k, ph in [("Name *", "name", "Project name"), ("Role", "role", "Developer"),
+                               ("Tech", "tech", "Python, React"), ("Duration", "duration", "3 months"),
+                               ("GitHub", "github", "https://..."), ("Demo", "demo", "https://...")]:
+                ctk.CTkLabel(row, text=lab, text_color="#A6ADC8").pack(anchor="w", padx=6)
+                e = ctk.CTkEntry(row, placeholder_text=ph, fg_color="#11111B")
+                e.insert(0, pre.get(k, ""))
+                e.pack(fill="x", padx=6, pady=2)
+                ents[k] = e
+            for lab, k in [("Description", "description"), ("Contributions / Outcome", "contributions")]:
+                ctk.CTkLabel(row, text=lab, text_color="#A6ADC8").pack(anchor="w", padx=6)
+                t = ctk.CTkTextbox(row, height=45, fg_color="#11111B")
+                t.insert("1.0", pre.get(k, ""))
+                t.pack(fill="x", padx=6, pady=2)
+                ents[k] = t
+
+            def rm():
+                row.destroy()
+                self._resume_proj_entries = [x for x in self._resume_proj_entries if x[0] is not row]
+            ctk.CTkButton(row, text="Remove Project", fg_color="#F38BA8", text_color="#11111B",
+                          command=rm).pack(anchor="e", padx=6, pady=4)
+            self._resume_proj_entries.append((row, ents))
+
+        for pr in data.get("projects") or [{}]:
+            add_proj(pr)
+        ctk.CTkButton(scroll, text="+ Add Project", fg_color="#313244", command=lambda: add_proj()).pack(anchor="w", pady=4)
+
+        section("F. Skills")
+        field("Technical Skills (comma-separated)", "skills_tech_str",
+              placeholder="Python, SQL, Machine Learning, Git")
+        # prefill skills
+        if data.get("skills_technical"):
+            self._resume_form_vars["skills_tech_str"].delete(0, "end")
+            self._resume_form_vars["skills_tech_str"].insert(0, ", ".join(data["skills_technical"]))
+        field("Soft Skills (comma-separated)", "skills_soft_str", placeholder="Communication, Teamwork")
+        if data.get("skills_soft"):
+            self._resume_form_vars["skills_soft_str"].delete(0, "end")
+            self._resume_form_vars["skills_soft_str"].insert(0, ", ".join(data["skills_soft"]))
+
+        def import_skills():
+            skills = self.user_data.get("skills", []) or []
+            tech = []
+            for s in skills:
+                tech.append(s.get("name") if isinstance(s, dict) else str(s))
+            if tech:
+                cur = self._resume_form_vars["skills_tech_str"].get().strip()
+                merged = ", ".join(filter(None, [cur] + tech))
+                self._resume_form_vars["skills_tech_str"].delete(0, "end")
+                self._resume_form_vars["skills_tech_str"].insert(0, merged)
+        ctk.CTkButton(scroll, text="Import Skills from Acadexa Profile", fg_color="#313244",
+                      command=import_skills).pack(anchor="w", pady=4)
+
+        section("G–K. Certifications, Achievements, Languages (optional)")
+        field("Certifications (one per line: Name | Org | Date | URL)", "certs_text", height=60)
+        field("Achievements (one per line)", "achievements_text", height=50)
+        field("Languages (e.g. English — Professional)", "languages_text", height=40)
+
+        section("Target Job / Career (optional)")
+        field("Target Job Title", "target_role", "Software Engineer Intern")
+        field("Target Industry", "target_industry", "Technology")
+        field("Job Description (paste full JD for tailoring)", "job_description", height=100)
+
+        def analyze_jd():
+            jd = self._resume_form_vars["job_description"].get("1.0", "end").strip()
+            res_bits = []
+            res_bits.append(self._resume_form_vars["skills_tech_str"].get())
+            res_bits.append(self._resume_form_vars.get("summary").get("1.0", "end") if hasattr(
+                self._resume_form_vars.get("summary"), "get") else "")
+            resume_txt = " ".join(str(x) for x in res_bits)
+            if not jd:
+                return
+            score, matched, missing = job_matcher.match(resume_txt, jd)
+            from tkinter import messagebox
+            messagebox.showinfo(
+                "Job Description Analysis",
+                f"Keyword alignment (estimate): {score}%\n\n"
+                f"Matched: {', '.join(matched[:15]) or 'None'}\n\n"
+                f"Missing keywords to consider (do not invent skills): {', '.join(missing[:15]) or 'None'}\n\n"
+                f"This is not a guarantee of ATS success.",
+            )
+        ctk.CTkButton(scroll, text="Analyze Job Description", fg_color="#FAB387", text_color="#11111B",
+                      command=analyze_jd).pack(anchor="w", pady=6)
+
+        def collect_and_review():
+            d = self._resume_gather_form()
+            errs = []
+            if not d.get("full_name"):
+                errs.append("Please enter your full name.")
+            email = d.get("email") or ""
+            if not email or "@" not in email:
+                errs.append("Please enter a valid email address.")
+            if errs:
+                from tkinter import messagebox
+                messagebox.showwarning("Validation", "\n".join(errs))
+                return
+            self._resume_show_review(d, source="manual")
+
+        ctk.CTkButton(scroll, text="Review & Continue →", fg_color="#A6E3A1", text_color="#11111B",
+                      font=ctk.CTkFont(weight="bold"), height=40, command=collect_and_review).pack(fill="x", pady=16)
+
+    def _resume_gather_form(self):
+        def gv(key):
+            w = self._resume_form_vars.get(key)
+            if w is None:
+                return ""
+            if isinstance(w, ctk.CTkTextbox):
+                return w.get("1.0", "end").strip()
+            return w.get().strip()
+
+        def parse_lines(text, seps=True):
+            rows = []
+            for line in (text or "").splitlines():
+                line = line.strip()
+                if not line:
+                    continue
+                if seps and "|" in line:
+                    parts = [p.strip() for p in line.split("|")]
+                    rows.append({"name": parts[0] if parts else "", "org": parts[1] if len(parts) > 1 else "",
+                                 "date": parts[2] if len(parts) > 2 else "", "url": parts[3] if len(parts) > 3 else ""})
+                else:
+                    rows.append(line)
+            return rows
+
+        edu = []
+        for _, ents in getattr(self, "_resume_edu_entries", []):
+            try:
+                item = {k: ents[k].get().strip() for k in ents}
+            except Exception:
+                continue
+            if any(item.values()):
+                edu.append(item)
+
+        exp = []
+        for _, ents in getattr(self, "_resume_exp_entries", []):
+            item = {}
+            for k, w in ents.items():
+                item[k] = w.get("1.0", "end").strip() if isinstance(w, ctk.CTkTextbox) else w.get().strip()
+            if item.get("title") or item.get("org"):
+                exp.append(item)
+
+        projs = []
+        for _, ents in getattr(self, "_resume_proj_entries", []):
+            item = {}
+            for k, w in ents.items():
+                item[k] = w.get("1.0", "end").strip() if isinstance(w, ctk.CTkTextbox) else w.get().strip()
+            if item.get("name"):
+                projs.append(item)
+
+        tech = [s.strip() for s in gv("skills_tech_str").split(",") if s.strip()]
+        soft = [s.strip() for s in gv("skills_soft_str").split(",") if s.strip()]
+        certs = parse_lines(gv("certs_text"))
+        ach = parse_lines(gv("achievements_text"), seps=False)
+        langs = parse_lines(gv("languages_text"), seps=False)
+
+        return {
+            "full_name": gv("full_name"),
+            "title": gv("title"),
+            "email": gv("email"),
+            "phone": gv("phone"),
+            "location": gv("location"),
+            "linkedin": gv("linkedin"),
+            "github": gv("github"),
+            "portfolio": gv("portfolio"),
+            "photo": getattr(self, "_resume_photo_path", "") or "",
+            "summary": gv("summary"),
+            "objective": gv("objective"),
+            "education": edu,
+            "experience": exp,
+            "projects": projs,
+            "skills_technical": tech,
+            "skills_soft": soft,
+            "certifications": certs,
+            "achievements": ach,
+            "research": [],
+            "languages": langs,
+            "target_role": gv("target_role"),
+            "target_industry": gv("target_industry"),
+            "job_description": gv("job_description"),
+        }
+
+    def _resume_show_review(self, data, source="manual"):
+        self._resume_draft = data
+        self._resume_clear_root()
+        scroll = ctk.CTkScrollableFrame(self.resume_root, fg_color="transparent")
+        scroll.pack(fill="both", expand=True, padx=12, pady=8)
+
+        ctk.CTkLabel(scroll, text="Review Information Before Generation",
+                     font=ctk.CTkFont(size=18, weight="bold"), text_color="#CDD6F4").pack(anchor="w")
+        ctk.CTkLabel(scroll, text=f"Source: {source} · Type: {self.resume_doc_type.get()}",
+                     text_color="#A6ADC8").pack(anchor="w", pady=(0, 10))
+
+        preview = self._resume_format_text(data, self.resume_doc_type.get())
+        box = ctk.CTkTextbox(scroll, height=420, fg_color="#181825", border_color="#313244",
+                             font=ctk.CTkFont(family="Consolas", size=12))
+        box.pack(fill="both", expand=True, pady=6)
+        box.insert("1.0", preview)
+        box.configure(state="disabled")
+        self._resume_preview_box = box
+
+        row = ctk.CTkFrame(scroll, fg_color="transparent")
+        row.pack(fill="x", pady=12)
+        ctk.CTkButton(row, text="← Edit", fg_color="#313244",
+                      command=lambda: self._resume_manual_form(prefill=data)).pack(side="left", padx=4)
+        ctk.CTkButton(row, text="Generate Document", fg_color="#A6E3A1", text_color="#11111B",
+                      font=ctk.CTkFont(weight="bold"), height=36,
+                      command=lambda: self._resume_generate(data)).pack(side="left", padx=4)
+        ctk.CTkButton(row, text="Home", fg_color="#313244", command=self._resume_show_home).pack(side="left", padx=4)
+
+    def _resume_format_text(self, data, doc_type="ATS-Friendly Resume"):
+        lines = []
+        name = data.get("full_name") or "Name"
+        lines.append(name.upper())
+        if data.get("title"):
+            lines.append(data["title"])
+        contact = " | ".join(filter(None, [
+            data.get("email"), data.get("phone"), data.get("location"),
+            data.get("linkedin"), data.get("github"), data.get("portfolio"),
+        ]))
+        if contact:
+            lines.append(contact)
+        lines.append("=" * 60)
+
+        if data.get("summary") or data.get("objective"):
+            lines.append("\nPROFESSIONAL SUMMARY")
+            lines.append("-" * 40)
+            lines.append(data.get("summary") or data.get("objective") or "")
+
+        tech = data.get("skills_technical") or []
+        soft = data.get("skills_soft") or []
+        if tech or soft:
+            lines.append("\nSKILLS")
+            lines.append("-" * 40)
+            if tech:
+                lines.append("Technical: " + ", ".join(tech))
+            if soft:
+                lines.append("Soft: " + ", ".join(soft))
+
+        if data.get("experience"):
+            lines.append("\nEXPERIENCE")
+            lines.append("-" * 40)
+            for e in data["experience"]:
+                head = " · ".join(filter(None, [e.get("title"), e.get("org"), e.get("emp_type")]))
+                dates = " – ".join(filter(None, [e.get("start"), e.get("end") or "Present"]))
+                lines.append(f"{head} ({dates})" if dates else head)
+                if e.get("location"):
+                    lines.append(f"  {e['location']}")
+                for bullet in (e.get("responsibilities") or "").splitlines():
+                    if bullet.strip():
+                        lines.append(f"  • {bullet.strip()}")
+                for bullet in (e.get("achievements") or "").splitlines():
+                    if bullet.strip():
+                        lines.append(f"  • {bullet.strip()}")
+
+        if data.get("projects"):
+            lines.append("\nPROJECTS")
+            lines.append("-" * 40)
+            for p in data["projects"]:
+                if not p.get("name"):
+                    continue
+                lines.append(p["name"] + (f" — {p['role']}" if p.get("role") else ""))
+                if p.get("tech"):
+                    lines.append(f"  Technologies: {p['tech']}")
+                if p.get("description"):
+                    for b in p["description"].splitlines():
+                        if b.strip():
+                            lines.append(f"  • {b.strip()}")
+                if p.get("contributions"):
+                    for b in p["contributions"].splitlines():
+                        if b.strip():
+                            lines.append(f"  • {b.strip()}")
+                links = " | ".join(filter(None, [p.get("github"), p.get("demo")]))
+                if links:
+                    lines.append(f"  {links}")
+
+        if data.get("education"):
+            lines.append("\nEDUCATION")
+            lines.append("-" * 40)
+            for e in data["education"]:
+                head = " · ".join(filter(None, [e.get("degree"), e.get("university"), e.get("department")]))
+                if head:
+                    lines.append(head)
+                gpa_v = str(e.get("gpa") or "").strip()
+                try:
+                    show_gpa = gpa_v and float(gpa_v) > 0
+                except Exception:
+                    show_gpa = gpa_v and gpa_v not in ("0", "0.0", "0.00")
+                meta = " · ".join(filter(None, [
+                    e.get("grad_year") and f"Grad: {e['grad_year']}",
+                    show_gpa and f"GPA: {gpa_v}",
+                ]))
+                if meta:
+                    lines.append(f"  {meta}")
+                if e.get("coursework"):
+                    lines.append(f"  Coursework: {e['coursework']}")
+
+        if data.get("certifications"):
+            lines.append("\nCERTIFICATIONS")
+            lines.append("-" * 40)
+            for c in data["certifications"]:
+                if isinstance(c, dict):
+                    lines.append(" · ".join(filter(None, [c.get("name"), c.get("org"), c.get("date")])))
+                else:
+                    lines.append(str(c))
+
+        if data.get("achievements"):
+            lines.append("\nACHIEVEMENTS")
+            lines.append("-" * 40)
+            for a in data["achievements"]:
+                lines.append(f"• {a}" if isinstance(a, str) else f"• {a.get('name', a)}")
+
+        if data.get("languages"):
+            lines.append("\nLANGUAGES")
+            lines.append("-" * 40)
+            for L in data["languages"]:
+                lines.append(f"• {L}" if isinstance(L, str) else str(L))
+
+        if doc_type.startswith("Professional") and data.get("photo"):
+            lines.append("\n[Profile photo attached in PDF export]")
+
+        return "\n".join(lines)
+
+    def _resume_generate(self, data):
+        self._resume_clear_root()
+        f = ctk.CTkFrame(self.resume_root, fg_color="transparent")
+        f.pack(fill="both", expand=True, padx=20, pady=20)
+        ctk.CTkLabel(f, text="Creating Your Resume...", font=ctk.CTkFont(size=18, weight="bold"),
+                     text_color="#89B4FA").pack(pady=10)
+        prog = ctk.CTkProgressBar(f, width=400)
+        prog.pack(pady=8)
+        prog.set(0)
+        status = ctk.CTkLabel(f, text="", text_color="#A6ADC8")
+        status.pack()
+
+        steps = [
+            "Collecting information",
+            "Organizing education",
+            "Analyzing skills",
+            "Formatting projects",
+            "Optimizing content",
+            "Checking ATS compatibility",
+            "Generating document",
+        ]
+        self._resume_gen_i = 0
+
+        def tick():
+            i = self._resume_gen_i
+            if i < len(steps):
+                status.configure(text=f"✓ {steps[i]}")
+                prog.set((i + 1) / len(steps))
+                self._resume_gen_i += 1
+                self.after(280, tick)
+            else:
+                self._resume_show_result(data)
+
+        tick()
+
+    def _resume_show_result(self, data):
+        doc_type = self.resume_doc_type.get()
+        text = self._resume_format_text(data, doc_type)
+        # Save history (text only — no fabrication)
+        entry = {
+            "name": f"{data.get('full_name') or 'Resume'} — {data.get('target_role') or doc_type}",
+            "doc_type": doc_type,
+            "target_role": data.get("target_role") or "",
+            "created": datetime.now().strftime("%Y-%m-%d %H:%M"),
+            "data": data,
+            "text": text,
+            "ats_status": "Not analyzed",
+        }
+        self.user_data.setdefault("resume_history", []).append(entry)
+        self.user_data["resume_draft"] = data
+        db.save_user_profile(self.current_user_id, self.user_data)
+        self._resume_last = entry
+
+        self._resume_clear_root()
+        scroll = ctk.CTkScrollableFrame(self.resume_root, fg_color="transparent")
+        scroll.pack(fill="both", expand=True, padx=12, pady=8)
+
+        ctk.CTkLabel(scroll, text="Your Resume is Ready!", font=ctk.CTkFont(size=20, weight="bold"),
+                     text_color="#A6E3A1").pack(anchor="w", pady=(0, 6))
+
+        # A4-like preview
+        page = ctk.CTkFrame(scroll, fg_color="#FAFAFA", corner_radius=4, border_width=1, border_color="#313244")
+        page.pack(fill="x", pady=8)
+        preview = ctk.CTkTextbox(page, height=480, fg_color="#FAFAFA", text_color="#11111B",
+                                 font=ctk.CTkFont(family="Times", size=12), border_width=0)
+        preview.pack(fill="both", expand=True, padx=24, pady=20)
+        preview.insert("1.0", text)
+        preview.configure(state="disabled")
+
+        actions = ctk.CTkFrame(scroll, fg_color="transparent")
+        actions.pack(fill="x", pady=10)
+
+        def download_pdf():
+            self._resume_export_pdf(data, text, doc_type)
+
+        def analyze_ats():
+            from tkinter import messagebox
+            jd = (data.get("job_description") or "").strip()
+            if not jd:
+                win = ctk.CTkToplevel(self)
+                win.title("Paste Target Job Description")
+                win.geometry("560x420")
+                win.configure(fg_color="#11111B")
+                win.transient(self)
+                win.lift()
+                ctk.CTkLabel(
+                    win,
+                    text="Paste the full job description to estimate keyword alignment with your resume.",
+                    text_color="#CDD6F4", wraplength=500, justify="left",
+                ).pack(padx=12, pady=10)
+                tb = ctk.CTkTextbox(win, height=260, fg_color="#181825")
+                tb.pack(fill="both", expand=True, padx=12, pady=6)
+                out = {"jd": ""}
+
+                def ok():
+                    out["jd"] = tb.get("1.0", "end").strip()
+                    win.destroy()
+
+                ctk.CTkButton(win, text="Analyze with this JD", fg_color="#A6E3A1",
+                              text_color="#11111B", command=ok).pack(pady=10)
+                win.wait_window()
+                jd = out["jd"]
+                if not jd:
+                    messagebox.showinfo("ATS Analyze", "No job description provided.")
+                    return
+                data["job_description"] = jd
+            score, matched, missing = job_matcher.match(text, jd)
+            checks = []
+            if data.get("full_name") and data.get("email"):
+                checks.append("Contact block present")
+            elif data.get("full_name"):
+                checks.append("Name present (add email for stronger ATS parse)")
+            if data.get("education"):
+                checks.append("Education section present")
+            if data.get("skills_technical") or data.get("skills_soft"):
+                checks.append("Skills listed")
+            if data.get("projects") or data.get("experience"):
+                checks.append("Projects/Experience present")
+            if data.get("summary") or data.get("objective"):
+                checks.append("Summary present")
+            entry["ats_status"] = f"Alignment ~{score}%"
+            entry["data"] = data
+            db.save_user_profile(self.current_user_id, self.user_data)
+            messagebox.showinfo(
+                "ATS Analysis (Estimate)",
+                f"Estimated Job Alignment Score: {score}%\n\n"
+                f"Structure checks:\n- " + ("\n- ".join(checks) if checks else "Sparse resume") + "\n\n"
+                f"Matched keywords: {', '.join(matched[:12]) or 'None'}\n\n"
+                f"Missing keywords (add only if true for you):\n{', '.join(missing[:12]) or 'None'}\n\n"
+                f"This does NOT guarantee passing any ATS. Do not keyword-stuff.",
+            )
+
+        for label, cmd, color in [
+            ("Edit Resume", lambda: self._resume_manual_form(prefill=data), "#313244"),
+            ("Regenerate", lambda: self._resume_generate(data), "#313244"),
+            ("Download PDF", download_pdf, "#89B4FA"),
+            ("Analyze ATS", analyze_ats, "#FAB387"),
+            ("Create New", self._resume_show_home, "#313244"),
+        ]:
+            ctk.CTkButton(actions, text=label, fg_color=color,
+                          text_color="#11111B" if color != "#313244" else "#CDD6F4",
+                          command=cmd).pack(side="left", padx=4)
+
+    def _resume_export_pdf(self, data, text, doc_type):
+        from tkinter import filedialog, messagebox
+        default = f"{(data.get('full_name') or 'Resume').replace(' ', '_')}_{doc_type.replace(' ', '_')}.pdf"
+        path = filedialog.asksaveasfilename(defaultextension=".pdf", initialfile=default,
+                                            filetypes=[("PDF", "*.pdf")])
+        if not path:
+            return
+        try:
+            from reportlab.lib.pagesizes import A4
+            from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+            from reportlab.lib.units import inch
+            from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, HRFlowable, KeepTogether
+            from reportlab.lib.enums import TA_CENTER, TA_LEFT
+            from reportlab.lib import colors
+
+            def esc(s):
+                """Escape user text for ReportLab Paragraph (keep our own tags separate)."""
+                return (str(s) if s is not None else "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+            def bold_line(s):
+                return f"<b>{esc(s)}</b>"
+
+            def body_line(s):
+                return esc(s)
+
+            doc = SimpleDocTemplate(
+                path, pagesize=A4,
+                leftMargin=0.65 * inch, rightMargin=0.65 * inch,
+                topMargin=0.55 * inch, bottomMargin=0.55 * inch,
+            )
+            styles = getSampleStyleSheet()
+            name_style = ParagraphStyle(
+                "RName", parent=styles["Heading1"], fontSize=18, alignment=TA_CENTER,
+                textColor=colors.HexColor("#111111"), spaceAfter=2, leading=22,
+            )
+            sub_style = ParagraphStyle(
+                "RSub", parent=styles["Normal"], fontSize=10, alignment=TA_CENTER,
+                textColor=colors.HexColor("#333333"), spaceAfter=3, leading=13,
+            )
+            h_style = ParagraphStyle(
+                "RH", parent=styles["Heading2"], fontSize=11, spaceBefore=11, spaceAfter=3,
+                textColor=colors.HexColor("#111111"), fontName="Helvetica-Bold",
+            )
+            body = ParagraphStyle(
+                "RBody", parent=styles["Normal"], fontSize=10, leading=13,
+                textColor=colors.HexColor("#222222"),
+            )
+            bullet_style = ParagraphStyle(
+                "RBullet", parent=body, leftIndent=12, bulletIndent=0, spaceAfter=1,
+            )
+
+            story = []
+            story.append(Paragraph(esc(data.get("full_name") or "Resume"), name_style))
+            if data.get("title"):
+                story.append(Paragraph(esc(data["title"]), sub_style))
+            contact = "  |  ".join(filter(None, [
+                data.get("email"), data.get("phone"), data.get("location"),
+            ]))
+            if contact:
+                story.append(Paragraph(esc(contact), sub_style))
+            links = "  |  ".join(filter(None, [
+                data.get("linkedin"), data.get("github"), data.get("portfolio"),
+            ]))
+            if links:
+                story.append(Paragraph(esc(links), sub_style))
+            story.append(Spacer(1, 4))
+            story.append(HRFlowable(width="100%", thickness=1.2, color=colors.HexColor("#333333")))
+
+            def add_section(title, paragraphs):
+                """paragraphs: list of (style_name, text) where text is already safe XML."""
+                if not paragraphs:
+                    return
+                story.append(Paragraph(esc(title), h_style))
+                story.append(HRFlowable(width="100%", thickness=0.6, color=colors.HexColor("#999999")))
+                for kind, raw in paragraphs:
+                    if not raw:
+                        continue
+                    if kind == "bold":
+                        story.append(Paragraph(bold_line(raw), body))
+                    elif kind == "bullet":
+                        story.append(Paragraph("• " + body_line(raw), bullet_style))
+                    else:
+                        story.append(Paragraph(body_line(raw), body))
+                story.append(Spacer(1, 4))
+
+            # Summary
+            summary = (data.get("summary") or data.get("objective") or "").strip()
+            if summary:
+                add_section("PROFESSIONAL SUMMARY", [("body", summary)])
+
+            # Skills
+            skill_paras = []
+            if data.get("skills_technical"):
+                skill_paras.append(("body", "Technical: " + ", ".join(data["skills_technical"])))
+            if data.get("skills_soft"):
+                skill_paras.append(("body", "Soft: " + ", ".join(data["skills_soft"])))
+            add_section("SKILLS", skill_paras)
+
+            # Experience
+            exp_paras = []
+            for e in data.get("experience") or []:
+                head = " · ".join(filter(None, [e.get("title"), e.get("org"), e.get("emp_type")]))
+                dates = " – ".join(filter(None, [e.get("start"), e.get("end") or "Present"]))
+                if head:
+                    exp_paras.append(("bold", f"{head}" + (f"  ({dates})" if dates else "")))
+                if e.get("location"):
+                    exp_paras.append(("body", e["location"]))
+                for b in (e.get("responsibilities") or "").splitlines():
+                    if b.strip():
+                        exp_paras.append(("bullet", b.strip()))
+                for b in (e.get("achievements") or "").splitlines():
+                    if b.strip():
+                        exp_paras.append(("bullet", b.strip()))
+            add_section("EXPERIENCE", exp_paras)
+
+            # Projects
+            proj_paras = []
+            for p in data.get("projects") or []:
+                if not (p.get("name") or "").strip():
+                    continue
+                head = p["name"] + (f" — {p['role']}" if p.get("role") else "")
+                proj_paras.append(("bold", head))
+                if p.get("tech"):
+                    proj_paras.append(("body", "Technologies: " + p["tech"]))
+                for b in (p.get("description") or "").splitlines():
+                    if b.strip():
+                        proj_paras.append(("bullet", b.strip()))
+                for b in (p.get("contributions") or "").splitlines():
+                    if b.strip():
+                        proj_paras.append(("bullet", b.strip()))
+                link = " | ".join(filter(None, [p.get("github"), p.get("demo")]))
+                if link:
+                    proj_paras.append(("body", link))
+            add_section("PROJECTS", proj_paras)
+
+            # Education — skip GPA 0.0
+            edu_paras = []
+            for e in data.get("education") or []:
+                head = " · ".join(filter(None, [e.get("degree"), e.get("university"), e.get("department")]))
+                if head:
+                    edu_paras.append(("bold", head))
+                gpa_v = str(e.get("gpa") or "").strip()
+                try:
+                    show_gpa = gpa_v and float(gpa_v) > 0
+                except Exception:
+                    show_gpa = gpa_v and gpa_v not in ("0", "0.0", "0.00")
+                meta = " · ".join(filter(None, [
+                    e.get("grad_year") and f"Graduation: {e['grad_year']}",
+                    show_gpa and f"GPA: {gpa_v}",
+                ]))
+                if meta:
+                    edu_paras.append(("body", meta))
+                if e.get("coursework"):
+                    edu_paras.append(("body", "Coursework: " + e["coursework"]))
+            add_section("EDUCATION", edu_paras)
+
+            cert_paras = []
+            for c in data.get("certifications") or []:
+                if isinstance(c, dict):
+                    line = " · ".join(filter(None, [c.get("name"), c.get("org"), c.get("date")]))
+                else:
+                    line = str(c)
+                if line.strip():
+                    cert_paras.append(("bullet", line))
+            add_section("CERTIFICATIONS", cert_paras)
+
+            ach_paras = []
+            for a in data.get("achievements") or []:
+                line = a if isinstance(a, str) else str(a)
+                if line.strip():
+                    ach_paras.append(("bullet", line.strip()))
+            add_section("ACHIEVEMENTS", ach_paras)
+
+            lang_paras = []
+            for L in data.get("languages") or []:
+                line = L if isinstance(L, str) else str(L)
+                if line.strip():
+                    lang_paras.append(("bullet", line.strip()))
+            add_section("LANGUAGES", lang_paras)
+
+            doc.build(story)
+            messagebox.showinfo("PDF", f"Saved:\n{path}")
+        except ImportError:
+            txt_path = path if path.endswith(".txt") else path.rsplit(".", 1)[0] + ".txt"
+            with open(txt_path, "w", encoding="utf-8") as fh:
+                fh.write(text)
+            messagebox.showinfo(
+                "Export",
+                f"reportlab not installed — saved text:\n{txt_path}\n\npip install reportlab",
+            )
+        except Exception as e:
+            messagebox.showerror("Export failed", str(e))
+
+    def _resume_view_saved(self, idx):
+        hist = self.user_data.get("resume_history", [])
+        if idx < 0 or idx >= len(hist):
+            return
+        entry = hist[idx]
+        self._resume_show_result(entry.get("data") or {})
+
+    def _resume_download_saved(self, idx):
+        hist = self.user_data.get("resume_history", [])
+        if idx < 0 or idx >= len(hist):
+            return
+        entry = hist[idx]
+        self._resume_export_pdf(entry.get("data") or {}, entry.get("text") or "", entry.get("doc_type") or "ATS-Friendly Resume")
+
+    def _resume_delete_saved(self, idx):
+        hist = self.user_data.get("resume_history", [])
+        if 0 <= idx < len(hist):
+            hist.pop(idx)
+            db.save_user_profile(self.current_user_id, self.user_data)
+            self._resume_show_home()
 
 
 if __name__ == "__main__":
