@@ -98,6 +98,6 @@ performance.
 
 ### DashBoard
 
-![InteractiveDashboard](screenshots/InteractiveDashboard.png)
+![Interactive Dashboard](screenshots/InteractiveDashboard.png)
 
 
