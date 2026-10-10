@@ -91,13 +91,13 @@ performance.
  ### Project Architechture:
 
 
-![Workflow](screenshots/Workflow.png)
+![Workflow](screenshots/WorkFlow.png)
 
 
 ### Project Screenshots:
 
 ### DashBoard
 
-![InteractiveDashboard](screenshots/InteractiveDashboard.png)
+![InteractiveDashboard](screenshots/Interactive Dashboard.png)
 
 
