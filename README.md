@@ -1,4 +1,4 @@
-## 🧠 Brain Training & Cognitive Arena
+### Acedexa-AI-Aceademic-Carrer-Exellence-Platform
 
 Acadexa AI includes a dedicated **Brain Training & Cognitive Arena** designed to support
 students' cognitive development alongside their academic and career growth.
@@ -88,19 +88,17 @@ from a single game session.
 The system can adapt cognitive activities according to the student's previous
 performance.
 
-For example:
+Project Architechture:
 
-```text
-Student Performance
-       ↓
-Cognitive Performance Analysis
-       ↓
-Weak Cognitive Area Detected
-       ↓
-Recommended Game
-       ↓
-Appropriate Difficulty
-       ↓
-New Performance Data
-       ↓
-Student Intelligence Profile Updated
+### WorkFlow
+
+![Workflow](screenshots/Workflow.png)
+
+
+### Project Screenshots:
+
+### DashBoard
+
+![InteractiveDashboard](screenshots/InteractiveDashboard.png)
+
+
