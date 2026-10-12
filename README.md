@@ -88,15 +88,17 @@ from a single game session.
 The system can adapt cognitive activities according to the student's previous
 performance.
 
-### Project Architechture:
+### 🤖 Personalized Brain Training
 
+The system can adapt cognitive activities according to the student's previous performance.
 
-![WorkFlow](./screenshots/WorkFlow.png)
+### Project Architecture
 
+![Project Workflow](screenshots/WorkFlow.png)
 
-### Project Screenshots:
+### Project Screenshots
 
-### DashBoard
+#### Dashboard
 
-![InteractiveDashboard](./screenshots/InteractiveDashboard.png)
+![Interactive Dashboard](screenshots/InteractiveDashboard.png)
 
