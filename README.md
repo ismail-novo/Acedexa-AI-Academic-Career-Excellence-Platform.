@@ -94,11 +94,11 @@ The system can adapt cognitive activities according to the student's previous pe
 
 ### Project Architecture
 
-![WorkFlow](screenshots/WorkFlow.png)
+![WorkFlow](screensorts/WorkFlow.png)
 
 ### Project Screenshots
 
 #### Dashboard
 
-![Interactive Dashboard](screenshots/InteractiveDashboard.png)
+![Interactive Dashboard](screensorts/InteractiveDashboard.png)
 
