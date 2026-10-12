@@ -204,7 +204,7 @@
           "title": "Information System Design",
           "discipline": "CSE",
           "topics": [],
-          "mastery": 0.0
+          "mastery": 73.5
         },
         {
           "code": "CSE-3200",
@@ -2080,7 +2080,8 @@
         "Html": 59.5,
         "compuer networks": 59.5,
         "operating system": 73.5,
-        "CSE-3209 Information System Design": 40.0
+        "CSE-3209 Information System Design": 40.0,
+        "Information System Design": 73.5
       },
       "weak_topics": [
         "CSE-3209 Information System Design"
@@ -2810,6 +2811,14 @@
           "session_conc": 40.0,
           "leaves": 0,
           "date": "2026-09-21 02:27"
+        },
+        {
+          "topic": "Information System Design",
+          "type": "MCQ",
+          "score": 73.5,
+          "status": "Developing",
+          "accuracy": 80.0,
+          "date": "2026-10-12 22:57"
         }
       ],
       "tasks": [],

@@ -109,3 +109,7 @@ The system can adapt cognitive activities according to the student's previous pe
 #### Quiz Test
 
 ![Adaptive Quiz Engine](Screensorts/AdaptiveQuizEngine.png)
+
+#### Quiz Result
+
+![Quiz Result](Screensorts/QuizResult.png)
