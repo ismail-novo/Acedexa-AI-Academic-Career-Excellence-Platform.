@@ -88,16 +88,15 @@ from a single game session.
 The system can adapt cognitive activities according to the student's previous
 performance.
 
- ### Project Architechture:
+### Project Architechture:
 
 
-![WorkFlow](screenshots/WorkFlow.png)
+![WorkFlow](./screenshots/WorkFlow.png)
 
 
 ### Project Screenshots:
 
 ### DashBoard
 
-![InteractiveDashboard](screenshots/InteractiveDashboard.png)
-
+![InteractiveDashboard](./screenshots/InteractiveDashboard.png)
 
