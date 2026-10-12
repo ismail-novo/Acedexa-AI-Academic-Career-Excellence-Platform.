@@ -101,3 +101,7 @@ The system can adapt cognitive activities according to the student's previous pe
 #### Dashboard
 
 ![Interactive Dashboard](Screensorts/InteractiveDashboard.png)
+
+#### Routine Generator
+
+![Smart Routine Generator](Screensorts/SmartRoutineGenerator.png)

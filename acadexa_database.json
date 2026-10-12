@@ -2086,14 +2086,14 @@
         "CSE-3209 Information System Design"
       ],
       "daily_schedule": {
-        "wake_up": "8:00",
-        "sleep_time": "12:30",
-        "breakfast": "9:00",
-        "lunch": "3:00",
-        "dinner": "10:00",
-        "meal_mins": "45",
-        "shower_time": "1:15",
-        "shower_mins": "10",
+        "wake_up": "06:30",
+        "sleep_time": "23:00",
+        "breakfast": "07:30",
+        "lunch": "13:00",
+        "dinner": "20:00",
+        "meal_mins": "30",
+        "shower_time": "07:00",
+        "shower_mins": "20",
         "washroom_mins": "10",
         "class_days": [
           "Sunday",
@@ -2103,49 +2103,139 @@
           "Thursday"
         ],
         "class_start": "08:00",
-        "class_end": "2:30"
+        "class_end": "14:30"
       },
       "study_routine": [
         {
           "day": "Saturday",
-          "start": "01:15",
-          "end": "01:25",
+          "start": "07:00",
+          "end": "07:20",
           "activity": "Shower / Fresh-up",
-          "duration_mins": 10,
+          "duration_mins": 20,
           "type": "fixed",
           "subject": ""
         },
         {
           "day": "Saturday",
-          "start": "03:00",
-          "end": "03:45",
-          "activity": "Lunch",
-          "duration_mins": 45,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Saturday",
-          "start": "09:00",
-          "end": "09:45",
+          "start": "07:30",
+          "end": "08:00",
           "activity": "Breakfast",
-          "duration_mins": 45,
+          "duration_mins": 30,
           "type": "fixed",
           "subject": ""
         },
         {
           "day": "Saturday",
-          "start": "10:00",
-          "end": "10:45",
+          "start": "08:00",
+          "end": "09:00",
+          "activity": "Study: CSE-3201 - Artificial Intelligence",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3201 - Artificial Intelligence"
+        },
+        {
+          "day": "Saturday",
+          "start": "09:10",
+          "end": "10:10",
+          "activity": "Study: CSE-3203 - Operating System",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3203 - Operating System"
+        },
+        {
+          "day": "Saturday",
+          "start": "10:20",
+          "end": "11:20",
+          "activity": "Study: CSE-3205 - Computer Networks",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3205 - Computer Networks"
+        },
+        {
+          "day": "Saturday",
+          "start": "11:30",
+          "end": "12:30",
+          "activity": "Study: CSE-3207 - Mathematicial Analysis of Computer Science",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3207 - Mathematicial Analysis of Computer Science"
+        },
+        {
+          "day": "Saturday",
+          "start": "13:00",
+          "end": "13:30",
+          "activity": "Lunch",
+          "duration_mins": 30,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Saturday",
+          "start": "13:30",
+          "end": "14:30",
+          "activity": "Study: CSE-3209 - Information System Design",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3209 - Information System Design"
+        },
+        {
+          "day": "Saturday",
+          "start": "14:40",
+          "end": "15:40",
+          "activity": "Study: CSE-3200 - Web Engineering roject",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3200 - Web Engineering roject"
+        },
+        {
+          "day": "Saturday",
+          "start": "15:50",
+          "end": "16:50",
+          "activity": "Study: CSE-3202 - Ai Sessional",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3202 - Ai Sessional"
+        },
+        {
+          "day": "Saturday",
+          "start": "17:00",
+          "end": "18:00",
+          "activity": "Study: CSE-3210 - Isd Sesional",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3210 - Isd Sesional"
+        },
+        {
+          "day": "Saturday",
+          "start": "18:10",
+          "end": "19:10",
+          "activity": "Study: CSE-3206 - Computer Networks Sessional",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3206 - Computer Networks Sessional"
+        },
+        {
+          "day": "Saturday",
+          "start": "20:00",
+          "end": "20:30",
           "activity": "Dinner",
-          "duration_mins": 45,
+          "duration_mins": 30,
           "type": "fixed",
           "subject": ""
         },
         {
           "day": "Saturday",
-          "start": "10:45",
-          "end": "11:45",
+          "start": "20:30",
+          "end": "21:30",
+          "activity": "Study: CSE-3204 - Operating System Sessional",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3204 - Operating System Sessional"
+        },
+        {
+          "day": "Saturday",
+          "start": "21:40",
+          "end": "22:40",
           "activity": "Study: CSE-3201 - Artificial Intelligence",
           "duration_mins": 60,
           "type": "study",
@@ -2153,19 +2243,19 @@
         },
         {
           "day": "Sunday",
-          "start": "01:15",
-          "end": "01:25",
+          "start": "07:00",
+          "end": "07:20",
           "activity": "Shower / Fresh-up",
-          "duration_mins": 10,
+          "duration_mins": 20,
           "type": "fixed",
           "subject": ""
         },
         {
           "day": "Sunday",
-          "start": "03:00",
-          "end": "03:45",
-          "activity": "Lunch",
-          "duration_mins": 45,
+          "start": "07:30",
+          "end": "08:00",
+          "activity": "Breakfast",
+          "duration_mins": 30,
           "type": "fixed",
           "subject": ""
         },
@@ -2180,246 +2270,498 @@
         },
         {
           "day": "Sunday",
-          "start": "09:00",
-          "end": "09:45",
-          "activity": "Breakfast",
-          "duration_mins": 45,
+          "start": "13:00",
+          "end": "13:30",
+          "activity": "Lunch",
+          "duration_mins": 30,
           "type": "fixed",
           "subject": ""
         },
         {
           "day": "Sunday",
-          "start": "10:00",
-          "end": "10:45",
-          "activity": "Dinner",
-          "duration_mins": 45,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Monday",
-          "start": "01:15",
-          "end": "01:25",
-          "activity": "Shower / Fresh-up",
-          "duration_mins": 10,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Monday",
-          "start": "03:00",
-          "end": "03:45",
-          "activity": "Lunch",
-          "duration_mins": 45,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Monday",
-          "start": "08:00",
-          "end": "14:30",
-          "activity": "University / College Classes",
-          "duration_mins": 390,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Monday",
-          "start": "09:00",
-          "end": "09:45",
-          "activity": "Breakfast",
-          "duration_mins": 45,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Monday",
-          "start": "10:00",
-          "end": "10:45",
-          "activity": "Dinner",
-          "duration_mins": 45,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Tuesday",
-          "start": "01:15",
-          "end": "01:25",
-          "activity": "Shower / Fresh-up",
-          "duration_mins": 10,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Tuesday",
-          "start": "03:00",
-          "end": "03:45",
-          "activity": "Lunch",
-          "duration_mins": 45,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Tuesday",
-          "start": "08:00",
-          "end": "14:30",
-          "activity": "University / College Classes",
-          "duration_mins": 390,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Tuesday",
-          "start": "09:00",
-          "end": "09:45",
-          "activity": "Breakfast",
-          "duration_mins": 45,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Tuesday",
-          "start": "10:00",
-          "end": "10:45",
-          "activity": "Dinner",
-          "duration_mins": 45,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Wednesday",
-          "start": "01:15",
-          "end": "01:25",
-          "activity": "Shower / Fresh-up",
-          "duration_mins": 10,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Wednesday",
-          "start": "03:00",
-          "end": "03:45",
-          "activity": "Lunch",
-          "duration_mins": 45,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Wednesday",
-          "start": "08:00",
-          "end": "14:30",
-          "activity": "University / College Classes",
-          "duration_mins": 390,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Wednesday",
-          "start": "09:00",
-          "end": "09:45",
-          "activity": "Breakfast",
-          "duration_mins": 45,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Wednesday",
-          "start": "10:00",
-          "end": "10:45",
-          "activity": "Dinner",
-          "duration_mins": 45,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Thursday",
-          "start": "01:15",
-          "end": "01:25",
-          "activity": "Shower / Fresh-up",
-          "duration_mins": 10,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Thursday",
-          "start": "03:00",
-          "end": "03:45",
-          "activity": "Lunch",
-          "duration_mins": 45,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Thursday",
-          "start": "08:00",
-          "end": "14:30",
-          "activity": "University / College Classes",
-          "duration_mins": 390,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Thursday",
-          "start": "09:00",
-          "end": "09:45",
-          "activity": "Breakfast",
-          "duration_mins": 45,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Thursday",
-          "start": "10:00",
-          "end": "10:45",
-          "activity": "Dinner",
-          "duration_mins": 45,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Friday",
-          "start": "01:15",
-          "end": "01:25",
-          "activity": "Shower / Fresh-up",
-          "duration_mins": 10,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Friday",
-          "start": "03:00",
-          "end": "03:45",
-          "activity": "Lunch",
-          "duration_mins": 45,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Friday",
-          "start": "09:00",
-          "end": "09:45",
-          "activity": "Breakfast",
-          "duration_mins": 45,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Friday",
-          "start": "10:00",
-          "end": "10:45",
-          "activity": "Dinner",
-          "duration_mins": 45,
-          "type": "fixed",
-          "subject": ""
-        },
-        {
-          "day": "Friday",
-          "start": "10:45",
-          "end": "11:45",
+          "start": "14:30",
+          "end": "15:30",
           "activity": "Study: CSE-3203 - Operating System",
           "duration_mins": 60,
           "type": "study",
           "subject": "CSE-3203 - Operating System"
+        },
+        {
+          "day": "Sunday",
+          "start": "15:40",
+          "end": "16:40",
+          "activity": "Study: CSE-3205 - Computer Networks",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3205 - Computer Networks"
+        },
+        {
+          "day": "Sunday",
+          "start": "16:50",
+          "end": "17:50",
+          "activity": "Study: CSE-3207 - Mathematicial Analysis of Computer Science",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3207 - Mathematicial Analysis of Computer Science"
+        },
+        {
+          "day": "Sunday",
+          "start": "18:00",
+          "end": "19:00",
+          "activity": "Study: CSE-3209 - Information System Design",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3209 - Information System Design"
+        },
+        {
+          "day": "Sunday",
+          "start": "20:00",
+          "end": "20:30",
+          "activity": "Dinner",
+          "duration_mins": 30,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Sunday",
+          "start": "20:30",
+          "end": "21:30",
+          "activity": "Study: CSE-3200 - Web Engineering roject",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3200 - Web Engineering roject"
+        },
+        {
+          "day": "Sunday",
+          "start": "21:40",
+          "end": "22:40",
+          "activity": "Study: CSE-3202 - Ai Sessional",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3202 - Ai Sessional"
+        },
+        {
+          "day": "Monday",
+          "start": "07:00",
+          "end": "07:20",
+          "activity": "Shower / Fresh-up",
+          "duration_mins": 20,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Monday",
+          "start": "07:30",
+          "end": "08:00",
+          "activity": "Breakfast",
+          "duration_mins": 30,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Monday",
+          "start": "08:00",
+          "end": "14:30",
+          "activity": "University / College Classes",
+          "duration_mins": 390,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Monday",
+          "start": "13:00",
+          "end": "13:30",
+          "activity": "Lunch",
+          "duration_mins": 30,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Monday",
+          "start": "14:30",
+          "end": "15:30",
+          "activity": "Study: CSE-3210 - Isd Sesional",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3210 - Isd Sesional"
+        },
+        {
+          "day": "Monday",
+          "start": "15:40",
+          "end": "16:40",
+          "activity": "Study: CSE-3206 - Computer Networks Sessional",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3206 - Computer Networks Sessional"
+        },
+        {
+          "day": "Monday",
+          "start": "16:50",
+          "end": "17:50",
+          "activity": "Study: CSE-3204 - Operating System Sessional",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3204 - Operating System Sessional"
+        },
+        {
+          "day": "Monday",
+          "start": "18:00",
+          "end": "19:00",
+          "activity": "Study: CSE-3201 - Artificial Intelligence",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3201 - Artificial Intelligence"
+        },
+        {
+          "day": "Monday",
+          "start": "20:00",
+          "end": "20:30",
+          "activity": "Dinner",
+          "duration_mins": 30,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Monday",
+          "start": "20:30",
+          "end": "21:30",
+          "activity": "Study: CSE-3203 - Operating System",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3203 - Operating System"
+        },
+        {
+          "day": "Monday",
+          "start": "21:40",
+          "end": "22:40",
+          "activity": "Study: CSE-3205 - Computer Networks",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3205 - Computer Networks"
+        },
+        {
+          "day": "Tuesday",
+          "start": "07:00",
+          "end": "07:20",
+          "activity": "Shower / Fresh-up",
+          "duration_mins": 20,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Tuesday",
+          "start": "07:30",
+          "end": "08:00",
+          "activity": "Breakfast",
+          "duration_mins": 30,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Tuesday",
+          "start": "08:00",
+          "end": "14:30",
+          "activity": "University / College Classes",
+          "duration_mins": 390,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Tuesday",
+          "start": "13:00",
+          "end": "13:30",
+          "activity": "Lunch",
+          "duration_mins": 30,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Tuesday",
+          "start": "14:30",
+          "end": "15:30",
+          "activity": "Study: CSE-3207 - Mathematicial Analysis of Computer Science",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3207 - Mathematicial Analysis of Computer Science"
+        },
+        {
+          "day": "Tuesday",
+          "start": "15:40",
+          "end": "16:40",
+          "activity": "Study: CSE-3209 - Information System Design",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3209 - Information System Design"
+        },
+        {
+          "day": "Tuesday",
+          "start": "16:50",
+          "end": "17:50",
+          "activity": "Study: CSE-3200 - Web Engineering roject",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3200 - Web Engineering roject"
+        },
+        {
+          "day": "Tuesday",
+          "start": "18:00",
+          "end": "19:00",
+          "activity": "Study: CSE-3202 - Ai Sessional",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3202 - Ai Sessional"
+        },
+        {
+          "day": "Tuesday",
+          "start": "20:00",
+          "end": "20:30",
+          "activity": "Dinner",
+          "duration_mins": 30,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Tuesday",
+          "start": "20:30",
+          "end": "21:30",
+          "activity": "Study: CSE-3210 - Isd Sesional",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3210 - Isd Sesional"
+        },
+        {
+          "day": "Tuesday",
+          "start": "21:40",
+          "end": "22:40",
+          "activity": "Study: CSE-3206 - Computer Networks Sessional",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3206 - Computer Networks Sessional"
+        },
+        {
+          "day": "Wednesday",
+          "start": "07:00",
+          "end": "07:20",
+          "activity": "Shower / Fresh-up",
+          "duration_mins": 20,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Wednesday",
+          "start": "07:30",
+          "end": "08:00",
+          "activity": "Breakfast",
+          "duration_mins": 30,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Wednesday",
+          "start": "08:00",
+          "end": "14:30",
+          "activity": "University / College Classes",
+          "duration_mins": 390,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Wednesday",
+          "start": "13:00",
+          "end": "13:30",
+          "activity": "Lunch",
+          "duration_mins": 30,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Wednesday",
+          "start": "14:30",
+          "end": "15:30",
+          "activity": "Study: CSE-3204 - Operating System Sessional",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3204 - Operating System Sessional"
+        },
+        {
+          "day": "Wednesday",
+          "start": "15:40",
+          "end": "16:40",
+          "activity": "Study: CSE-3201 - Artificial Intelligence",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3201 - Artificial Intelligence"
+        },
+        {
+          "day": "Wednesday",
+          "start": "16:50",
+          "end": "17:50",
+          "activity": "Study: CSE-3203 - Operating System",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3203 - Operating System"
+        },
+        {
+          "day": "Wednesday",
+          "start": "18:00",
+          "end": "19:00",
+          "activity": "Study: CSE-3205 - Computer Networks",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3205 - Computer Networks"
+        },
+        {
+          "day": "Wednesday",
+          "start": "20:00",
+          "end": "20:30",
+          "activity": "Dinner",
+          "duration_mins": 30,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Wednesday",
+          "start": "20:30",
+          "end": "21:30",
+          "activity": "Study: CSE-3207 - Mathematicial Analysis of Computer Science",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3207 - Mathematicial Analysis of Computer Science"
+        },
+        {
+          "day": "Wednesday",
+          "start": "21:40",
+          "end": "22:40",
+          "activity": "Study: CSE-3209 - Information System Design",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3209 - Information System Design"
+        },
+        {
+          "day": "Thursday",
+          "start": "07:00",
+          "end": "07:20",
+          "activity": "Shower / Fresh-up",
+          "duration_mins": 20,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Thursday",
+          "start": "07:30",
+          "end": "08:00",
+          "activity": "Breakfast",
+          "duration_mins": 30,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Thursday",
+          "start": "08:00",
+          "end": "14:30",
+          "activity": "University / College Classes",
+          "duration_mins": 390,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Thursday",
+          "start": "13:00",
+          "end": "13:30",
+          "activity": "Lunch",
+          "duration_mins": 30,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Thursday",
+          "start": "14:30",
+          "end": "15:30",
+          "activity": "Study: CSE-3200 - Web Engineering roject",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3200 - Web Engineering roject"
+        },
+        {
+          "day": "Thursday",
+          "start": "15:40",
+          "end": "16:40",
+          "activity": "Study: CSE-3202 - Ai Sessional",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3202 - Ai Sessional"
+        },
+        {
+          "day": "Thursday",
+          "start": "16:50",
+          "end": "17:50",
+          "activity": "Study: CSE-3210 - Isd Sesional",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3210 - Isd Sesional"
+        },
+        {
+          "day": "Thursday",
+          "start": "18:00",
+          "end": "19:00",
+          "activity": "Study: CSE-3206 - Computer Networks Sessional",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3206 - Computer Networks Sessional"
+        },
+        {
+          "day": "Thursday",
+          "start": "20:00",
+          "end": "20:30",
+          "activity": "Dinner",
+          "duration_mins": 30,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Thursday",
+          "start": "20:30",
+          "end": "21:30",
+          "activity": "Study: CSE-3204 - Operating System Sessional",
+          "duration_mins": 60,
+          "type": "study",
+          "subject": "CSE-3204 - Operating System Sessional"
+        },
+        {
+          "day": "Friday",
+          "start": "07:00",
+          "end": "07:20",
+          "activity": "Shower / Fresh-up",
+          "duration_mins": 20,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Friday",
+          "start": "07:30",
+          "end": "08:00",
+          "activity": "Breakfast",
+          "duration_mins": 30,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Friday",
+          "start": "13:00",
+          "end": "13:30",
+          "activity": "Lunch",
+          "duration_mins": 30,
+          "type": "fixed",
+          "subject": ""
+        },
+        {
+          "day": "Friday",
+          "start": "20:00",
+          "end": "20:30",
+          "activity": "Dinner",
+          "duration_mins": 30,
+          "type": "fixed",
+          "subject": ""
         }
       ],
       "quiz_history": [
