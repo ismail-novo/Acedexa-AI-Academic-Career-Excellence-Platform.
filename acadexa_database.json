@@ -2885,7 +2885,7 @@
             "languages": [],
             "target_role": "",
             "target_industry": "",
-            "job_description": ""
+            "job_description": "At our company, we hold an uncompromising stance against mediocrity, committing ourselves to work that delivers audacious impact and is fueled by a pioneering spirit of continuous progress and innovation. This ambition is supported by leadership grounded in courage and clarity\u2014ensuring alignment, accountability, and purpose in everything we do. Integrity shapes how we hire, recognize, and develop talent, with a focus on potential, ambition, and long-term growth. Together, we operate with collective strength, prioritizing meaningful results over unnecessary rituals and navigating challenges with unity and resolve. Above all, we remain steadfast and resilient, never losing sight of our commitments and continuously pushing forward through complexity with determination and purpose to create a better life for all.\n\n Define the architecture, standards, and engineering direction of enterprise Generative AI platforms and applications. \n Architect scalable, secure, and cost-efficient enterprise GenAI platforms, AI infrastructure, and reusable AI services. \n Establish standards and best practices for LLMOps, RAG pipelines, agent orchestration, prompt management, AI governance, model evaluation, and AI observability. \n Lead development of enterprise AI copilots, conversational BI systems, AI-powered customer service assistants, recommendation and personalization engines, knowledge retrieval systems, and autonomous workflow agents. \n Build advanced orchestration workflows involving multiple AI agents and tools, and drive production deployment and scaling of GenAI systems. \n Mentor ML and GenAI engineers across the AI Excellence Team and partner with business leaders to translate high-impact opportunities into scalable AI solutions. \n Evaluate emerging GenAI technologies, models, and frameworks, and influence enterprise AI strategy, governance, and roadmap. \n Lead performance optimization for latency, throughput, GPU utilization, inference cost, and reliability, while ensuring compliance with security, privacy, and responsible AI standards. \n\nAcademic Qualification\n\n Bachelor\u2019s or Master\u2019s Graduation in Computer Science/Applied Statistics/Business/Relevant Field\n\nJob Experience Required\n\n 4-7 years of experience in AI/ML engineering, software engineering, distributed systems, and enterprise AI platforms, with proven experience building and deploying large-scale AI/GenAI systems in production environments\n\nRequired Capabilities\n\n Strong expertise in Python and backend engineering, with proven ability to architect distributed systems and operationalize production-scale GenAI applications. \n Strong hands-on experience with LLM application development, prompt engineering frameworks, RAG architectures, AI agents and tool-calling systems, semantic search and embeddings, AI evaluation and guardrails, hallucination mitigation, and context/memory management. \n Experience with GenAI frameworks and ecosystem tools such as LangChain, LlamaIndex, FastAPI, Docker, Kubernetes, MLflow, and CI/CD and DevOps workflows. \n Experience with AI infrastructure including GPU-based inference systems, open-source LLM deployment, fine-tuning techniques (LoRA/PEFT), vector databases, distributed AI workloads, and cloud-native architectures. \n Hands-on familiarity with major cloud platforms (Amazon Web Services, Google Cloud, Microsoft Azure). \n Experience leading technical teams or AI engineering squads, with exposure to AI governance, responsible AI, and enterprise compliance frameworks. \n Ability to think strategically while remaining hands-on technically, drive execution across multiple AI initiatives, and deliver with minimal supervision. \n Strong stakeholder influence, business communication, and presentation skills. Contributions to open-source projects, patents, conferences, or published research are highly valued."
           },
           "text": "ISMAIL ZAHID\nKhulna\n============================================================\n\nPROFESSIONAL SUMMARY\n----------------------------------------\nIsmail Zahid is pursuing B.sc at BAUST. Career interest: student. Department: CSE. Relevant coursework includes Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design.\n\nEDUCATION\n----------------------------------------\nB.sc \u00b7 BAUST \u00b7 CSE\n  Grad: 2027\n  Coursework: Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional",
           "ats_status": "Not analyzed"
@@ -2934,100 +2934,35 @@
           "ats_status": "Not analyzed"
         },
         {
-          "name": "Ismail Zahid \u2014 ATS-Friendly Resume",
-          "doc_type": "ATS-Friendly Resume",
+          "name": "Ismail Zahid \u2014 Professional CV",
+          "doc_type": "Professional CV",
           "target_role": "",
-          "created": "2026-10-05 01:44",
+          "created": "2026-11-05 18:37",
           "data": {
             "full_name": "Ismail Zahid",
-            "title": "Data Analyst",
-            "email": "ismail@gmail.com",
-            "phone": "01766411558",
-            "location": "Khulna",
-            "linkedin": "",
-            "github": "",
-            "portfolio": "",
-            "photo": "C:/Users/ismai/OneDrive/Pictures/Saved Pictures/KZSPoster2020.jpg",
-            "summary": "Ismail Zahid is a motivated Data Analyst seeking opportunities to apply academic knowledge and grow professionally. I am a aspiring data analyst",
-            "objective": "I am a aspiring data analyst",
-            "education": [
-              {
-                "degree": "B.sc",
-                "university": "BAUST",
-                "department": "CSE",
-                "grad_year": "2027",
-                "gpa": "3.00",
-                "coursework": "Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional",
-                "start_year": "10"
-              }
-            ],
-            "experience": [],
-            "projects": [
-              {
-                "name": "xyz",
-                "role": "abc",
-                "tech": "",
-                "duration": "",
-                "github": "",
-                "demo": "",
-                "description": "",
-                "contributions": ""
-              }
-            ],
-            "skills_technical": [],
-            "skills_soft": [],
-            "certifications": [],
-            "achievements": [],
-            "research": [],
-            "languages": [],
-            "target_role": "",
-            "target_industry": "",
-            "job_description": ""
-          },
-          "text": "ISMAIL ZAHID\nData Analyst\nismail@gmail.com | 01766411558 | Khulna\n============================================================\n\nPROFESSIONAL SUMMARY\n----------------------------------------\nIsmail Zahid is a motivated Data Analyst seeking opportunities to apply academic knowledge and grow professionally. I am a aspiring data analyst\n\nPROJECTS\n----------------------------------------\nxyz \u2014 abc\n\nEDUCATION\n----------------------------------------\nB.sc \u00b7 BAUST \u00b7 CSE\n  Grad: 2027 \u00b7 GPA: 3.00\n  Coursework: Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional",
-          "ats_status": "Not analyzed"
-        },
-        {
-          "name": "Ismail Zahid \u2014 ATS-Friendly Resume",
-          "doc_type": "ATS-Friendly Resume",
-          "target_role": "",
-          "created": "2026-10-05 01:45",
-          "data": {
-            "full_name": "Ismail Zahid",
-            "title": "Data Analyst",
-            "email": "ismail@gmail.com",
-            "phone": "01766411558",
+            "title": "",
+            "email": "",
+            "phone": "",
             "location": "Khulna",
             "linkedin": "",
             "github": "",
             "portfolio": "",
             "photo": "C:/Users/ismai/OneDrive/Pictures/Saved Pictures/IMG_20250319_011812.jpg",
-            "summary": "Ismail Zahid is a motivated Data Analyst seeking opportunities to apply academic knowledge and grow professionally. I am a aspiring data analyst",
-            "objective": "I am a aspiring data analyst",
+            "summary": "Ismail Zahid is pursuing B.sc at BAUST. Career interest: student. Department: CSE. Relevant coursework includes Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design.",
+            "objective": "",
             "education": [
               {
                 "degree": "B.sc",
                 "university": "BAUST",
                 "department": "CSE",
+                "start_year": "",
                 "grad_year": "2027",
-                "gpa": "3.00",
-                "coursework": "Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional",
-                "start_year": "10"
+                "gpa": "",
+                "coursework": "Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional"
               }
             ],
             "experience": [],
-            "projects": [
-              {
-                "name": "xyz",
-                "role": "abc",
-                "tech": "",
-                "duration": "",
-                "github": "",
-                "demo": "",
-                "description": "",
-                "contributions": ""
-              }
-            ],
+            "projects": [],
             "skills_technical": [],
             "skills_soft": [],
             "certifications": [],
@@ -3038,46 +2973,35 @@
             "target_industry": "",
             "job_description": ""
           },
-          "text": "ISMAIL ZAHID\nData Analyst\nismail@gmail.com | 01766411558 | Khulna\n============================================================\n\nPROFESSIONAL SUMMARY\n----------------------------------------\nIsmail Zahid is a motivated Data Analyst seeking opportunities to apply academic knowledge and grow professionally. I am a aspiring data analyst\n\nPROJECTS\n----------------------------------------\nxyz \u2014 abc\n\nEDUCATION\n----------------------------------------\nB.sc \u00b7 BAUST \u00b7 CSE\n  Grad: 2027 \u00b7 GPA: 3.00\n  Coursework: Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional",
+          "text": "ISMAIL ZAHID\nKhulna\n============================================================\n\nPROFESSIONAL SUMMARY\n----------------------------------------\nIsmail Zahid is pursuing B.sc at BAUST. Career interest: student. Department: CSE. Relevant coursework includes Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design.\n\nEDUCATION\n----------------------------------------\nB.sc \u00b7 BAUST \u00b7 CSE\n  Grad: 2027\n  Coursework: Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional\n\n[Profile photo attached in PDF export]",
           "ats_status": "Not analyzed"
         }
       ],
       "resume_draft": {
         "full_name": "Ismail Zahid",
-        "title": "Data Analyst",
-        "email": "ismail@gmail.com",
-        "phone": "01766411558",
+        "title": "",
+        "email": "",
+        "phone": "",
         "location": "Khulna",
         "linkedin": "",
         "github": "",
         "portfolio": "",
         "photo": "C:/Users/ismai/OneDrive/Pictures/Saved Pictures/IMG_20250319_011812.jpg",
-        "summary": "Ismail Zahid is a motivated Data Analyst seeking opportunities to apply academic knowledge and grow professionally. I am a aspiring data analyst",
-        "objective": "I am a aspiring data analyst",
+        "summary": "Ismail Zahid is pursuing B.sc at BAUST. Career interest: student. Department: CSE. Relevant coursework includes Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design.",
+        "objective": "",
         "education": [
           {
             "degree": "B.sc",
             "university": "BAUST",
             "department": "CSE",
+            "start_year": "",
             "grad_year": "2027",
-            "gpa": "3.00",
-            "coursework": "Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional",
-            "start_year": "10"
+            "gpa": "",
+            "coursework": "Artificial Intelligence, Operating System, Computer Networks, Mathematicial Analysis of Computer Science, Information System Design, Web Engineering roject, Ai Sessional, Isd Sesional"
           }
         ],
         "experience": [],
-        "projects": [
-          {
-            "name": "xyz",
-            "role": "abc",
-            "tech": "",
-            "duration": "",
-            "github": "",
-            "demo": "",
-            "description": "",
-            "contributions": ""
-          }
-        ],
+        "projects": [],
         "skills_technical": [],
         "skills_soft": [],
         "certifications": [],

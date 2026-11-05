@@ -259,22 +259,57 @@ class StudyIntelligenceAgent:
 
 
 class UniversalJobMatcherAgent:
+    # Generic fluff / too-broad tokens we never show as "missing skills"
+    _FLUFF = {
+        "ability", "academic", "accountability", "advanced", "agent", "agents", "alignment",
+        "ambition", "application", "applications", "applied", "approach", "area", "areas",
+        "based", "best", "better", "build", "building", "candidate", "candidates", "career",
+        "company", "complete", "day", "days", "description", "duty", "duties", "environment",
+        "excellent", "experience", "field", "good", "great", "help", "high", "including",
+        "intern", "internship", "job", "join", "junior", "knowledge", "level", "looking",
+        "make", "motivated", "must", "need", "needed", "new", "opportunity", "opportunities",
+        "passion", "passionate", "position", "preferred", "professional", "provide",
+        "required", "requirements", "role", "roles", "seeking", "strong", "student",
+        "team", "teams", "using", "work", "working", "years", "year", "etc", "related",
+        "relevant", "responsible", "responsibilities", "skill", "skills", "ability",
+    }
+
     def match(self, resume_text, job_desc_text):
+        """TF-IDF cosine similarity + keyword gaps. Filters trivial/fluff tokens."""
         if not resume_text.strip() or not job_desc_text.strip():
             return 0.0, [], []
-        docs = [resume_text, job_desc_text]
-        vec = TfidfVectorizer(stop_words="english")
-        m = vec.fit_transform(docs)
+        docs = [resume_text.lower(), job_desc_text.lower()]
+        vec = TfidfVectorizer(
+            stop_words="english",
+            ngram_range=(1, 2),
+            min_df=1,
+            token_pattern=r"(?u)\b[a-zA-Z][a-zA-Z0-9+#.]{1,}\b",
+        )
+        try:
+            m = vec.fit_transform(docs)
+        except ValueError:
+            return 0.0, [], []
         score = round(float(cosine_similarity(m[0:1], m[1:2])[0][0]) * 100, 2)
         names = vec.get_feature_names_out()
         rv, jv = m[0].toarray()[0], m[1].toarray()[0]
+
+        # Rank keywords by JD TF-IDF weight
+        jd_ranked = sorted(
+            [(names[i], float(jv[i]), float(rv[i])) for i in range(len(names)) if jv[i] > 0],
+            key=lambda x: -x[1],
+        )
         matched, missing = [], []
-        for i, w in enumerate(names):
-            if jv[i] > 0 and rv[i] == 0:
-                missing.append(w)
-            elif jv[i] > 0 and rv[i] > 0:
+        for w, jw, rw in jd_ranked:
+            base = w.split()[0] if " " in w else w
+            if len(base) < 3 or base in self._FLUFF or w in self._FLUFF:
+                continue
+            if any(ch.isdigit() for ch in w) and len(w) <= 4:
+                continue
+            if rw > 0:
                 matched.append(w)
-        return score, matched[:12], missing[:12]
+            else:
+                missing.append(w)
+        return score, matched[:15], missing[:15]
 
 
 class AcadexaDecisionAgent:
@@ -3931,6 +3966,12 @@ class AcadexaAIApp(ctk.CTk):
 
         # Role templates: keywords that must appear in profile blob to suggest
         catalog = [
+            (["data", "analyst", "analytics", "ml", "machine learning", "ai", "pandas", "sql", "python", "statistics"], [
+                ("Data Analyst Intern", "EDA, SQL, Python/Pandas — matches data-focused career goal or coursework."),
+                ("Junior Data Analyst", "Dashboards, reporting, insight communication."),
+                ("Business Intelligence Intern", "If you use Excel/Power BI and like KPI reporting."),
+                ("ML Engineering Intern", "Only if ML/AI projects or courses exist in your profile."),
+            ]),
             (["cse", "computer", "software", "cs", "programming", "coding"], [
                 ("Software Engineer Intern", "Junior software development roles; emphasize projects & GitHub."),
                 ("Backend Developer (Junior)", "APIs, databases, server-side — if you have related coursework/projects."),
@@ -3975,16 +4016,30 @@ class AcadexaAIApp(ctk.CTk):
             key = goal.lower()
             if key not in seen:
                 seen.add(key)
-                suggestions.append({
-                    "title": goal if "intern" in goal.lower() or "engineer" in goal.lower() or "analyst" in goal.lower()
-                    else f"{goal} (entry-level / intern track)",
-                    "why": "Taken from your Career Goal in Student Intelligence Profile.",
-                    "fit": "High (your stated goal)",
-                    "sample_jd": (
+                title = goal
+                gl = goal.lower()
+                if not any(x in gl for x in ("intern", "engineer", "analyst", "developer", "scientist")):
+                    title = f"{goal} (entry-level / intern track)"
+                # Richer sample JD for data roles
+                if any(x in gl for x in ("data", "analyst", "ml", "machine learning", "ai")):
+                    sample = (
+                        "Data Analyst Intern / Junior Data Analyst\n"
+                        "Responsibilities: clean and analyze datasets; build dashboards; write SQL queries; "
+                        "perform EDA with Python (Pandas, NumPy); communicate insights to stakeholders.\n"
+                        "Requirements: Python, SQL, statistics fundamentals, Excel/Power BI preferred; "
+                        "academic projects in data analysis or machine learning are a plus."
+                    )
+                else:
+                    sample = (
                         f"We are looking for a motivated candidate interested in {goal}. "
                         f"Responsibilities include learning the stack, contributing to team tasks, "
                         f"and documenting work. Preferred: relevant coursework, projects, and communication skills."
-                    ),
+                    )
+                suggestions.append({
+                    "title": title,
+                    "why": "Taken from your Career Goal in Student Intelligence Profile.",
+                    "fit": "High (your stated goal)",
+                    "sample_jd": sample,
                 })
 
         for keys, roles in catalog:
@@ -5848,177 +5903,366 @@ class AcadexaAIApp(ctk.CTk):
         try:
             from reportlab.lib.pagesizes import A4
             from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-            from reportlab.lib.units import inch
-            from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, HRFlowable, KeepTogether
-            from reportlab.lib.enums import TA_CENTER, TA_LEFT
+            from reportlab.lib.units import inch, mm
+            from reportlab.platypus import (
+                SimpleDocTemplate, Paragraph, Spacer, HRFlowable, Table, TableStyle,
+                KeepTogether, ListFlowable, ListItem, Flowable,
+            )
+            from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT
             from reportlab.lib import colors
+            from reportlab.pdfbase import pdfmetrics
+            from reportlab.pdfbase.ttfonts import TTFont
 
             def esc(s):
-                """Escape user text for ReportLab Paragraph (keep our own tags separate)."""
                 return (str(s) if s is not None else "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
-            def bold_line(s):
-                return f"<b>{esc(s)}</b>"
+            is_pro = str(doc_type).lower().startswith("professional")
+            # Brand colors (professional CV)
+            NAVY = colors.HexColor("#0B1F3A")
+            ACCENT = colors.HexColor("#1E5F8A")
+            LIGHT = colors.HexColor("#F4F7FB")
+            TEXT = colors.HexColor("#1A1A1A")
+            MUTED = colors.HexColor("#4A5568")
+            LINE = colors.HexColor("#CBD5E1")
 
-            def body_line(s):
-                return esc(s)
-
-            doc = SimpleDocTemplate(
-                path, pagesize=A4,
-                leftMargin=0.65 * inch, rightMargin=0.65 * inch,
-                topMargin=0.55 * inch, bottomMargin=0.55 * inch,
-            )
             styles = getSampleStyleSheet()
-            name_style = ParagraphStyle(
-                "RName", parent=styles["Heading1"], fontSize=18, alignment=TA_CENTER,
-                textColor=colors.HexColor("#111111"), spaceAfter=2, leading=22,
-            )
-            sub_style = ParagraphStyle(
-                "RSub", parent=styles["Normal"], fontSize=10, alignment=TA_CENTER,
-                textColor=colors.HexColor("#333333"), spaceAfter=3, leading=13,
-            )
-            h_style = ParagraphStyle(
-                "RH", parent=styles["Heading2"], fontSize=11, spaceBefore=11, spaceAfter=3,
-                textColor=colors.HexColor("#111111"), fontName="Helvetica-Bold",
-            )
-            body = ParagraphStyle(
-                "RBody", parent=styles["Normal"], fontSize=10, leading=13,
-                textColor=colors.HexColor("#222222"),
-            )
-            bullet_style = ParagraphStyle(
-                "RBullet", parent=body, leftIndent=12, bulletIndent=0, spaceAfter=1,
-            )
 
-            story = []
-            story.append(Paragraph(esc(data.get("full_name") or "Resume"), name_style))
-            if data.get("title"):
-                story.append(Paragraph(esc(data["title"]), sub_style))
-            contact = "  |  ".join(filter(None, [
-                data.get("email"), data.get("phone"), data.get("location"),
-            ]))
-            if contact:
-                story.append(Paragraph(esc(contact), sub_style))
-            links = "  |  ".join(filter(None, [
-                data.get("linkedin"), data.get("github"), data.get("portfolio"),
-            ]))
-            if links:
-                story.append(Paragraph(esc(links), sub_style))
-            story.append(Spacer(1, 4))
-            story.append(HRFlowable(width="100%", thickness=1.2, color=colors.HexColor("#333333")))
+            if is_pro:
+                # ========== PROFESSIONAL CV (two-column visual layout) ==========
+                doc = SimpleDocTemplate(
+                    path, pagesize=A4,
+                    leftMargin=0.45 * inch, rightMargin=0.45 * inch,
+                    topMargin=0.4 * inch, bottomMargin=0.4 * inch,
+                )
+                name_s = ParagraphStyle("PN", fontName="Helvetica-Bold", fontSize=18, textColor=colors.white,
+                                        leading=22, spaceAfter=2)
+                title_s = ParagraphStyle("PT", fontName="Helvetica", fontSize=10, textColor=colors.HexColor("#B8D4E8"),
+                                         leading=13, spaceAfter=6)
+                side_h = ParagraphStyle("SH", fontName="Helvetica-Bold", fontSize=9, textColor=colors.white,
+                                        spaceBefore=8, spaceAfter=3, leading=11)
+                side_b = ParagraphStyle("SB", fontName="Helvetica", fontSize=8, textColor=colors.HexColor("#E2E8F0"),
+                                        leading=11)
+                main_h = ParagraphStyle("MH", fontName="Helvetica-Bold", fontSize=11, textColor=ACCENT,
+                                        spaceBefore=4, spaceAfter=3, leading=14)
+                main_b = ParagraphStyle("MB", fontName="Helvetica", fontSize=9, textColor=TEXT, leading=12)
+                main_bold = ParagraphStyle("MBd", fontName="Helvetica-Bold", fontSize=9.5, textColor=TEXT, leading=12)
+                bullet_s = ParagraphStyle("Bu", fontName="Helvetica", fontSize=8.5, textColor=MUTED,
+                                          leading=11, leftIndent=8)
 
-            def add_section(title, paragraphs):
-                """paragraphs: list of (style_name, text) where text is already safe XML."""
-                if not paragraphs:
-                    return
-                story.append(Paragraph(esc(title), h_style))
-                story.append(HRFlowable(width="100%", thickness=0.6, color=colors.HexColor("#999999")))
-                for kind, raw in paragraphs:
-                    if not raw:
-                        continue
-                    if kind == "bold":
-                        story.append(Paragraph(bold_line(raw), body))
-                    elif kind == "bullet":
-                        story.append(Paragraph("• " + body_line(raw), bullet_style))
-                    else:
-                        story.append(Paragraph(body_line(raw), body))
-                story.append(Spacer(1, 4))
+                # --- LEFT sidebar content ---
+                left_flow = []
+                left_flow.append(Paragraph(esc((data.get("full_name") or "RESUME").upper()), name_s))
+                if data.get("title"):
+                    left_flow.append(Paragraph(esc(data["title"]), title_s))
+                # skill chips under title
+                tech = data.get("skills_technical") or []
+                if tech:
+                    left_flow.append(Paragraph(esc(" · ".join(tech[:6])), title_s))
 
-            # Summary
-            summary = (data.get("summary") or data.get("objective") or "").strip()
-            if summary:
-                add_section("PROFESSIONAL SUMMARY", [("body", summary)])
+                left_flow.append(Paragraph("CONTACT", side_h))
+                for label, key in [("Email", "email"), ("Phone", "phone"), ("Location", "location"),
+                                   ("LinkedIn", "linkedin"), ("GitHub", "github"), ("Portfolio", "portfolio")]:
+                    v = (data.get(key) or "").strip()
+                    if v:
+                        left_flow.append(Paragraph(f"<b>{label}:</b> {esc(v)}", side_b))
 
-            # Skills
-            skill_paras = []
-            if data.get("skills_technical"):
-                skill_paras.append(("body", "Technical: " + ", ".join(data["skills_technical"])))
-            if data.get("skills_soft"):
-                skill_paras.append(("body", "Soft: " + ", ".join(data["skills_soft"])))
-            add_section("SKILLS", skill_paras)
+                if tech:
+                    left_flow.append(Paragraph("TECHNICAL SKILLS", side_h))
+                    left_flow.append(Paragraph(esc(", ".join(tech)), side_b))
+                soft = data.get("skills_soft") or []
+                if soft:
+                    left_flow.append(Paragraph("SOFT SKILLS", side_h))
+                    left_flow.append(Paragraph(esc(", ".join(soft)), side_b))
 
-            # Experience
-            exp_paras = []
-            for e in data.get("experience") or []:
-                head = " · ".join(filter(None, [e.get("title"), e.get("org"), e.get("emp_type")]))
-                dates = " – ".join(filter(None, [e.get("start"), e.get("end") or "Present"]))
-                if head:
-                    exp_paras.append(("bold", f"{head}" + (f"  ({dates})" if dates else "")))
-                if e.get("location"):
-                    exp_paras.append(("body", e["location"]))
-                for b in (e.get("responsibilities") or "").splitlines():
-                    if b.strip():
-                        exp_paras.append(("bullet", b.strip()))
-                for b in (e.get("achievements") or "").splitlines():
-                    if b.strip():
-                        exp_paras.append(("bullet", b.strip()))
-            add_section("EXPERIENCE", exp_paras)
+                if data.get("education"):
+                    left_flow.append(Paragraph("EDUCATION", side_h))
+                    for e in data["education"]:
+                        head = " · ".join(filter(None, [e.get("degree"), e.get("university")]))
+                        if head:
+                            left_flow.append(Paragraph(f"<b>{esc(head)}</b>", side_b))
+                        dept = e.get("department") or ""
+                        if dept:
+                            left_flow.append(Paragraph(esc(dept), side_b))
+                        gpa_v = str(e.get("gpa") or "").strip()
+                        try:
+                            show_gpa = gpa_v and float(gpa_v) > 0
+                        except Exception:
+                            show_gpa = gpa_v and gpa_v not in ("0", "0.0", "0.00")
+                        meta = " · ".join(filter(None, [
+                            e.get("grad_year") and f"Grad {e['grad_year']}",
+                            show_gpa and f"GPA {gpa_v}",
+                        ]))
+                        if meta:
+                            left_flow.append(Paragraph(esc(meta), side_b))
+                        if e.get("coursework"):
+                            left_flow.append(Paragraph(esc("Coursework: " + e["coursework"]), side_b))
 
-            # Projects
-            proj_paras = []
-            for p in data.get("projects") or []:
-                if not (p.get("name") or "").strip():
-                    continue
-                head = p["name"] + (f" — {p['role']}" if p.get("role") else "")
-                proj_paras.append(("bold", head))
-                if p.get("tech"):
-                    proj_paras.append(("body", "Technologies: " + p["tech"]))
-                for b in (p.get("description") or "").splitlines():
-                    if b.strip():
-                        proj_paras.append(("bullet", b.strip()))
-                for b in (p.get("contributions") or "").splitlines():
-                    if b.strip():
-                        proj_paras.append(("bullet", b.strip()))
-                link = " | ".join(filter(None, [p.get("github"), p.get("demo")]))
-                if link:
-                    proj_paras.append(("body", link))
-            add_section("PROJECTS", proj_paras)
+                if data.get("languages"):
+                    left_flow.append(Paragraph("LANGUAGES", side_h))
+                    for L in data["languages"]:
+                        line = L if isinstance(L, str) else str(L)
+                        if line.strip():
+                            left_flow.append(Paragraph("• " + esc(line.strip()), side_b))
 
-            # Education — skip GPA 0.0
-            edu_paras = []
-            for e in data.get("education") or []:
-                head = " · ".join(filter(None, [e.get("degree"), e.get("university"), e.get("department")]))
-                if head:
-                    edu_paras.append(("bold", head))
-                gpa_v = str(e.get("gpa") or "").strip()
-                try:
-                    show_gpa = gpa_v and float(gpa_v) > 0
-                except Exception:
-                    show_gpa = gpa_v and gpa_v not in ("0", "0.0", "0.00")
-                meta = " · ".join(filter(None, [
-                    e.get("grad_year") and f"Graduation: {e['grad_year']}",
-                    show_gpa and f"GPA: {gpa_v}",
+                if data.get("certifications"):
+                    left_flow.append(Paragraph("CERTIFICATIONS", side_h))
+                    for c in data["certifications"]:
+                        if isinstance(c, dict):
+                            line = " · ".join(filter(None, [c.get("name"), c.get("org"), c.get("date")]))
+                        else:
+                            line = str(c)
+                        if line.strip():
+                            left_flow.append(Paragraph("• " + esc(line.strip()), side_b))
+
+                # --- RIGHT main content ---
+                right_flow = []
+                summary = (data.get("summary") or data.get("objective") or "").strip()
+                if summary:
+                    right_flow.append(Paragraph("PROFESSIONAL SUMMARY", main_h))
+                    right_flow.append(HRFlowable(width="100%", thickness=1, color=ACCENT, spaceAfter=4))
+                    right_flow.append(Paragraph(esc(summary), main_b))
+                    right_flow.append(Spacer(1, 6))
+
+                if data.get("experience"):
+                    right_flow.append(Paragraph("EXPERIENCE", main_h))
+                    right_flow.append(HRFlowable(width="100%", thickness=1, color=ACCENT, spaceAfter=4))
+                    for e in data["experience"]:
+                        head = " · ".join(filter(None, [e.get("title"), e.get("org")]))
+                        dates = " – ".join(filter(None, [e.get("start"), e.get("end") or "Present"]))
+                        if head:
+                            right_flow.append(Paragraph(
+                                f"<b>{esc(head)}</b>" + (f"  <font color='#64748B'>({esc(dates)})</font>" if dates else ""),
+                                main_bold))
+                        if e.get("location"):
+                            right_flow.append(Paragraph(esc(e["location"]), bullet_s))
+                        for b in (e.get("responsibilities") or "").splitlines():
+                            if b.strip():
+                                right_flow.append(Paragraph("• " + esc(b.strip()), bullet_s))
+                        for b in (e.get("achievements") or "").splitlines():
+                            if b.strip():
+                                right_flow.append(Paragraph("• " + esc(b.strip()), bullet_s))
+                        right_flow.append(Spacer(1, 4))
+
+                if data.get("projects"):
+                    right_flow.append(Paragraph("PROJECT EXPERIENCE", main_h))
+                    right_flow.append(HRFlowable(width="100%", thickness=1, color=ACCENT, spaceAfter=4))
+                    for p in data["projects"]:
+                        if not (p.get("name") or "").strip():
+                            continue
+                        head = p["name"] + (f" — {p['role']}" if p.get("role") else "")
+                        right_flow.append(Paragraph(f"<b>{esc(head)}</b>", main_bold))
+                        if p.get("tech"):
+                            right_flow.append(Paragraph(
+                                f"<font color='#1E5F8A'><i>{esc(p['tech'])}</i></font>", bullet_s))
+                        for b in (p.get("description") or "").splitlines():
+                            if b.strip():
+                                right_flow.append(Paragraph("• " + esc(b.strip()), bullet_s))
+                        for b in (p.get("contributions") or "").splitlines():
+                            if b.strip():
+                                right_flow.append(Paragraph("• " + esc(b.strip()), bullet_s))
+                        link = " | ".join(filter(None, [p.get("github"), p.get("demo")]))
+                        if link:
+                            right_flow.append(Paragraph(esc(link), bullet_s))
+                        right_flow.append(Spacer(1, 4))
+
+                if data.get("achievements"):
+                    right_flow.append(Paragraph("ACHIEVEMENTS", main_h))
+                    right_flow.append(HRFlowable(width="100%", thickness=1, color=ACCENT, spaceAfter=4))
+                    for a in data["achievements"]:
+                        line = a if isinstance(a, str) else str(a)
+                        if line.strip():
+                            right_flow.append(Paragraph("• " + esc(line.strip()), bullet_s))
+
+                # Two-column table
+                page_w = A4[0] - 0.9 * inch
+                left_w = page_w * 0.34
+                right_w = page_w * 0.66
+                # Wrap left/right in nested tables with background via TableStyle
+                left_tbl = Table([[x] for x in left_flow], colWidths=[left_w - 12])
+                left_tbl.setStyle(TableStyle([
+                    ("LEFTPADDING", (0, 0), (-1, -1), 8),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+                    ("TOPPADDING", (0, 0), (-1, -1), 2),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                    ("BACKGROUND", (0, 0), (-1, -1), NAVY),
                 ]))
-                if meta:
-                    edu_paras.append(("body", meta))
-                if e.get("coursework"):
-                    edu_paras.append(("body", "Coursework: " + e["coursework"]))
-            add_section("EDUCATION", edu_paras)
+                # Force navy fill for whole left cell by putting left_tbl inside a colored cell
+                right_tbl = Table([[x] for x in right_flow], colWidths=[right_w - 14])
+                right_tbl.setStyle(TableStyle([
+                    ("LEFTPADDING", (0, 0), (-1, -1), 10),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+                    ("TOPPADDING", (0, 0), (-1, -1), 2),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ]))
 
-            cert_paras = []
-            for c in data.get("certifications") or []:
-                if isinstance(c, dict):
-                    line = " · ".join(filter(None, [c.get("name"), c.get("org"), c.get("date")]))
-                else:
-                    line = str(c)
-                if line.strip():
-                    cert_paras.append(("bullet", line))
-            add_section("CERTIFICATIONS", cert_paras)
+                outer = Table([[left_tbl, right_tbl]], colWidths=[left_w, right_w])
+                outer.setStyle(TableStyle([
+                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                    ("BACKGROUND", (0, 0), (0, 0), NAVY),
+                    ("BACKGROUND", (1, 0), (1, 0), colors.white),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                    ("TOPPADDING", (0, 0), (-1, -1), 8),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
+                ]))
+                doc.build([outer])
+            else:
+                # ========== ATS-FRIENDLY (single column, plain, parse-safe) ==========
+                doc = SimpleDocTemplate(
+                    path, pagesize=A4,
+                    leftMargin=0.7 * inch, rightMargin=0.7 * inch,
+                    topMargin=0.55 * inch, bottomMargin=0.55 * inch,
+                )
+                name_style = ParagraphStyle(
+                    "AName", parent=styles["Heading1"], fontName="Helvetica-Bold",
+                    fontSize=16, alignment=TA_CENTER, textColor=TEXT, spaceAfter=2, leading=20,
+                )
+                sub_style = ParagraphStyle(
+                    "ASub", parent=styles["Normal"], fontName="Helvetica",
+                    fontSize=10, alignment=TA_CENTER, textColor=MUTED, spaceAfter=2, leading=12,
+                )
+                h_style = ParagraphStyle(
+                    "AH", parent=styles["Heading2"], fontName="Helvetica-Bold",
+                    fontSize=11, spaceBefore=10, spaceAfter=2, textColor=TEXT,
+                )
+                body = ParagraphStyle(
+                    "AB", parent=styles["Normal"], fontName="Helvetica",
+                    fontSize=10, leading=13, textColor=TEXT,
+                )
+                bullet_style = ParagraphStyle(
+                    "ABu", parent=body, leftIndent=12, spaceAfter=1,
+                )
 
-            ach_paras = []
-            for a in data.get("achievements") or []:
-                line = a if isinstance(a, str) else str(a)
-                if line.strip():
-                    ach_paras.append(("bullet", line.strip()))
-            add_section("ACHIEVEMENTS", ach_paras)
+                def bold_line(s):
+                    return f"<b>{esc(s)}</b>"
 
-            lang_paras = []
-            for L in data.get("languages") or []:
-                line = L if isinstance(L, str) else str(L)
-                if line.strip():
-                    lang_paras.append(("bullet", line.strip()))
-            add_section("LANGUAGES", lang_paras)
+                story = []
+                story.append(Paragraph(esc(data.get("full_name") or "Resume"), name_style))
+                if data.get("title"):
+                    story.append(Paragraph(esc(data["title"]), sub_style))
+                contact = " | ".join(filter(None, [
+                    data.get("email"), data.get("phone"), data.get("location"),
+                ]))
+                if contact:
+                    story.append(Paragraph(esc(contact), sub_style))
+                links = " | ".join(filter(None, [
+                    data.get("linkedin"), data.get("github"), data.get("portfolio"),
+                ]))
+                if links:
+                    story.append(Paragraph(esc(links), sub_style))
+                story.append(Spacer(1, 4))
+                story.append(HRFlowable(width="100%", thickness=1, color=colors.black))
 
-            doc.build(story)
+                def add_section(title, paragraphs):
+                    if not paragraphs:
+                        return
+                    story.append(Paragraph(esc(title), h_style))
+                    story.append(HRFlowable(width="100%", thickness=0.5, color=LINE, spaceAfter=3))
+                    for kind, raw in paragraphs:
+                        if not raw:
+                            continue
+                        if kind == "bold":
+                            story.append(Paragraph(bold_line(raw), body))
+                        elif kind == "bullet":
+                            story.append(Paragraph("• " + esc(raw), bullet_style))
+                        else:
+                            story.append(Paragraph(esc(raw), body))
+                    story.append(Spacer(1, 3))
+
+                summary = (data.get("summary") or data.get("objective") or "").strip()
+                if summary:
+                    add_section("PROFESSIONAL SUMMARY", [("body", summary)])
+
+                skill_paras = []
+                if data.get("skills_technical"):
+                    skill_paras.append(("body", "Technical Skills: " + ", ".join(data["skills_technical"])))
+                if data.get("skills_soft"):
+                    skill_paras.append(("body", "Soft Skills: " + ", ".join(data["skills_soft"])))
+                add_section("SKILLS", skill_paras)
+
+                exp_paras = []
+                for e in data.get("experience") or []:
+                    head = " | ".join(filter(None, [e.get("title"), e.get("org"), e.get("emp_type")]))
+                    dates = " - ".join(filter(None, [e.get("start"), e.get("end") or "Present"]))
+                    if head:
+                        exp_paras.append(("bold", head + (f" ({dates})" if dates else "")))
+                    if e.get("location"):
+                        exp_paras.append(("body", e["location"]))
+                    for b in (e.get("responsibilities") or "").splitlines():
+                        if b.strip():
+                            exp_paras.append(("bullet", b.strip()))
+                    for b in (e.get("achievements") or "").splitlines():
+                        if b.strip():
+                            exp_paras.append(("bullet", b.strip()))
+                add_section("EXPERIENCE", exp_paras)
+
+                proj_paras = []
+                for p in data.get("projects") or []:
+                    if not (p.get("name") or "").strip():
+                        continue
+                    head = p["name"] + (f" - {p['role']}" if p.get("role") else "")
+                    proj_paras.append(("bold", head))
+                    if p.get("tech"):
+                        proj_paras.append(("body", "Technologies: " + p["tech"]))
+                    for b in (p.get("description") or "").splitlines():
+                        if b.strip():
+                            proj_paras.append(("bullet", b.strip()))
+                    for b in (p.get("contributions") or "").splitlines():
+                        if b.strip():
+                            proj_paras.append(("bullet", b.strip()))
+                    link = " | ".join(filter(None, [p.get("github"), p.get("demo")]))
+                    if link:
+                        proj_paras.append(("body", link))
+                add_section("PROJECTS", proj_paras)
+
+                edu_paras = []
+                for e in data.get("education") or []:
+                    head = " | ".join(filter(None, [e.get("degree"), e.get("university"), e.get("department")]))
+                    if head:
+                        edu_paras.append(("bold", head))
+                    gpa_v = str(e.get("gpa") or "").strip()
+                    try:
+                        show_gpa = gpa_v and float(gpa_v) > 0
+                    except Exception:
+                        show_gpa = gpa_v and gpa_v not in ("0", "0.0", "0.00")
+                    meta = " | ".join(filter(None, [
+                        e.get("grad_year") and f"Graduation: {e['grad_year']}",
+                        show_gpa and f"GPA: {gpa_v}",
+                    ]))
+                    if meta:
+                        edu_paras.append(("body", meta))
+                    if e.get("coursework"):
+                        edu_paras.append(("body", "Relevant Coursework: " + e["coursework"]))
+                add_section("EDUCATION", edu_paras)
+
+                cert_paras = []
+                for c in data.get("certifications") or []:
+                    if isinstance(c, dict):
+                        line = " | ".join(filter(None, [c.get("name"), c.get("org"), c.get("date")]))
+                    else:
+                        line = str(c)
+                    if line.strip():
+                        cert_paras.append(("bullet", line))
+                add_section("CERTIFICATIONS", cert_paras)
+
+                ach_paras = []
+                for a in data.get("achievements") or []:
+                    line = a if isinstance(a, str) else str(a)
+                    if line.strip():
+                        ach_paras.append(("bullet", line.strip()))
+                add_section("ACHIEVEMENTS", ach_paras)
+
+                lang_paras = []
+                for L in data.get("languages") or []:
+                    line = L if isinstance(L, str) else str(L)
+                    if line.strip():
+                        lang_paras.append(("bullet", line.strip()))
+                add_section("LANGUAGES", lang_paras)
+
+                doc.build(story)
+
             messagebox.showinfo("PDF", f"Saved:\n{path}")
         except ImportError:
             txt_path = path if path.endswith(".txt") else path.rsplit(".", 1)[0] + ".txt"
